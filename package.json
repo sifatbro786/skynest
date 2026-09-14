@@ -2,13 +2,15 @@
     "name": "skynestrobiul",
     "version": "0.1.0",
     "private": true,
+    "type": "module",
     "scripts": {
         "dev": "next dev",
         "build": "next build",
         "start": "next start",
         "lint": "eslint",
         "seed": "node --env-file=.env.local scripts/seed.js",
-        "create-admin": "node --env-file=.env.local scripts/create-admin.js"
+        "create-admin": "node --env-file=.env.local scripts/create-admin.js",
+        "cleanup:uploads": "node --env-file=.env.local scripts/cleanup-uploads.js"
     },
     "dependencies": {
         "bcryptjs": "^3.0.2",
