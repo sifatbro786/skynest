@@ -1,129 +1,161 @@
 @import "tailwindcss";
 
 /* ------------------------------------------------------------------
-   Skynest Robiul — design tokens
-   Bespoke palette from the PRD. No purple/indigo, no glassmorphism,
-   no default rounded-2xl-everything. Grounded, tactile, editorial.
+   SkyNest Robiul — design tokens
+
+   Palette derived from the brand logo: sky blue wordmark, leaf green
+   "Robiul", woven-nest brown, on a soft sky ground.
+
+   Three rules keep the blue from reading like a SaaS dashboard:
+     1. The brand blue is LOW CHROMA. #0B62A4 sits at OKLCH chroma
+        0.129; Tailwind's blue-600 is 0.215 and indigo-500 is 0.204.
+        It is already a dawn sky, not a neon CTA — so it is used at
+        full strength, never "brightened".
+     2. NO GRADIENTS. There is not a single gradient token in this
+        file, and none should be added.
+     3. Blue is a LINE colour, not a FILL colour. Links, rules, focus
+        rings, active states. Large blocks stay charcoal or linen.
+        Warm clay is the counterweight so the page never goes fully
+        cool — that warm/cool tension is what reads editorial.
+
+   Generic Tailwind blues/purples are deleted below, so `bg-indigo-500`
+   and friends fail to compile rather than sneaking into a PR.
 ------------------------------------------------------------------- */
 
 @theme {
-    /* Surfaces */
-    --color-linen: #f9f6f0;
-    --color-linen-deep: #f1ebdf;
-    --color-paper: #fffdfa;
+  /* Kill the palettes that produce the generic AI look. */
+  --color-blue-*: initial;
+  --color-indigo-*: initial;
+  --color-violet-*: initial;
+  --color-purple-*: initial;
+  --color-fuchsia-*: initial;
 
-    /* Ink */
-    --color-ink: #1a1d20;
-    --color-ink-soft: #3b4147;
-    --color-ink-mute: #767d86;
+  /* Surfaces — soft sky linen, never pure white */
+  --color-linen: #f4f8fa;
+  --color-linen-deep: #e7eef3;
+  --color-paper: #fbfdfe;
 
-    /* Accents */
-    --color-gold: #c59b27;
-    --color-gold-deep: #9d7a15;
-    --color-gold-wash: #f5ecd2;
-    --color-olive: #2d4030;
-    --color-olive-soft: #4a6350;
-    --color-olive-wash: #e6ece5;
-    --color-clay: #a9532f;
+  /* Ink — unchanged charcoal/slate */
+  --color-ink: #1a1d20;
+  --color-ink-soft: #394249;
+  --color-ink-mute: #66727b;
 
-    /* Structure */
-    --color-line: #ded5c4;
-    --color-line-strong: #c7bca6;
+  /* Primary accent — sky & royal blue from the wordmark */
+  --color-brand: #0b62a4;
+  --color-brand-soft: #1b81c4;
+  --color-brand-deep: #084c80;
+  --color-brand-wash: #e3eef6;
 
-    /* Status (availability chips — flat colour, no gradients) */
-    --color-status-available: #2d4030;
-    --color-status-reserved: #a9532f;
-    --color-status-sold: #767d86;
+  /* Natural leaf green — availability, growth, the "Robiul" mark */
+  --color-leaf: #2e7d32;
+  --color-leaf-soft: #388e3c;
+  --color-leaf-wash: #e6efe6;
 
-    /* Radii — deliberately tight. Photography frames stay square-ish. */
-    --radius-xs: 2px;
-    --radius-sm: 4px;
-    --radius-md: 8px;
-    --radius-pill: 999px;
+  /* Nest warm clay/brown — the warm counterweight (was gold/bronze) */
+  --color-clay: #8d5b3a;
+  --color-clay-soft: #a06a42;
+  --color-clay-wash: #f0e7e0;
 
-    /* Shadows — one soft lift, no neon glow */
-    --shadow-lift: 0 18px 44px -28px rgb(26 29 32 / 0.45);
-    --shadow-frame: 0 1px 0 0 var(--color-line);
+  /* Structure — sky-tinted neutrals so hairlines sit in the same family */
+  --color-line: #d6e0e7;
+  --color-line-strong: #b6c5cf;
 
-    /* Motion */
-    --ease-editorial: cubic-bezier(0.22, 1, 0.36, 1);
-    --ease-swift: cubic-bezier(0.4, 0, 0.2, 1);
+  /* Status (availability chips — flat colour, no gradients) */
+  --color-status-available: #2e7d32;
+  --color-status-reserved: #8d5b3a;
+  --color-status-sold: #66727b;
 
-    /* Editorial type scale (fluid) */
-    --text-display: clamp(2.75rem, 1.6rem + 4.6vw, 5.5rem);
-    --text-display--line-height: 0.96;
-    --text-display--letter-spacing: -0.03em;
+  /* Radii — deliberately tight. Photography frames stay square-ish. */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-pill: 999px;
 
-    --text-headline: clamp(2rem, 1.35rem + 2.6vw, 3.5rem);
-    --text-headline--line-height: 1.04;
-    --text-headline--letter-spacing: -0.022em;
+  /* Shadows — one soft lift, no neon glow. Blue-black rather than
+     neutral grey, so it belongs on a sky-tinted ground. */
+  --shadow-lift: 0 18px 44px -28px rgb(15 35 52 / 0.42);
+  --shadow-frame: 0 1px 0 0 var(--color-line);
 
-    --text-title: clamp(1.375rem, 1.1rem + 1.1vw, 2rem);
-    --text-title--line-height: 1.15;
-    --text-title--letter-spacing: -0.015em;
+  /* Motion */
+  --ease-editorial: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-swift: cubic-bezier(0.4, 0, 0.2, 1);
 
-    --text-lede: clamp(1.0625rem, 1rem + 0.35vw, 1.25rem);
-    --text-lede--line-height: 1.65;
+  /* Editorial type scale (fluid) */
+  --text-display: clamp(2.75rem, 1.6rem + 4.6vw, 5.5rem);
+  --text-display--line-height: 0.96;
+  --text-display--letter-spacing: -0.03em;
 
-    --text-micro: 0.6875rem;
-    --text-micro--line-height: 1.3;
-    --text-micro--letter-spacing: 0.14em;
+  --text-headline: clamp(2rem, 1.35rem + 2.6vw, 3.5rem);
+  --text-headline--line-height: 1.04;
+  --text-headline--letter-spacing: -0.022em;
+
+  --text-title: clamp(1.375rem, 1.1rem + 1.1vw, 2rem);
+  --text-title--line-height: 1.15;
+  --text-title--letter-spacing: -0.015em;
+
+  --text-lede: clamp(1.0625rem, 1rem + 0.35vw, 1.25rem);
+  --text-lede--line-height: 1.65;
+
+  --text-micro: 0.6875rem;
+  --text-micro--line-height: 1.3;
+  --text-micro--letter-spacing: 0.14em;
 }
 
 @theme inline {
-    /* Latin glyphs resolve from Fraunces; Bangla glyphs fall through to the
+  /* Latin glyphs resolve from Fraunces; Bangla glyphs fall through to the
      Bengali serif automatically — one heading style, two scripts. */
-    --font-display:
-        var(--font-fraunces), var(--font-bangla-serif), Georgia, "Times New Roman", serif;
-    --font-body: var(--font-hind), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: var(--font-fraunces), var(--font-bangla-serif), Georgia,
+    "Times New Roman", serif;
+  --font-body: var(--font-hind), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", sans-serif;
 }
 
 /* ------------------------------------------------------------------ */
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
     html {
-        scroll-behavior: smooth;
-        -webkit-text-size-adjust: 100%;
-        text-rendering: optimizeLegibility;
+      scroll-behavior: auto;
     }
+  }
 
-    @media (prefers-reduced-motion: reduce) {
-        html {
-            scroll-behavior: auto;
-        }
-    }
+  body {
+    background-color: var(--color-linen);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+  }
 
-    body {
-        background-color: var(--color-linen);
-        color: var(--color-ink);
-        font-family: var(--font-body);
-        font-weight: 400;
-        -webkit-font-smoothing: antialiased;
-    }
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    text-wrap: balance;
+  }
 
-    h1,
-    h2,
-    h3,
-    h4 {
-        font-family: var(--font-display);
-        font-weight: 500;
-        text-wrap: balance;
-    }
+  ::selection {
+    background-color: var(--color-brand);
+    color: var(--color-paper);
+  }
 
-    ::selection {
-        background-color: var(--color-gold);
-        color: var(--color-ink);
-    }
+  :focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 3px;
+  }
 
-    :focus-visible {
-        outline: 2px solid var(--color-olive);
-        outline-offset: 3px;
-    }
-
-    /* Bangla numerals and Latin numerals should sit on the same baseline */
-    .tnum {
-        font-variant-numeric: tabular-nums;
-    }
+  /* Bangla numerals and Latin numerals should sit on the same baseline */
+  .tnum {
+    font-variant-numeric: tabular-nums;
+  }
 }
 
 /* ------------------------------------------------------------------
@@ -131,93 +163,95 @@
 ------------------------------------------------------------------- */
 
 @layer components {
-    /* Editorial page gutter. Asymmetric by design: more room on the left
+  /* Editorial page gutter. Asymmetric by design: more room on the left
      so content reads as a column, not a centred block. */
+  .shell {
+    width: 100%;
+    max-width: 86rem;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  @media (min-width: 768px) {
     .shell {
-        width: 100%;
-        max-width: 86rem;
-        margin-inline: auto;
-        padding-inline: 1.25rem;
+      padding-inline: 2.5rem;
     }
+  }
 
-    @media (min-width: 768px) {
-        .shell {
-            padding-inline: 2.5rem;
-        }
+  @media (min-width: 1280px) {
+    .shell {
+      padding-inline: 4rem;
     }
+  }
 
-    @media (min-width: 1280px) {
-        .shell {
-            padding-inline: 4rem;
-        }
-    }
+  /* Paper grain — keeps flat colour from looking synthetic. */
+  .grain {
+    position: relative;
+    isolation: isolate;
+  }
 
-    /* Paper grain — keeps flat colour from looking synthetic. */
-    .grain {
-        position: relative;
-        isolation: isolate;
-    }
+  .grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.5;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.16'/%3E%3C/svg%3E");
+  }
 
-    .grain::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        z-index: -1;
-        pointer-events: none;
-        opacity: 0.5;
-        mix-blend-mode: multiply;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.16'/%3E%3C/svg%3E");
-    }
+  /* Hairline divider used between editorial blocks. */
+  .rule {
+    border: 0;
+    border-top: 1px solid var(--color-line);
+  }
 
-    /* Hairline divider used between editorial blocks. */
-    .rule {
-        border: 0;
-        border-top: 1px solid var(--color-line);
-    }
-
-    /* Section marker: a number + label, left aligned. Replaces the
+  /* Section marker: a number + label, left aligned. Replaces the
      forbidden centred "— OUR FEATURED PETS" pill badge. */
-    .marker {
-        display: inline-flex;
-        align-items: baseline;
-        gap: 0.625rem;
-        font-size: var(--text-micro);
-        line-height: var(--text-micro--line-height);
-        letter-spacing: var(--text-micro--letter-spacing);
-        text-transform: uppercase;
-        color: var(--color-ink-mute);
-    }
+  .marker {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.625rem;
+    font-size: var(--text-micro);
+    line-height: var(--text-micro--line-height);
+    letter-spacing: var(--text-micro--letter-spacing);
+    text-transform: uppercase;
+    color: var(--color-ink-mute);
+  }
 
-    .marker::before {
-        content: "";
-        width: 1.75rem;
-        height: 1px;
-        background-color: var(--color-line-strong);
-        transform: translateY(-0.25em);
-    }
+  .marker::before {
+    content: "";
+    width: 1.75rem;
+    height: 1px;
+    background-color: var(--color-line-strong);
+    transform: translateY(-0.25em);
+  }
 
-    /* Hand-drawn underline for a single emphasised word. */
-    .stroke-under {
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 8' preserveAspectRatio='none'%3E%3Cpath d='M1 5.5c18-3 32-4 49-3.5s31 2.5 49 4' stroke='%23c59b27' stroke-width='2.2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-        background-repeat: no-repeat;
-        background-position: 0 100%;
-        background-size: 100% 0.4em;
-        padding-bottom: 0.12em;
-    }
+  /* Hand-drawn underline for a single emphasised word. Deliberately
+     clay, not blue — a brown stroke reads hand-drawn, a blue one reads
+     like a hyperlink underline. */
+  .stroke-under {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 8' preserveAspectRatio='none'%3E%3Cpath d='M1 5.5c18-3 32-4 49-3.5s31 2.5 49 4' stroke='%238d5b3a' stroke-width='2.2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 100% 0.4em;
+    padding-bottom: 0.12em;
+  }
 
-    /* Photo frame: portrait 4:5 by default, per the PRD's vertical hero crop. */
-    .frame {
-        position: relative;
-        overflow: hidden;
-        background-color: var(--color-linen-deep);
-        border-radius: var(--radius-sm);
-    }
+  /* Photo frame: portrait 4:5 by default, per the PRD's vertical hero crop. */
+  .frame {
+    position: relative;
+    overflow: hidden;
+    background-color: var(--color-linen-deep);
+    border-radius: var(--radius-sm);
+  }
 
-    .frame > img {
-        height: 100%;
-        width: 100%;
-        object-fit: cover;
-    }
+  .frame > img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
 }
 /* Note: text-display / text-headline / text-title / text-lede / text-micro
    are generated by Tailwind from the --text-* theme entries above, together
