@@ -1,10 +1,24 @@
 /**
- * Seed categories + demo animals, with generated placeholder photography.
+ * Seed categories + demo animals, with real breed photography where possible.
  *
- *   npm run seed            # refuses if data already exists
- *   npm run seed -- --fresh # wipes categories + animals first
+ *   npm run seed                        # refuses if data already exists
+ *   npm run seed -- --fresh             # wipes categories + animals first
+ *   npm run seed -- --fresh --no-photos # skip the download, use placeholders
  *
  * Admin users and inquiries are never touched.
+ *
+ * Photography
+ * -----------
+ * Set PEXELS_API_KEY (free, instant: https://www.pexels.com/api/) and each
+ * animal is seeded with real photos of its own breed, searched by the entry's
+ * `photoQuery`. Without the key — or with no network, or if a download fails —
+ * the generated geometric placeholder is used instead, per image.
+ *
+ * Downloaded once, at seed time, and written to local disk as WebP exactly
+ * like an admin upload. Nothing points at an external CDN at runtime: Mongo
+ * still stores `/uploads/animals/...` and the project's no-media-SaaS rule
+ * holds. These are stand-ins for the owner\'s own photos, so `npm run seed --
+ * --fresh` replaces them cleanly once the real shoot lands.
  */
 import path from "node:path";
 import fs from "node:fs/promises";
@@ -15,6 +29,11 @@ import Category from "../models/Category.js";
 import Animal from "../models/Animal.js";
 
 const FRESH = process.argv.includes("--fresh");
+const NO_PHOTOS = process.argv.includes("--no-photos");
+
+const PEXELS_KEY = (process.env.PEXELS_API_KEY || "").trim();
+/** Per animal. Three is what the gallery and the cover picker need to look real. */
+const PHOTOS_PER_ANIMAL = 3;
 
 const UPLOAD_DIR = path.resolve(process.cwd(), process.env.UPLOAD_DIR || "public/uploads");
 const URL_PREFIX = process.env.UPLOAD_URL_PREFIX || "/uploads";
@@ -101,6 +120,7 @@ const ANIMALS = [
     {
         title: "শো-লাইন জার্মান শেফার্ড পাপি",
         breed: "German Shepherd",
+        photoQuery: "german shepherd puppy",
         family: "Dogs",
         sub: "German Shepherd",
         price: [85000, 120000],
@@ -119,6 +139,7 @@ const ANIMALS = [
     {
         title: "ব্লু ফ্রেঞ্চ বুলডগ",
         breed: "French Bulldog",
+        photoQuery: "french bulldog puppy",
         family: "Dogs",
         sub: "French Bulldog",
         price: [150000, 190000],
@@ -132,6 +153,7 @@ const ANIMALS = [
     {
         title: "পিওর সাইবেরিয়ান হাস্কি জোড়া",
         breed: "Siberian Husky",
+        photoQuery: "siberian husky puppy",
         family: "Dogs",
         sub: "Siberian Husky",
         price: [95000, null],
@@ -146,6 +168,7 @@ const ANIMALS = [
     {
         title: "ডল-ফেস পার্সিয়ান বিড়াল",
         breed: "Persian",
+        photoQuery: "persian cat",
         family: "Cats",
         sub: "Persian",
         price: [22000, 35000],
@@ -161,6 +184,7 @@ const ANIMALS = [
     {
         title: "মেইন কুন কিটেন",
         breed: "Maine Coon",
+        photoQuery: "maine coon cat",
         family: "Cats",
         sub: "Maine Coon",
         price: [65000, 85000],
@@ -175,6 +199,7 @@ const ANIMALS = [
     {
         title: "ব্রিটিশ শর্টহেয়ার — ব্লু",
         breed: "British Shorthair",
+        photoQuery: "british shorthair cat",
         family: "Cats",
         sub: "British Shorthair",
         price: [48000, null],
@@ -188,6 +213,7 @@ const ANIMALS = [
     {
         title: "ব্লু অ্যান্ড গোল্ড ম্যাকাও",
         breed: "Blue & Gold Macaw",
+        photoQuery: "blue and gold macaw parrot",
         family: "Exotic Birds & Pigeons",
         sub: "Macaw",
         price: [450000, 520000],
@@ -204,6 +230,7 @@ const ANIMALS = [
     {
         title: "আম্ব্রেলা ককাটু",
         breed: "Umbrella Cockatoo",
+        photoQuery: "white cockatoo parrot",
         family: "Exotic Birds & Pigeons",
         sub: "Cockatoo",
         price: [280000, null],
@@ -217,6 +244,7 @@ const ANIMALS = [
     {
         title: "চ্যাম্পিয়ন লাইন গিরাবাজ জোড়া",
         breed: "Girabaz Pigeon",
+        photoQuery: "fancy pigeon",
         family: "Exotic Birds & Pigeons",
         sub: "Girabaz Pigeon",
         price: [18000, 28000],
@@ -231,6 +259,7 @@ const ANIMALS = [
     {
         title: "ম্যান্ডারিন ডাক জোড়া",
         breed: "Mandarin Duck",
+        photoQuery: "mandarin duck",
         family: "Fancy Ducks & Fowls",
         sub: "Mandarin Duck",
         price: [26000, null],
@@ -244,6 +273,7 @@ const ANIMALS = [
     {
         title: "ব্রাহমা কক — লাইট",
         breed: "Brahma Chicken",
+        photoQuery: "brahma chicken",
         family: "Fancy Ducks & Fowls",
         sub: "Brahma Chicken",
         price: [6500, 9000],
@@ -257,6 +287,7 @@ const ANIMALS = [
     {
         title: "হল্যান্ড লপ ফ্যান্সি র‍্যাবিট",
         breed: "Fancy Rabbit",
+        photoQuery: "lop eared rabbit",
         family: "Other Exotic Pets",
         sub: "Fancy Rabbit",
         price: [4500, 7000],
@@ -301,15 +332,75 @@ function placeholderSvg(seed, width = 1200, height = 1500) {
 </svg>`);
 }
 
-async function writePlaceholder(slug, index) {
+/* ---------------------------------------------------------------- */
+/* Photography                                                       */
+/* ---------------------------------------------------------------- */
+
+const MASTER_WIDTH = 1200;
+/** 4:5 — the PRD's vertical frame. Everything is cropped to it, so a landscape
+ *  stock photo and a portrait one produce identically shaped cards. */
+const MASTER_HEIGHT = 1500;
+
+/**
+ * Pexels search, one request per breed.
+ *
+ * Failure is never fatal: a missing key, a rate limit, a firewall — all of it
+ * resolves to an empty list and the caller falls back to the placeholder. A
+ * seed script that dies because a stock photo site was slow is worse than a
+ * seed script with geometric art in it.
+ *
+ * @returns {Promise<Array<{ url: string, alt: string, credit: string }>>}
+ */
+async function searchPexels(query, count) {
+    if (!PEXELS_KEY) return [];
+
+    const url =
+        "https://api.pexels.com/v1/search?" +
+        new URLSearchParams({
+            query,
+            per_page: String(count),
+            orientation: "portrait",
+        });
+
+    try {
+        const res = await fetch(url, {
+            headers: { Authorization: PEXELS_KEY },
+            signal: AbortSignal.timeout(15_000),
+        });
+
+        if (res.status === 401) {
+            console.warn("  ! PEXELS_API_KEY was rejected — falling back to placeholders");
+            return [];
+        }
+        if (!res.ok) {
+            console.warn(`  ! Pexels responded ${res.status} for "${query}"`);
+            return [];
+        }
+
+        const data = await res.json();
+        return (data.photos ?? []).map((photo) => ({
+            // large2x is ~1880px wide — enough to crop to 1200×1500 without
+            // upscaling, and small enough that twelve animals is not a download
+            // you notice.
+            url: photo.src?.large2x || photo.src?.large || photo.src?.original,
+            alt: photo.alt || "",
+            credit: photo.photographer || "",
+        }));
+    } catch (err) {
+        console.warn(`  ! Pexels lookup failed for "${query}": ${err.message}`);
+        return [];
+    }
+}
+
+/** Master WebP + the 16px blur placeholder, from any input buffer. */
+async function writeMaster(slug, index, input) {
     const dir = path.join(UPLOAD_DIR, SEED_DIRNAME);
     await fs.mkdir(dir, { recursive: true });
 
     const filename = `seed-${slug}-${index + 1}.webp`;
-    const width = 1200;
-    const height = 1500;
 
-    const master = await sharp(placeholderSvg(index + slug.length, width, height))
+    const master = await sharp(input)
+        .resize(MASTER_WIDTH, MASTER_HEIGHT, { fit: "cover", position: "attention" })
         .webp({ quality: 78 })
         .toBuffer();
 
@@ -319,10 +410,33 @@ async function writePlaceholder(slug, index) {
 
     return {
         path: `${URL_PREFIX}/${SEED_DIRNAME}/${filename}`,
-        width,
-        height,
+        width: MASTER_WIDTH,
+        height: MASTER_HEIGHT,
         blur: `data:image/webp;base64,${tiny.toString("base64")}`,
     };
+}
+
+/** @returns {Promise<object|null>} null means "use the placeholder instead" */
+async function writeRemotePhoto(slug, index, photo) {
+    try {
+        const res = await fetch(photo.url, { signal: AbortSignal.timeout(30_000) });
+        if (!res.ok) return null;
+
+        const buffer = Buffer.from(await res.arrayBuffer());
+        // `sharp` throws on an HTML error page served with a 200, which some
+        // CDNs do; treat that the same as a failed download.
+        return await writeMaster(slug, index, buffer);
+    } catch {
+        return null;
+    }
+}
+
+async function writePlaceholder(slug, index) {
+    return writeMaster(
+        slug,
+        index,
+        placeholderSvg(index + slug.length, MASTER_WIDTH, MASTER_HEIGHT)
+    );
 }
 
 async function clearSeedImages() {
@@ -404,6 +518,14 @@ async function main() {
 
     // Animals --------------------------------------------------------
     let created = 0;
+    let fetched = 0;
+    let placeheld = 0;
+    const credits = new Set();
+    const usePhotos = !NO_PHOTOS;
+
+    if (usePhotos && PEXELS_KEY) {
+        console.log("→ fetching breed photography from Pexels…");
+    }
 
     for (const item of ANIMALS) {
         const family = byNameEn.get(item.family);
@@ -436,10 +558,29 @@ async function main() {
         // Slug is generated in pre-validate, so image names need it first.
         await doc.validate();
 
+        const photos =
+            usePhotos && item.photoQuery
+                ? await searchPexels(item.photoQuery, PHOTOS_PER_ANIMAL)
+                : [];
+
         const images = [];
-        for (let i = 0; i < 3; i += 1) {
+        for (let i = 0; i < PHOTOS_PER_ANIMAL; i += 1) {
+            const remote = photos[i]
+                ? await writeRemotePhoto(doc.slug, i, photos[i])
+                : null;
+
+            if (remote) {
+                fetched += 1;
+                if (photos[i].credit) credits.add(photos[i].credit);
+            } else {
+                placeheld += 1;
+            }
+
             images.push({
-                ...(await writePlaceholder(doc.slug, i)),
+                ...(remote ?? (await writePlaceholder(doc.slug, i))),
+                // The photographer's own caption is English and often vague
+                // ("a dog sitting on grass"), so the breed line stays the alt
+                // text — it is what a screen reader needs on a catalogue card.
                 alt: `${item.breed} — ${item.title}`,
             });
         }
@@ -447,10 +588,22 @@ async function main() {
 
         await doc.save();
         created += 1;
+        console.log(`  · ${item.title}`);
     }
 
-    console.log(`→ ${created} animals with ${created * 3} placeholder images`);
+    console.log(
+        `→ ${created} animals · ${fetched} real photos, ${placeheld} placeholders`
+    );
     console.log(`→ images written to ${path.join(UPLOAD_DIR, SEED_DIRNAME)}`);
+    if (credits.size > 0) {
+        console.log(`→ photos via Pexels — ${[...credits].sort().join(", ")}`);
+    }
+    if (usePhotos && !PEXELS_KEY) {
+        console.log(
+            "→ tip: set PEXELS_API_KEY in .env.local for real breed photos\n" +
+                "       (free key: https://www.pexels.com/api/)"
+        );
+    }
 
     await mongoose.disconnect();
     console.log("✓ seed complete");

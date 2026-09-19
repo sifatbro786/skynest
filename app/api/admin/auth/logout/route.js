@@ -5,12 +5,9 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function POST(request) {
-  if (!sameOrigin(request)) return forbidden();
+    if (!sameOrigin(request)) return forbidden();
 
-  await clearSessionCookie();
+    await clearSessionCookie();
 
-  return Response.json(
-    { ok: true },
-    { status: 200, headers: { "Cache-Control": "no-store" } }
-  );
+    return Response.json({ ok: true }, { status: 200, headers: { "Cache-Control": "no-store" } });
 }

@@ -15,42 +15,42 @@ import { SESSION_COOKIE, verifySessionToken } from "@/lib/session-token";
 const LOGIN_PATH = "/admin/login";
 
 export async function proxy(request) {
-  const { pathname, search } = request.nextUrl;
+    const { pathname, search } = request.nextUrl;
 
-  const token = request.cookies.get(SESSION_COOKIE)?.value;
-  const session = await verifySessionToken(token);
+    const token = request.cookies.get(SESSION_COOKIE)?.value;
+    const session = await verifySessionToken(token);
 
-  // Already signed in and hitting the login page → send to the dashboard.
-  if (pathname === LOGIN_PATH) {
-    if (session) {
-      return NextResponse.redirect(new URL("/admin", request.url));
+    // Already signed in and hitting the login page → send to the dashboard.
+    if (pathname === LOGIN_PATH) {
+        if (session) {
+            return NextResponse.redirect(new URL("/admin", request.url));
+        }
+        return NextResponse.next();
     }
-    return NextResponse.next();
-  }
 
-  // Auth endpoints must stay reachable while signed out.
-  if (pathname.startsWith("/api/admin/auth/")) {
-    return NextResponse.next();
-  }
+    // Auth endpoints must stay reachable while signed out.
+    if (pathname.startsWith("/api/admin/auth/")) {
+        return NextResponse.next();
+    }
 
-  if (session) return NextResponse.next();
+    if (session) return NextResponse.next();
 
-  // API calls get a status code, not an HTML redirect — otherwise a fetch()
-  // from the admin UI silently receives the login page as its JSON body.
-  if (pathname.startsWith("/api/")) {
-    return NextResponse.json(
-      { ok: false, error: "Unauthorized" },
-      { status: 401, headers: { "Cache-Control": "no-store" } }
-    );
-  }
+    // API calls get a status code, not an HTML redirect — otherwise a fetch()
+    // from the admin UI silently receives the login page as its JSON body.
+    if (pathname.startsWith("/api/")) {
+        return NextResponse.json(
+            { ok: false, error: "Unauthorized" },
+            { status: 401, headers: { "Cache-Control": "no-store" } },
+        );
+    }
 
-  const loginUrl = new URL(LOGIN_PATH, request.url);
-  if (pathname !== "/admin") {
-    loginUrl.searchParams.set("next", `${pathname}${search || ""}`);
-  }
-  return NextResponse.redirect(loginUrl);
+    const loginUrl = new URL(LOGIN_PATH, request.url);
+    if (pathname !== "/admin") {
+        loginUrl.searchParams.set("next", `${pathname}${search || ""}`);
+    }
+    return NextResponse.redirect(loginUrl);
 }
 
 export const config = {
-  matcher: ["/admin", "/admin/:path*", "/api/admin/:path*"],
+    matcher: ["/admin", "/admin/:path*", "/api/admin/:path*"],
 };

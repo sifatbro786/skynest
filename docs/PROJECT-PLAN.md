@@ -25,6 +25,7 @@ payment gateway — the site captures leads via WhatsApp and farm-visit bookings
 | 3   | Upload engine   | `/api/admin/upload` — FormData parsing, mime/size guards, sharp → WebP variants, safe paths, delete + orphan cleanup |
 | 4   | Admin auth      | bcrypt password, jose JWT in httpOnly cookie, `proxy.js` guard, login rate limit, admin bootstrap script             |
 | 5   | Admin dashboard | Stats via aggregation pipeline, Animals CRUD, Categories manager, Inquiries inbox                                    |
+| 5.5 | Admin polish    | ✅ `.ad-*` panel layer, shared `components/admin/ui.js`, table listing, sticky form rails, Latin numerals, SMTP health check |
 | 6   | Design system   | Editorial primitives, header/footer, sticky mobile action bar, Framer Motion patterns                                |
 | 7   | Public pages    | `/`, `/showcase`, `/showcase/[slug]`, `/category/[categorySlug]`, `/about`, `/contact`                               |
 | 8   | Lead capture    | Prefilled WhatsApp deep links, visit-booking modal, inquiry API with validation + honeypot + rate limit              |
@@ -40,6 +41,17 @@ Required: asymmetric editorial grids, left-aligned structured content, staggered
 / masonry showcase with 4:5 vertical hero frames, warm tactile palette
 (linen `#F9F6F0`, charcoal `#1A1D20`, gold `#C59B27`, olive `#2D4030`),
 Bangla-first copy with English technical labels.
+
+## Status
+
+Phases 1–5 complete, plus the 5.5 admin polish pass. **Next up: phase 6 —
+design system**, which is the prerequisite for phase 7's public pages
+(header/footer, editorial primitives, sticky mobile action bar, Framer Motion
+patterns). Phases 8 and 9 follow.
+
+Note that phase 6 is the *public* design system. The admin panel's own layer
+is already in place and deliberately does not follow the editorial rules — see
+"Admin panel vs public site" in `CLAUDE.md`.
 
 ## Local setup
 

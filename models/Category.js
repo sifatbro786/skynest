@@ -63,7 +63,11 @@ CategorySchema.pre("validate", async function normalise(next) {
             }
         }
 
-        if (!this.slug || this.isModified("nameEn")) {
+        // Only generate when there is no slug. Regenerating on a rename would
+        // silently change a live public URL (/category/dogs → /category/hounds)
+        // and break every link to it. An admin who wants a new slug sets one
+        // explicitly; zod validates the shape and the unique index catches clashes.
+        if (!this.slug) {
             this.slug = await uniqueSlug(this.constructor, this.nameEn || this.name, {
                 excludeId: this._id,
             });
