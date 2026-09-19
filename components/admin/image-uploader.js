@@ -197,7 +197,7 @@ export default function ImageUploader({
                   value={img.alt || ""}
                   onChange={(e) => setAlt(index, e.target.value)}
                   placeholder="ছবির বিবরণ (alt)"
-                  className="ad-input h-8 text-xs"
+                  className="pnl-input h-8 text-xs"
                 />
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1">

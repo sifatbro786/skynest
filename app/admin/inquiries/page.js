@@ -96,7 +96,7 @@ export default async function InquiriesPage({ searchParams }) {
             </Card>
 
             <p className="mt-3 text-sm text-ink-mute">
-                <span className="ad-num font-medium text-ink">{formatCount(total)}</span>টি
+                <span className="pnl-num font-medium text-ink">{formatCount(total)}</span>টি
                 পাওয়া গেছে
                 {pages > 1 ? ` · পৃষ্ঠা ${params.page}/${pages}` : ""}
             </p>

@@ -39,7 +39,7 @@ export default function PageHeader({
                     </nav>
                 ) : null}
 
-                <h1 className="ad-title mt-1.5 truncate">{title}</h1>
+                <h1 className="pnl-title mt-1.5 truncate">{title}</h1>
 
                 {description ? (
                     <p className="mt-1 text-sm leading-relaxed text-ink-mute">

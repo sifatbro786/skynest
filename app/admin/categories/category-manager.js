@@ -164,11 +164,11 @@ export default function CategoryManager({ initialCategories, usage }) {
         <div className="mt-4 space-y-3">
             <div className="flex flex-wrap items-center justify-between gap-3">
                 <p className="text-sm text-ink-mute">
-                    <span className="ad-num font-medium text-ink">
+                    <span className="pnl-num font-medium text-ink">
                         {formatCount(families.length)}
                     </span>
                     টি পরিবার ·{" "}
-                    <span className="ad-num font-medium text-ink">
+                    <span className="pnl-num font-medium text-ink">
                         {formatCount(categories.length - families.length)}
                     </span>
                     টি ব্রিড
@@ -279,7 +279,7 @@ export default function CategoryManager({ initialCategories, usage }) {
                                         type="number"
                                         min="0"
                                         inputMode="numeric"
-                                        className="ad-num"
+                                        className="pnl-num"
                                         value={draft.order}
                                         onChange={(e) =>
                                             setDraft({ ...draft, order: e.target.value })
@@ -364,7 +364,7 @@ export default function CategoryManager({ initialCategories, usage }) {
                                         /{family.slug}
                                     </code>
                                     {!family.isActive ? (
-                                        <span className="ad-chip h-5 text-clay">লুকানো</span>
+                                        <span className="pnl-chip h-5 text-clay">লুকানো</span>
                                     ) : null}
                                 </span>
                             }
@@ -402,7 +402,7 @@ export default function CategoryManager({ initialCategories, usage }) {
                                                     /{breed.slug}
                                                 </code>
                                                 {!breed.isActive ? (
-                                                    <span className="ad-chip h-5 text-clay">
+                                                    <span className="pnl-chip h-5 text-clay">
                                                         লুকানো
                                                     </span>
                                                 ) : null}
@@ -449,7 +449,7 @@ function RowActions({ onEdit, onDelete, count }) {
     return (
         <div className="flex shrink-0 items-center gap-2">
             {count > 0 ? (
-                <span className="ad-chip ad-num">{formatCount(count)}টি প্রাণী</span>
+                <span className="pnl-chip pnl-num">{formatCount(count)}টি প্রাণী</span>
             ) : null}
             <Button size="sm" onClick={onEdit} className="h-8 w-8 px-0" aria-label="সম্পাদনা">
                 <Pencil size={14} strokeWidth={1.75} aria-hidden />

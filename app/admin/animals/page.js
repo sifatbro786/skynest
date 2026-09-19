@@ -94,7 +94,7 @@ export default async function AnimalsPage({ searchParams }) {
             />
 
             <p className="mt-3 text-sm text-ink-mute">
-                <span className="ad-num font-medium text-ink">{formatCount(total)}</span>টি
+                <span className="pnl-num font-medium text-ink">{formatCount(total)}</span>টি
                 পাওয়া গেছে
                 {pages > 1 ? ` · পৃষ্ঠা ${params.page}/${pages}` : ""}
             </p>
@@ -122,8 +122,8 @@ export default async function AnimalsPage({ searchParams }) {
                 />
             ) : (
                 <Card className="mt-3 overflow-hidden">
-                    <div className="ad-scroll">
-                        <table className="ad-table min-w-[54rem]">
+                    <div className="pnl-scroll">
+                        <table className="pnl-table min-w-[54rem]">
                             <thead>
                                 <tr>
                                     <th scope="col" className="w-14">
@@ -131,11 +131,11 @@ export default async function AnimalsPage({ searchParams }) {
                                     </th>
                                     <th scope="col">শিরোনাম</th>
                                     <th scope="col">ক্যাটাগরি</th>
-                                    <th scope="col" className="ad-num">
+                                    <th scope="col" className="pnl-num">
                                         দাম
                                     </th>
                                     <th scope="col">স্ট্যাটাস</th>
-                                    <th scope="col" className="ad-num">
+                                    <th scope="col" className="pnl-num">
                                         আপডেট
                                     </th>
                                     <th scope="col" className="w-12">
@@ -206,7 +206,7 @@ export default async function AnimalsPage({ searchParams }) {
                                             ) : null}
                                         </td>
 
-                                        <td className="ad-num text-ink">
+                                        <td className="pnl-num text-ink">
                                             {formatPriceRange(animal.price.min, animal.price.max)}
                                         </td>
 
@@ -218,7 +218,7 @@ export default async function AnimalsPage({ searchParams }) {
                                             )}
                                         </td>
 
-                                        <td className="ad-num text-ink-mute">
+                                        <td className="pnl-num text-ink-mute">
                                             {formatDateLatin(animal.updatedAt)}
                                         </td>
 
@@ -226,7 +226,7 @@ export default async function AnimalsPage({ searchParams }) {
                                             <Link
                                                 href={`/admin/animals/${animal.id}`}
                                                 aria-label={`${animal.title} সম্পাদনা করুন`}
-                                                className="ad-btn ad-btn-ghost ad-btn-sm h-8 w-8 px-0"
+                                                className="pnl-btn pnl-btn-ghost pnl-btn-sm h-8 w-8 px-0"
                                             >
                                                 <Pencil size={14} strokeWidth={1.75} aria-hidden />
                                             </Link>

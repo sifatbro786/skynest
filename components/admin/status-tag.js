@@ -46,7 +46,7 @@ export function InquiryKind({ kind }) {
     if (!KIND[kind]) return null;
     // A chip, not 11px caps at 0.14em tracking — this sits inline with a
     // person's name in a list the owner scans, so it has to read at a glance.
-    return <span className="ad-chip h-5 text-xs">{KIND[kind]}</span>;
+    return <span className="pnl-chip h-5 text-xs">{KIND[kind]}</span>;
 }
 
 export function DraftTag({ className }) {

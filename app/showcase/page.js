@@ -1,0 +1,144 @@
+import { dbConnect } from "@/lib/db";
+import { Animal, Category } from "@/models/index.js";
+import { serializeAnimal, serializeCategory } from "@/lib/serialize";
+import { listQuerySchema } from "@/lib/validators";
+import { buildPublicAnimalFilter, publicSortFor } from "@/lib/animal-query";
+import { site } from "@/lib/site";
+import SiteShell from "@/components/site/site-shell";
+import { Button, Section, SectionHead } from "@/components/site/ui";
+import AnimalGrid from "@/components/site/animal-grid";
+import ShowcaseFilters from "./showcase-filters";
+
+export const dynamic = "force-dynamic";
+
+export const metadata = {
+    title: "কালেকশন",
+    description:
+        "পেডিগ্রি কুকুর ও বিড়াল, এক্সোটিক পাখি ও কবুতর, ফ্যান্সি হাঁস-মুরগি — সরাসরি ফার্ম থেকে।",
+    alternates: { canonical: "/showcase" },
+};
+
+/**
+ * Builds a `/showcase` URL from the current filters.
+ *
+ * Defaults are omitted rather than written out, so the canonical listing stays
+ * `/showcase` instead of `/showcase?status=all&sort=newest&page=1` — three
+ * URLs for one page is a crawl problem and an ugly share link.
+ */
+function showcaseHref(params, patch = {}) {
+    const next = { ...params, ...patch };
+    const sp = new URLSearchParams();
+
+    for (const [key, value] of Object.entries(next)) {
+        if (value === "" || value === null || value === undefined) continue;
+        if (key === "limit") continue;
+        if (key === "page" && Number(value) === 1) continue;
+        if ((key === "status" || key === "gender") && value === "all") continue;
+        if (key === "sort" && value === "newest") continue;
+        sp.set(key, String(value));
+    }
+
+    const qs = sp.toString();
+    return qs ? `/showcase?${qs}` : "/showcase";
+}
+
+export default async function ShowcasePage({ searchParams }) {
+    const raw = await searchParams;
+    const parsed = listQuerySchema.safeParse(raw ?? {});
+    const params = parsed.success ? parsed.data : listQuerySchema.parse({});
+
+    await dbConnect();
+
+    // Public URLs carry slugs; the filter needs ids.
+    const [categories, catDoc, subDoc] = await Promise.all([
+        Category.find({ isActive: true }).sort({ order: 1, nameEn: 1 }).lean(),
+        params.category
+            ? Category.findOne({ slug: params.category, isActive: true })
+                  .select("_id")
+                  .lean()
+            : null,
+        params.subcategory
+            ? Category.findOne({ slug: params.subcategory, isActive: true })
+                  .select("_id")
+                  .lean()
+            : null,
+    ]);
+
+    const filter = buildPublicAnimalFilter(params, {
+        categoryId: catDoc?._id ? String(catDoc._id) : null,
+        subcategoryId: subDoc?._id ? String(subDoc._id) : null,
+    });
+
+    const [docs, total] = await Promise.all([
+        Animal.find(filter)
+            .sort(publicSortFor(params.sort))
+            .skip((params.page - 1) * params.limit)
+            .limit(params.limit)
+            .populate("category", "name nameEn slug")
+            .populate("subcategory", "name nameEn slug")
+            .lean(),
+        Animal.countDocuments(filter),
+    ]);
+
+    const animals = docs.map(serializeAnimal);
+    const pages = Math.max(1, Math.ceil(total / params.limit));
+
+    const filtered =
+        params.q !== "" ||
+        params.category !== "" ||
+        params.subcategory !== "" ||
+        params.status !== "all" ||
+        params.gender !== "all";
+
+    return (
+        <SiteShell whatsappMessage={`আসসালামু আলাইকুম। ${site.name}-এর কালেকশন থেকে কিছু দেখতে চাই।`}>
+            <Section>
+                <SectionHead
+                    as="h1"
+                    label="কালেকশন"
+                    title="আমাদের প্রাণীরা"
+                    intro="প্রতিটি প্রাণী ফার্মে নিজে দেখে নেওয়ার সুযোগ আছে। দাম, বয়স আর ভ্যাকসিনেশনের তথ্য প্রতিটি পাতায় খোলা রাখা হয়েছে।"
+                    action={
+                        <Button href="/contact" tone="line">
+                            ফার্ম ভিজিটের সময় নিন
+                        </Button>
+                    }
+                />
+
+                {/* Rail left, grid right. 3/9 rather than 4/8: the filters are a
+                    list of short labels and do not need a quarter of the page,
+                    and the grid is what the visitor came for. */}
+                <div className="mt-12 grid gap-x-10 gap-y-8 lg:grid-cols-12">
+                    <ShowcaseFilters
+                        categories={categories.map(serializeCategory)}
+                        current={params}
+                        className="lg:col-span-3"
+                    />
+
+                    <AnimalGrid
+                        className="lg:col-span-9"
+                        layout="sidebar"
+                        cardHeading="h2"
+                        animals={animals}
+                        total={total}
+                        page={params.page}
+                        pages={pages}
+                        filtered={filtered}
+                        hrefFor={(page) => showcaseHref(params, { page })}
+                        emptyAction={
+                            filtered ? (
+                                <Button href="/showcase" tone="line">
+                                    সব ফিল্টার সরান
+                                </Button>
+                            ) : (
+                                <Button href="/contact" tone="line">
+                                    যোগাযোগ করুন
+                                </Button>
+                            )
+                        }
+                    />
+                </div>
+            </Section>
+        </SiteShell>
+    );
+}

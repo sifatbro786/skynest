@@ -101,7 +101,7 @@ export default async function AdminHome() {
                     <Link
                         key={figure.label}
                         href={figure.href}
-                        className="ad-card group block p-4 transition-colors hover:border-line-strong"
+                        className="pnl-card group block p-4 transition-colors hover:border-line-strong"
                     >
                         <div className="flex items-center justify-between gap-2">
                             <dt className="text-xs font-medium text-ink-soft">
@@ -114,7 +114,7 @@ export default async function AdminHome() {
                                 className={figure.accent ? "text-clay" : "text-ink-mute"}
                             />
                         </div>
-                        <dd className="ad-stat mt-2.5">{formatCount(figure.value)}</dd>
+                        <dd className="pnl-stat mt-2.5">{formatCount(figure.value)}</dd>
                         <p className="mt-1 text-xs text-ink-mute">{figure.note}</p>
                     </Link>
                 ))}
@@ -173,21 +173,21 @@ export default async function AdminHome() {
                             />
                         </CardBody>
                     ) : (
-                        <div className="ad-scroll">
-                            <table className="ad-table">
+                        <div className="pnl-scroll">
+                            <table className="pnl-table">
                                 <thead>
                                     <tr>
                                         <th scope="col">ক্যাটাগরি</th>
-                                        <th scope="col" className="ad-num">
+                                        <th scope="col" className="pnl-num">
                                             মোট
                                         </th>
-                                        <th scope="col" className="ad-num">
+                                        <th scope="col" className="pnl-num">
                                             আছে
                                         </th>
-                                        <th scope="col" className="ad-num">
+                                        <th scope="col" className="pnl-num">
                                             বিক্রি
                                         </th>
-                                        <th scope="col" className="ad-num">
+                                        <th scope="col" className="pnl-num">
                                             শতাংশ
                                         </th>
                                     </tr>
@@ -208,14 +208,14 @@ export default async function AdminHome() {
                                                     </span>
                                                 ) : null}
                                             </td>
-                                            <td className="ad-num text-ink">
+                                            <td className="pnl-num text-ink">
                                                 {formatCount(row.total)}
                                             </td>
-                                            <td className="ad-num text-leaf">
+                                            <td className="pnl-num text-leaf">
                                                 {formatCount(row.available)}
                                             </td>
-                                            <td className="ad-num">{formatCount(row.sold)}</td>
-                                            <td className="ad-num">
+                                            <td className="pnl-num">{formatCount(row.sold)}</td>
+                                            <td className="pnl-num">
                                                 {categoryTotal > 0
                                                     ? `${Math.round((row.total / categoryTotal) * 100)}%`
                                                     : "—"}
@@ -246,14 +246,14 @@ export default async function AdminHome() {
                                             <span className="truncate text-sm text-ink">
                                                 {visit.name}
                                             </span>
-                                            <span className="ad-num text-xs text-ink-mute">
+                                            <span className="pnl-num text-xs text-ink-mute">
                                                 {formatDateLatin(visit.visitDate)}
                                             </span>
                                         </div>
                                         <div className="mt-0.5 flex items-center gap-2 text-xs text-ink-mute">
                                             <a
                                                 href={`tel:${visit.phone}`}
-                                                className="ad-num transition-colors hover:text-brand"
+                                                className="pnl-num transition-colors hover:text-brand"
                                             >
                                                 {visit.phone}
                                             </a>

@@ -24,7 +24,7 @@ export default function LogoutButton() {
             type="button"
             onClick={handleLogout}
             disabled={pending}
-            className="ad-btn ad-btn-ghost ad-btn-sm w-full"
+            className="pnl-btn pnl-btn-ghost pnl-btn-sm w-full"
         >
             <LogOut size={15} strokeWidth={1.75} aria-hidden />
             লগ আউট

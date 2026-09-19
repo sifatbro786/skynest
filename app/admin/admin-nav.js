@@ -74,7 +74,7 @@ export default function AdminNav({ admin, newInquiries = 0 }) {
                 <button
                     type="button"
                     onClick={() => setOpen(false)}
-                    className="ad-btn ad-btn-ghost ad-btn-sm h-8 w-8 px-0 lg:hidden"
+                    className="pnl-btn pnl-btn-ghost pnl-btn-sm h-8 w-8 px-0 lg:hidden"
                 >
                     <X size={16} strokeWidth={2} aria-hidden />
                     <span className="sr-only">মেনু বন্ধ করুন</span>
@@ -82,7 +82,7 @@ export default function AdminNav({ admin, newInquiries = 0 }) {
             </div>
 
             <div className="px-3">
-                <Link href="/admin/animals/new" className="ad-btn ad-btn-primary w-full">
+                <Link href="/admin/animals/new" className="pnl-btn pnl-btn-primary w-full">
                     <Plus size={15} strokeWidth={2} aria-hidden />
                     নতুন প্রাণী
                 </Link>
@@ -112,7 +112,7 @@ export default function AdminNav({ admin, newInquiries = 0 }) {
                                     />
                                     <span className="flex-1 truncate">{link.label}</span>
                                     {link.badge && newInquiries > 0 ? (
-                                        <span className="ad-num inline-flex h-5 min-w-5 items-center justify-center rounded-sm bg-clay px-1.5 text-xs font-medium text-paper">
+                                        <span className="pnl-num inline-flex h-5 min-w-5 items-center justify-center rounded-sm bg-clay px-1.5 text-xs font-medium text-paper">
                                             {formatCount(newInquiries)}
                                         </span>
                                     ) : null}
@@ -168,7 +168,7 @@ export default function AdminNav({ admin, newInquiries = 0 }) {
                         onClick={() => setOpen(true)}
                         aria-expanded={open}
                         aria-controls="admin-drawer"
-                        className="ad-btn ad-btn-ghost ad-btn-sm relative h-9 w-9 px-0"
+                        className="pnl-btn pnl-btn-ghost pnl-btn-sm relative h-9 w-9 px-0"
                     >
                         <Menu size={17} strokeWidth={1.75} aria-hidden />
                         {newInquiries > 0 ? (

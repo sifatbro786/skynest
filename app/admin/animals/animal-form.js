@@ -353,7 +353,7 @@ export default function AnimalForm({ categories, animal = null }) {
                                 }}
                             />
                             {fields.images || fields.coverIndex ? (
-                                <p className="ad-error">
+                                <p className="pnl-error">
                                     {fields.images || fields.coverIndex}
                                 </p>
                             ) : null}
@@ -551,7 +551,7 @@ export default function AnimalForm({ categories, animal = null }) {
                                             type="number"
                                             min="0"
                                             inputMode="numeric"
-                                            className="ad-num"
+                                            className="pnl-num"
                                             value={draft.priceMin}
                                             onChange={(e) => set({ priceMin: e.target.value })}
                                             placeholder="85000"
@@ -570,7 +570,7 @@ export default function AnimalForm({ categories, animal = null }) {
                                             type="number"
                                             min="0"
                                             inputMode="numeric"
-                                            className="ad-num"
+                                            className="pnl-num"
                                             value={draft.priceMax}
                                             onChange={(e) => set({ priceMax: e.target.value })}
                                             placeholder="120000"

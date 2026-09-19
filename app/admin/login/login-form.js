@@ -102,7 +102,7 @@ export default function LoginForm({ next }) {
             <button
                 type="submit"
                 disabled={pending}
-                className="ad-btn ad-btn-primary h-11 w-full"
+                className="pnl-btn pnl-btn-primary h-11 w-full"
             >
                 {pending ? (
                     <>

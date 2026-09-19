@@ -90,7 +90,7 @@ export default function AnimalFilters({ categories, current }) {
                                 value={q}
                                 onChange={(e) => setQ(e.target.value)}
                                 placeholder="নাম, ব্রিড বা রং"
-                                className="ad-input pl-8 pr-9"
+                                className="pnl-input pl-8 pr-9"
                             />
                             {q ? (
                                 <button
@@ -171,7 +171,7 @@ export default function AnimalFilters({ categories, current }) {
                                 setQ("");
                                 startTransition(() => router.push("/admin/animals"));
                             }}
-                            className="ad-btn ad-btn-ghost ad-btn-sm"
+                            className="pnl-btn pnl-btn-ghost pnl-btn-sm"
                         >
                             <X size={13} strokeWidth={2} aria-hidden />
                             ফিল্টার সরান

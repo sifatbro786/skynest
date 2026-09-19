@@ -19,7 +19,7 @@ import { cn } from "@/lib/utils";
 
 export function Card({ className, children, ...rest }) {
     return (
-        <section className={cn("ad-card", className)} {...rest}>
+        <section className={cn("pnl-card", className)} {...rest}>
             {children}
         </section>
     );
@@ -27,10 +27,10 @@ export function Card({ className, children, ...rest }) {
 
 export function CardHead({ title, hint, actions, className }) {
     return (
-        <header className={cn("ad-card-head", className)}>
+        <header className={cn("pnl-card-head", className)}>
             <div className="min-w-0">
-                <h2 className="ad-h2">{title}</h2>
-                {hint ? <p className="ad-hint mt-0.5">{hint}</p> : null}
+                <h2 className="pnl-h2">{title}</h2>
+                {hint ? <p className="pnl-hint mt-0.5">{hint}</p> : null}
             </div>
             {actions ? (
                 <div className="flex flex-wrap items-center gap-2">{actions}</div>
@@ -40,7 +40,7 @@ export function CardHead({ title, hint, actions, className }) {
 }
 
 export function CardBody({ className, children }) {
-    return <div className={cn("ad-card-body", className)}>{children}</div>;
+    return <div className={cn("pnl-card-body", className)}>{children}</div>;
 }
 
 /* ------------------------------------------------------------------ */
@@ -57,7 +57,7 @@ export function CardBody({ className, children }) {
 export function Field({ label, hint, error, required, htmlFor, className, children }) {
     return (
         <div className={cn("min-w-0", className)}>
-            <label className="ad-label" htmlFor={htmlFor}>
+            <label className="pnl-label" htmlFor={htmlFor}>
                 {label}
                 {required ? (
                     <span className="text-[#a4402a]" aria-hidden>
@@ -67,11 +67,11 @@ export function Field({ label, hint, error, required, htmlFor, className, childr
             </label>
             <div className="mt-1.5">{children}</div>
             {error ? (
-                <span className="ad-error" role="alert">
+                <span className="pnl-error" role="alert">
                     {error}
                 </span>
             ) : hint ? (
-                <span className="ad-hint">{hint}</span>
+                <span className="pnl-hint">{hint}</span>
             ) : null}
         </div>
     );
@@ -80,7 +80,7 @@ export function Field({ label, hint, error, required, htmlFor, className, childr
 export function Input({ className, invalid, ...rest }) {
     return (
         <input
-            className={cn("ad-input", className)}
+            className={cn("pnl-input", className)}
             aria-invalid={invalid ? "true" : undefined}
             {...rest}
         />
@@ -90,7 +90,7 @@ export function Input({ className, invalid, ...rest }) {
 export function Textarea({ className, invalid, ...rest }) {
     return (
         <textarea
-            className={cn("ad-textarea", className)}
+            className={cn("pnl-textarea", className)}
             aria-invalid={invalid ? "true" : undefined}
             {...rest}
         />
@@ -100,7 +100,7 @@ export function Textarea({ className, invalid, ...rest }) {
 /** `options` is an array of [value, label] pairs. */
 export function Select({ options = [], className, children, ...rest }) {
     return (
-        <select className={cn("ad-select", className)} {...rest}>
+        <select className={cn("pnl-select", className)} {...rest}>
             {children ??
                 options.map(([value, label]) => (
                     <option key={value} value={value}>
@@ -119,10 +119,10 @@ export function Checkbox({ label, hint, className, ...rest }) {
                 className
             )}
         >
-            <input type="checkbox" className="ad-check mt-0.5" {...rest} />
+            <input type="checkbox" className="pnl-check mt-0.5" {...rest} />
             <span className="min-w-0">
                 {label}
-                {hint ? <span className="ad-hint">{hint}</span> : null}
+                {hint ? <span className="pnl-hint">{hint}</span> : null}
             </span>
         </label>
     );
@@ -133,16 +133,16 @@ export function Checkbox({ label, hint, className, ...rest }) {
 /* ------------------------------------------------------------------ */
 
 const TONE = {
-    primary: "ad-btn-primary",
-    ghost: "ad-btn-ghost",
-    danger: "ad-btn-danger",
+    primary: "pnl-btn-primary",
+    ghost: "pnl-btn-ghost",
+    danger: "pnl-btn-danger",
 };
 
 export function Button({ tone = "ghost", size, className, as, href, ...rest }) {
     const classes = cn(
-        "ad-btn",
+        "pnl-btn",
         TONE[tone] ?? TONE.ghost,
-        size === "sm" && "ad-btn-sm",
+        size === "sm" && "pnl-btn-sm",
         className
     );
 
@@ -230,8 +230,8 @@ export function Pagination({ page, pages, hrefFor, className }) {
                         href={hrefFor(p)}
                         aria-current={p === page ? "page" : undefined}
                         className={cn(
-                            "ad-btn ad-btn-sm ad-num min-w-8 justify-center",
-                            p === page ? "ad-btn-primary" : "ad-btn-ghost"
+                            "pnl-btn pnl-btn-sm pnl-num min-w-8 justify-center",
+                            p === page ? "pnl-btn-primary" : "pnl-btn-ghost"
                         )}
                     >
                         {p}

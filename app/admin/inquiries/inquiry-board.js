@@ -168,11 +168,11 @@ export default function InquiryBoard({ initialInquiries, filtered = false }) {
                                             ) : null}
                                         </span>
                                         <span className="mt-0.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-ink-mute">
-                                            <span className="ad-num">{inquiry.phone}</span>
+                                            <span className="pnl-num">{inquiry.phone}</span>
                                             {inquiry.email ? (
                                                 <span className="truncate">{inquiry.email}</span>
                                             ) : null}
-                                            <span className="ad-num">
+                                            <span className="pnl-num">
                                                 {formatDateLatin(inquiry.createdAt)}
                                             </span>
                                         </span>
@@ -213,7 +213,7 @@ export default function InquiryBoard({ initialInquiries, filtered = false }) {
 
                                             {inquiry.message ? (
                                                 <div>
-                                                    <p className="ad-label">বার্তা</p>
+                                                    <p className="pnl-label">বার্তা</p>
                                                     <p className="mt-1.5 whitespace-pre-line rounded-sm border border-line bg-paper px-3 py-2.5 text-sm leading-relaxed text-ink-soft">
                                                         {inquiry.message}
                                                     </p>
@@ -248,7 +248,7 @@ export default function InquiryBoard({ initialInquiries, filtered = false }) {
 
                                         <div className="space-y-4">
                                             <div>
-                                                <p className="ad-label">স্ট্যাটাস</p>
+                                                <p className="pnl-label">স্ট্যাটাস</p>
                                                 <div className="mt-1.5 flex flex-wrap gap-1.5">
                                                     {STATUSES.map(([value, label]) => (
                                                         <Button
@@ -324,7 +324,7 @@ function MailReport({ mail }) {
 
     return (
         <div>
-            <p className="ad-label">ইমেইল</p>
+            <p className="pnl-label">ইমেইল</p>
             <ul className="mt-1.5 divide-y divide-line rounded-sm border border-line bg-paper">
                 {rows.map(([label, state]) => {
                     const look = MAIL_LOOK[state?.status ?? "pending"] ?? MAIL_LOOK.pending;
@@ -343,7 +343,7 @@ function MailReport({ mail }) {
                             <span className="text-ink-soft">{label}</span>
                             <span className={look.tone}>· {look.label}</span>
                             {state?.at ? (
-                                <span className="ad-num text-ink-mute">
+                                <span className="pnl-num text-ink-mute">
                                     {formatDateLatin(state.at)}
                                 </span>
                             ) : null}
@@ -367,7 +367,7 @@ function NoteField({ initial, busy, onSave }) {
 
     return (
         <div>
-            <label className="ad-label" htmlFor="inq-note">
+            <label className="pnl-label" htmlFor="inq-note">
                 অভ্যন্তরীণ নোট
             </label>
             <Textarea
@@ -429,8 +429,8 @@ function DeleteRow({ busy, onDelete }) {
 function Detail({ label, children }) {
     return (
         <div>
-            <p className="ad-label">{label}</p>
-            <p className="ad-num mt-0.5 text-sm text-ink">{children}</p>
+            <p className="pnl-label">{label}</p>
+            <p className="pnl-num mt-0.5 text-sm text-ink">{children}</p>
         </div>
     );
 }

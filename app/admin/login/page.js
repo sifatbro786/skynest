@@ -13,7 +13,7 @@ export const metadata = {
 
 /**
  * Login is the panel's front door, so it wears the panel's clothes, not the
- * public site's: `.admin-root` is what switches on the `.ad-*` layer, and the
+ * public site's: `.panel-root` is what switches on the `.pnl-*` layer, and the
  * right-hand panel is a plain brand block rather than the editorial hero it
  * used to be — a 3.5rem display headline over a six-character password field
  * was all costume and no help.
@@ -25,7 +25,7 @@ export default async function LoginPage({ searchParams }) {
     return (
         <div
             translate="no"
-            className="notranslate admin-root grid flex-1 lg:grid-cols-12"
+            className="notranslate panel-root grid flex-1 lg:grid-cols-12"
         >
             {/* ---------- form ---------- */}
             <div className="flex flex-col justify-center bg-paper px-6 py-14 sm:px-10 lg:col-span-5 lg:px-12">
@@ -45,7 +45,7 @@ export default async function LoginPage({ searchParams }) {
                         </div>
                     </div>
 
-                    <h1 className="ad-title mt-9">প্রবেশ করুন</h1>
+                    <h1 className="pnl-title mt-9">প্রবেশ করুন</h1>
                     <p className="mt-1 text-sm text-ink-mute">
                         শুধুমাত্র ফার্মের মালিক ও অনুমোদিত ব্যবহারকারীর জন্য।
                     </p>
@@ -86,7 +86,7 @@ export default async function LoginPage({ searchParams }) {
                     </div>
                     <div>
                         <dt className="text-xs text-ink-mute">যোগাযোগ</dt>
-                        <dd className="ad-num mt-1 text-ink">{site.phone}</dd>
+                        <dd className="pnl-num mt-1 text-ink">{site.phone}</dd>
                     </div>
                     <div>
                         <dt className="text-xs text-ink-mute">ঠিকানা</dt>
