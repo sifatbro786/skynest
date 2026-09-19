@@ -44,5 +44,5 @@ Claude outputs
 next-env.d.ts
 
 # uploaded media — lives on the VPS disk, never in git
-/public/uploads/*
-!/public/uploads/.gitkeep
+# /public/uploads/*
+# !/public/uploads/.gitkeep
