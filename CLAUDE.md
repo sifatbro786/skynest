@@ -294,7 +294,7 @@ not by password length — if you change one of those two, change the other.
 
 ## Orphan sweep — status
 
-Done in phase 9. `public/` holds only `logo.png` and `uploads/`; the
+Done in phase 9. `public/` holds only `logo.jpg` and `uploads/`; the
 `create-next-app` SVGs and the stray "Claude outputs" folder are gone, and
 `README.md` is written.
 

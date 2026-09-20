@@ -4,7 +4,9 @@ import { serializeAnimal, serializeCategory } from "@/lib/serialize";
 import { JsonLd, organizationLd } from "@/lib/jsonld";
 import SiteShell from "@/components/site/site-shell";
 import Hero from "@/components/site/home/hero";
+import Ticker from "@/components/site/ticker";
 import FeaturedAnimals from "@/components/site/home/featured-animals";
+import WhyUs from "@/components/site/home/why-us";
 import CategoryRail from "@/components/site/home/category-rail";
 import VisitCta from "@/components/site/home/visit-cta";
 
@@ -17,7 +19,7 @@ export const metadata = {
 /**
  * Everything the homepage shows, in one trip to the database.
  *
- * This file is the only place on the page that knows about Mongo. The four
+ * This file is the only place on the page that knows about Mongo. The
  * sections below are presentational and take plain serialized props, so they
  * can be reordered, reused or previewed without dragging a connection along.
  */
@@ -105,8 +107,17 @@ export default async function Home() {
                 page references it by @id rather than repeating it. */}
             <JsonLd data={organizationLd()} />
 
+            {/* The band order IS the page's structure, and it alternates on
+                purpose: ink, brand, paper, sand, sky, ink. Reordering these
+                without re-checking the grounds either side gives you two
+                light bands touching, and the seam between them disappears —
+                which is exactly the flat single-sheet scroll phase 10 was
+                written to fix. The section numerals (০১, ০২, ০৩) follow this
+                order too, so a move means renumbering. */}
             <Hero pair={heroPair} total={total} />
+            <Ticker />
             <FeaturedAnimals animals={gridFeatured} priority={heroPair.length === 0} />
+            <WhyUs />
             <CategoryRail families={families} countBy={countBy} />
             <VisitCta />
         </SiteShell>

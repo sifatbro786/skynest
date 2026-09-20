@@ -23,40 +23,56 @@
 ------------------------------------------------------------------- */
 
 @theme {
-    /* Kill the palettes that produce the generic AI look. */
-    --color-blue-*: initial;
-    --color-indigo-*: initial;
-    --color-violet-*: initial;
-    --color-purple-*: initial;
-    --color-fuchsia-*: initial;
+  /* Kill the palettes that produce the generic AI look. */
+  --color-blue-*: initial;
+  --color-indigo-*: initial;
+  --color-violet-*: initial;
+  --color-purple-*: initial;
+  --color-fuchsia-*: initial;
 
-    /* Surfaces — soft sky linen, never pure white */
-    --color-linen: #f4f8fa;
-    --color-linen-deep: #e7eef3;
-    --color-paper: #fbfdfe;
+  /* Surfaces — soft sky linen, never pure white */
+  --color-linen: #f4f8fa;
+  --color-linen-deep: #e7eef3;
+  --color-paper: #fbfdfe;
 
-    /* Ink — unchanged charcoal/slate */
-    --color-ink: #1a1d20;
-    --color-ink-soft: #394249;
-    --color-ink-mute: #66727b;
+  /* Ink — unchanged charcoal/slate */
+  --color-ink: #1a1d20;
+  --color-ink-soft: #394249;
+  --color-ink-mute: #66727b;
 
-    /* Primary accent — sky & royal blue from the wordmark */
-    --color-brand: #0b62a4;
-    --color-brand-soft: #1b81c4;
-    --color-brand-deep: #084c80;
-    --color-brand-wash: #e3eef6;
+  /* Primary accent — sky & royal blue from the wordmark */
+  --color-brand: #0b62a4;
+  --color-brand-soft: #1b81c4;
+  --color-brand-deep: #084c80;
+  --color-brand-wash: #e3eef6;
 
-    /* Natural leaf green — availability, growth, the "Robiul" mark */
-    --color-leaf: #2e7d32;
-    --color-leaf-soft: #388e3c;
-    --color-leaf-wash: #e6efe6;
+  /* Natural leaf green — availability, growth, the "Robiul" mark */
+  --color-leaf: #2e7d32;
+  --color-leaf-soft: #388e3c;
+  --color-leaf-wash: #e6efe6;
 
-    /* Nest warm clay/brown — the warm counterweight (was gold/bronze) */
-    --color-clay: #8d5b3a;
-    --color-clay-soft: #a06a42;
-    --color-clay-wash: #f0e7e0;
+  /* Nest warm clay/brown — the warm counterweight (was gold/bronze) */
+  --color-clay: #8d5b3a;
+  --color-clay-soft: #a06a42;
+  --color-clay-wash: #f0e7e0;
 
-    /* Structure — sky-tinted neutrals so hairlines sit in the same family.
+  /* Band grounds (phase 10).
+     A `*-wash` is sized for a chip or an inset card. Stretched across a
+     900px-tall band the same value reads as dirty white, because a tint
+     convincing at 40px is invisible at 900. These are the full-bleed
+     versions — one step more saturated — and they are never used for small
+     surfaces, where they would read heavy.
+
+       --color-ink-band  hero + footer ground. A hair deeper than
+                         --color-ink so ink type still has somewhere to go.
+       --color-sand      warm band. The counterweight that stops a page of
+                         sky blue from reading like a SaaS dashboard.
+       --color-sky-band  cool band, the sand band's opposite number. */
+  --color-ink-band: #16191c;
+  --color-sand: #f4e8dc;
+  --color-sky-band: #dcebf5;
+
+  /* Structure — sky-tinted neutrals so hairlines sit in the same family.
      Three weights, and the difference between them is a WCAG rule, not taste:
 
        --color-line         decorative dividers only. 1.25:1 against linen,
@@ -67,112 +83,113 @@
                             3.41:1 on paper, 3.26:1 on linen, so it clears the
                             3:1 non-text minimum. Phase 5.5 used line-strong
                             here and every admin field failed 1.4.11. */
-    --color-line: #d6e0e7;
-    --color-line-strong: #b6c5cf;
-    --color-field: #788c9d;
+  --color-line: #d6e0e7;
+  --color-line-strong: #b6c5cf;
+  --color-field: #788c9d;
 
-    /* Brand blue is only legible on a light ground: #0b62a4 on charcoal is
+  /* Brand blue is only legible on a light ground: #0b62a4 on charcoal is
      2.6:1 and even brand-soft is 4.02:1, under the 4.5 body minimum. This is
      the variant to use for a link on an ink surface (5.06:1). */
-    --color-brand-on-ink: #2e93d8;
+  --color-brand-on-ink: #2e93d8;
 
-    /* Status (availability chips — flat colour, no gradients) */
-    --color-status-available: #2e7d32;
-    --color-status-reserved: #8d5b3a;
-    --color-status-sold: #66727b;
+  /* Status (availability chips — flat colour, no gradients) */
+  --color-status-available: #2e7d32;
+  --color-status-reserved: #8d5b3a;
+  --color-status-sold: #66727b;
 
-    /* Radii — deliberately tight. Photography frames stay square-ish. */
-    --radius-xs: 2px;
-    --radius-sm: 4px;
-    --radius-md: 8px;
-    --radius-pill: 999px;
+  /* Radii — deliberately tight. Photography frames stay square-ish. */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-pill: 999px;
 
-    /* Shadows — one soft lift, no neon glow. Blue-black rather than
+  /* Shadows — one soft lift, no neon glow. Blue-black rather than
      neutral grey, so it belongs on a sky-tinted ground. */
-    --shadow-lift: 0 18px 44px -28px rgb(15 35 52 / 0.42);
-    --shadow-frame: 0 1px 0 0 var(--color-line);
+  --shadow-lift: 0 18px 44px -28px rgb(15 35 52 / 0.42);
+  --shadow-frame: 0 1px 0 0 var(--color-line);
 
-    /* Motion. Enter decelerates (arriving), exit accelerates (leaving) — the
+  /* Motion. Enter decelerates (arriving), exit accelerates (leaving) — the
      two are not interchangeable, and exits run shorter than enters. */
-    --ease-editorial: cubic-bezier(0.22, 1, 0.36, 1);
-    --ease-swift: cubic-bezier(0.4, 0, 0.2, 1);
-    --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+  --ease-editorial: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-swift: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
 
-    /* Editorial type scale (fluid) */
-    --text-display: clamp(2.75rem, 1.6rem + 4.6vw, 5.5rem);
-    --text-display--line-height: 0.96;
-    --text-display--letter-spacing: -0.03em;
+  /* Editorial type scale (fluid) */
+  --text-display: clamp(2.75rem, 1.6rem + 4.6vw, 5.5rem);
+  --text-display--line-height: 0.96;
+  --text-display--letter-spacing: -0.03em;
 
-    --text-headline: clamp(2rem, 1.35rem + 2.6vw, 3.5rem);
-    --text-headline--line-height: 1.04;
-    --text-headline--letter-spacing: -0.022em;
+  --text-headline: clamp(2rem, 1.35rem + 2.6vw, 3.5rem);
+  --text-headline--line-height: 1.04;
+  --text-headline--letter-spacing: -0.022em;
 
-    --text-title: clamp(1.375rem, 1.1rem + 1.1vw, 2rem);
-    --text-title--line-height: 1.15;
-    --text-title--letter-spacing: -0.015em;
+  --text-title: clamp(1.375rem, 1.1rem + 1.1vw, 2rem);
+  --text-title--line-height: 1.15;
+  --text-title--letter-spacing: -0.015em;
 
-    --text-lede: clamp(1.0625rem, 1rem + 0.35vw, 1.25rem);
-    --text-lede--line-height: 1.65;
+  --text-lede: clamp(1.0625rem, 1rem + 0.35vw, 1.25rem);
+  --text-lede--line-height: 1.65;
 
-    --text-micro: 0.6875rem;
-    --text-micro--line-height: 1.3;
-    --text-micro--letter-spacing: 0.14em;
+  --text-micro: 0.6875rem;
+  --text-micro--line-height: 1.3;
+  --text-micro--letter-spacing: 0.14em;
 }
 
 @theme inline {
-    /* Latin glyphs resolve from Fraunces; Bangla glyphs fall through to the
+  /* Latin glyphs resolve from Fraunces; Bangla glyphs fall through to the
      Bengali serif automatically — one heading style, two scripts. */
-    --font-display:
-        var(--font-fraunces), var(--font-bangla-serif), Georgia, "Times New Roman", serif;
-    --font-body: var(--font-hind), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: var(--font-fraunces), var(--font-bangla-serif), Georgia,
+    "Times New Roman", serif;
+  --font-body: var(--font-hind), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", sans-serif;
 }
 
 /* ------------------------------------------------------------------ */
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
     html {
-        scroll-behavior: smooth;
-        -webkit-text-size-adjust: 100%;
-        text-rendering: optimizeLegibility;
+      scroll-behavior: auto;
     }
+  }
 
-    @media (prefers-reduced-motion: reduce) {
-        html {
-            scroll-behavior: auto;
-        }
-    }
+  body {
+    background-color: var(--color-linen);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+  }
 
-    body {
-        background-color: var(--color-linen);
-        color: var(--color-ink);
-        font-family: var(--font-body);
-        font-weight: 400;
-        -webkit-font-smoothing: antialiased;
-    }
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    text-wrap: balance;
+  }
 
-    h1,
-    h2,
-    h3,
-    h4 {
-        font-family: var(--font-display);
-        font-weight: 500;
-        text-wrap: balance;
-    }
+  ::selection {
+    background-color: var(--color-brand);
+    color: var(--color-paper);
+  }
 
-    ::selection {
-        background-color: var(--color-brand);
-        color: var(--color-paper);
-    }
+  :focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 3px;
+  }
 
-    :focus-visible {
-        outline: 2px solid var(--color-brand);
-        outline-offset: 3px;
-    }
-
-    /* Bangla numerals and Latin numerals should sit on the same baseline */
-    .tnum {
-        font-variant-numeric: tabular-nums;
-    }
+  /* Bangla numerals and Latin numerals should sit on the same baseline */
+  .tnum {
+    font-variant-numeric: tabular-nums;
+  }
 }
 
 /* ------------------------------------------------------------------
@@ -180,95 +197,95 @@
 ------------------------------------------------------------------- */
 
 @layer components {
-    /* Editorial page gutter. Asymmetric by design: more room on the left
+  /* Editorial page gutter. Asymmetric by design: more room on the left
      so content reads as a column, not a centred block. */
+  .shell {
+    width: 100%;
+    max-width: 86rem;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  @media (min-width: 768px) {
     .shell {
-        width: 100%;
-        max-width: 86rem;
-        margin-inline: auto;
-        padding-inline: 1.25rem;
+      padding-inline: 2.5rem;
     }
+  }
 
-    @media (min-width: 768px) {
-        .shell {
-            padding-inline: 2.5rem;
-        }
+  @media (min-width: 1280px) {
+    .shell {
+      padding-inline: 4rem;
     }
+  }
 
-    @media (min-width: 1280px) {
-        .shell {
-            padding-inline: 4rem;
-        }
-    }
+  /* Paper grain — keeps flat colour from looking synthetic. */
+  .grain {
+    position: relative;
+    isolation: isolate;
+  }
 
-    /* Paper grain — keeps flat colour from looking synthetic. */
-    .grain {
-        position: relative;
-        isolation: isolate;
-    }
+  .grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.5;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.16'/%3E%3C/svg%3E");
+  }
 
-    .grain::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        z-index: -1;
-        pointer-events: none;
-        opacity: 0.5;
-        mix-blend-mode: multiply;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.16'/%3E%3C/svg%3E");
-    }
+  /* Hairline divider used between editorial blocks. */
+  .rule {
+    border: 0;
+    border-top: 1px solid var(--color-line);
+  }
 
-    /* Hairline divider used between editorial blocks. */
-    .rule {
-        border: 0;
-        border-top: 1px solid var(--color-line);
-    }
-
-    /* Section marker: a number + label, left aligned. Replaces the
+  /* Section marker: a number + label, left aligned. Replaces the
      forbidden centred "— OUR FEATURED PETS" pill badge. */
-    .marker {
-        display: inline-flex;
-        align-items: baseline;
-        gap: 0.625rem;
-        font-size: var(--text-micro);
-        line-height: var(--text-micro--line-height);
-        letter-spacing: var(--text-micro--letter-spacing);
-        text-transform: uppercase;
-        color: var(--color-ink-mute);
-    }
+  .marker {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.625rem;
+    font-size: var(--text-micro);
+    line-height: var(--text-micro--line-height);
+    letter-spacing: var(--text-micro--letter-spacing);
+    text-transform: uppercase;
+    color: var(--color-ink-mute);
+  }
 
-    .marker::before {
-        content: "";
-        width: 1.75rem;
-        height: 1px;
-        background-color: var(--color-line-strong);
-        transform: translateY(-0.25em);
-    }
+  .marker::before {
+    content: "";
+    width: 1.75rem;
+    height: 1px;
+    background-color: var(--color-line-strong);
+    transform: translateY(-0.25em);
+  }
 
-    /* Hand-drawn underline for a single emphasised word. Deliberately
+  /* Hand-drawn underline for a single emphasised word. Deliberately
      clay, not blue — a brown stroke reads hand-drawn, a blue one reads
      like a hyperlink underline. */
-    .stroke-under {
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 8' preserveAspectRatio='none'%3E%3Cpath d='M1 5.5c18-3 32-4 49-3.5s31 2.5 49 4' stroke='%238d5b3a' stroke-width='2.2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-        background-repeat: no-repeat;
-        background-position: 0 100%;
-        background-size: 100% 0.4em;
-        padding-bottom: 0.12em;
-    }
+  .stroke-under {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 8' preserveAspectRatio='none'%3E%3Cpath d='M1 5.5c18-3 32-4 49-3.5s31 2.5 49 4' stroke='%238d5b3a' stroke-width='2.2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 100% 0.4em;
+    padding-bottom: 0.12em;
+  }
 
-    /* Photo frame: portrait 4:5 by default, per the PRD's vertical hero crop. */
-    .frame {
-        position: relative;
-        overflow: hidden;
-        background-color: var(--color-linen-deep);
-        border-radius: var(--radius-sm);
-    }
+  /* Photo frame: portrait 4:5 by default, per the PRD's vertical hero crop. */
+  .frame {
+    position: relative;
+    overflow: hidden;
+    background-color: var(--color-linen-deep);
+    border-radius: var(--radius-sm);
+  }
 
-    .frame > img {
-        height: 100%;
-        width: 100%;
-        object-fit: cover;
-    }
+  .frame > img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
 }
 /* Note: text-display / text-headline / text-title / text-lede / text-micro
    are generated by Tailwind from the --text-* theme entries above, together
@@ -301,295 +318,292 @@
 ================================================================== */
 
 @layer components {
-    .panel-root {
-        background-color: var(--color-linen);
-        font-feature-settings: "tnum" 0;
-    }
+  .panel-root {
+    background-color: var(--color-linen);
+    font-feature-settings: "tnum" 0;
+  }
 
-    /* Headings inside the panel use the body sans. Fraunces at 15px is a
+  /* Headings inside the panel use the body sans. Fraunces at 15px is a
      legibility cost with no payoff on a data screen. */
-    .panel-root h1,
-    .panel-root h2,
-    .panel-root h3,
-    .panel-root h4 {
-        font-family: var(--font-body);
-        font-weight: 600;
-        letter-spacing: -0.01em;
-        text-wrap: balance;
-    }
+  .panel-root h1,
+  .panel-root h2,
+  .panel-root h3,
+  .panel-root h4 {
+    font-family: var(--font-body);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
 
-    .pnl-title {
-        font-size: 1.3125rem;
-        line-height: 1.25;
-        color: var(--color-ink);
-    }
+  .pnl-title {
+    font-size: 1.3125rem;
+    line-height: 1.25;
+    color: var(--color-ink);
+  }
 
-    .pnl-h2 {
-        font-size: 0.9375rem;
-        line-height: 1.35;
-        color: var(--color-ink);
-    }
+  .pnl-h2 {
+    font-size: 0.9375rem;
+    line-height: 1.35;
+    color: var(--color-ink);
+  }
 
-    /* Form/section label. Sentence case, real size, readable weight. */
-    .pnl-label {
-        display: block;
-        font-size: 0.75rem;
-        line-height: 1.4;
-        font-weight: 500;
-        color: var(--color-ink-soft);
-    }
+  /* Form/section label. Sentence case, real size, readable weight. */
+  .pnl-label {
+    display: block;
+    font-size: 0.75rem;
+    line-height: 1.4;
+    font-weight: 500;
+    color: var(--color-ink-soft);
+  }
 
-    .pnl-hint {
-        display: block;
-        margin-top: 0.375rem;
-        font-size: 0.75rem;
-        line-height: 1.45;
-        color: var(--color-ink-mute);
-    }
+  .pnl-hint {
+    display: block;
+    margin-top: 0.375rem;
+    font-size: 0.75rem;
+    line-height: 1.45;
+    color: var(--color-ink-mute);
+  }
 
-    .pnl-error {
-        display: block;
-        margin-top: 0.375rem;
-        font-size: 0.75rem;
-        line-height: 1.45;
-        color: #a4402a;
-    }
+  .pnl-error {
+    display: block;
+    margin-top: 0.375rem;
+    font-size: 0.75rem;
+    line-height: 1.45;
+    color: #a4402a;
+  }
 
-    /* ---------------- surfaces ---------------- */
+  /* ---------------- surfaces ---------------- */
 
-    .pnl-card {
-        background-color: var(--color-paper);
-        border: 1px solid var(--color-line);
-        border-radius: var(--radius-md);
-    }
+  .pnl-card {
+    background-color: var(--color-paper);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-md);
+  }
 
-    .pnl-card-head {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        justify-content: space-between;
-        gap: 0.75rem;
-        padding: 0.875rem 1.125rem;
-        border-bottom: 1px solid var(--color-line);
-    }
+  .pnl-card-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.875rem 1.125rem;
+    border-bottom: 1px solid var(--color-line);
+  }
 
-    .pnl-card-body {
-        padding: 1.125rem;
-    }
+  .pnl-card-body {
+    padding: 1.125rem;
+  }
 
-    /* ---------------- controls ---------------- */
+  /* ---------------- controls ---------------- */
 
-    .pnl-input,
-    .pnl-select,
-    .pnl-textarea {
-        width: 100%;
-        background-color: var(--color-paper);
-        /* A control boundary, so it needs 3:1 — see --color-field. */
-        border: 1px solid var(--color-field);
-        border-radius: var(--radius-sm);
-        color: var(--color-ink);
-        font-family: inherit;
-        font-size: 0.875rem;
-        line-height: 1.4;
-        transition:
-            border-color 120ms var(--ease-swift),
-            box-shadow 120ms var(--ease-swift);
-    }
+  .pnl-input,
+  .pnl-select,
+  .pnl-textarea {
+    width: 100%;
+    background-color: var(--color-paper);
+    /* A control boundary, so it needs 3:1 — see --color-field. */
+    border: 1px solid var(--color-field);
+    border-radius: var(--radius-sm);
+    color: var(--color-ink);
+    font-family: inherit;
+    font-size: 0.875rem;
+    line-height: 1.4;
+    transition: border-color 120ms var(--ease-swift),
+      box-shadow 120ms var(--ease-swift);
+  }
 
-    .pnl-input,
-    .pnl-select {
-        height: 2.5rem;
-        padding-inline: 0.625rem;
-    }
+  .pnl-input,
+  .pnl-select {
+    height: 2.5rem;
+    padding-inline: 0.625rem;
+  }
 
-    .pnl-select {
-        padding-right: 1.75rem;
-    }
+  .pnl-select {
+    padding-right: 1.75rem;
+  }
 
-    .pnl-textarea {
-        min-height: 6.5rem;
-        padding: 0.5rem 0.625rem;
-        resize: vertical;
-        line-height: 1.6;
-    }
+  .pnl-textarea {
+    min-height: 6.5rem;
+    padding: 0.5rem 0.625rem;
+    resize: vertical;
+    line-height: 1.6;
+  }
 
-    .pnl-input::placeholder,
-    .pnl-textarea::placeholder {
-        color: color-mix(in oklab, var(--color-ink-mute) 70%, transparent);
-    }
+  .pnl-input::placeholder,
+  .pnl-textarea::placeholder {
+    color: color-mix(in oklab, var(--color-ink-mute) 70%, transparent);
+  }
 
-    .pnl-input:focus,
-    .pnl-select:focus,
-    .pnl-textarea:focus {
-        outline: none;
-        border-color: var(--color-brand);
-        /* A 3px wash ring, not a glow. Visible at a glance on a form with
+  .pnl-input:focus,
+  .pnl-select:focus,
+  .pnl-textarea:focus {
+    outline: none;
+    border-color: var(--color-brand);
+    /* A 3px wash ring, not a glow. Visible at a glance on a form with
        twenty fields, and it survives Windows high-contrast mode because
        the border moves too. */
-        box-shadow: 0 0 0 3px var(--color-brand-wash);
-    }
+    box-shadow: 0 0 0 3px var(--color-brand-wash);
+  }
 
-    .pnl-input:disabled,
-    .pnl-select:disabled,
-    .pnl-textarea:disabled {
-        background-color: var(--color-linen-deep);
-        color: var(--color-ink-mute);
-        cursor: not-allowed;
-    }
+  .pnl-input:disabled,
+  .pnl-select:disabled,
+  .pnl-textarea:disabled {
+    background-color: var(--color-linen-deep);
+    color: var(--color-ink-mute);
+    cursor: not-allowed;
+  }
 
-    .pnl-input[aria-invalid="true"],
-    .pnl-textarea[aria-invalid="true"] {
-        border-color: #b4573f;
-    }
+  .pnl-input[aria-invalid="true"],
+  .pnl-textarea[aria-invalid="true"] {
+    border-color: #b4573f;
+  }
 
-    .pnl-check {
-        width: 1rem;
-        height: 1rem;
-        accent-color: var(--color-brand);
-        flex-shrink: 0;
-    }
+  .pnl-check {
+    width: 1rem;
+    height: 1rem;
+    accent-color: var(--color-brand);
+    flex-shrink: 0;
+  }
 
-    /* ---------------- buttons ---------------- */
+  /* ---------------- buttons ---------------- */
 
-    .pnl-btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.5rem;
-        height: 2.5rem;
-        padding-inline: 1rem;
-        border: 1px solid transparent;
-        border-radius: var(--radius-sm);
-        font-size: 0.875rem;
-        font-weight: 500;
-        line-height: 1;
-        white-space: nowrap;
-        cursor: pointer;
-        transition:
-            background-color 120ms var(--ease-swift),
-            border-color 120ms var(--ease-swift),
-            color 120ms var(--ease-swift);
-    }
+  .pnl-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    height: 2.5rem;
+    padding-inline: 1rem;
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color 120ms var(--ease-swift),
+      border-color 120ms var(--ease-swift), color 120ms var(--ease-swift);
+  }
 
-    .pnl-btn:disabled {
-        opacity: 0.55;
-        cursor: not-allowed;
-    }
+  .pnl-btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
 
-    .pnl-btn-sm {
-        height: 2rem;
-        padding-inline: 0.75rem;
-        font-size: 0.8125rem;
-    }
+  .pnl-btn-sm {
+    height: 2rem;
+    padding-inline: 0.75rem;
+    font-size: 0.8125rem;
+  }
 
-    .pnl-btn-primary {
-        background-color: var(--color-brand);
-        color: var(--color-paper);
-    }
+  .pnl-btn-primary {
+    background-color: var(--color-brand);
+    color: var(--color-paper);
+  }
 
-    .pnl-btn-primary:hover:not(:disabled) {
-        background-color: var(--color-brand-deep);
-    }
+  .pnl-btn-primary:hover:not(:disabled) {
+    background-color: var(--color-brand-deep);
+  }
 
-    .pnl-btn-ghost {
-        background-color: var(--color-paper);
-        border-color: var(--color-field);
-        color: var(--color-ink-soft);
-    }
+  .pnl-btn-ghost {
+    background-color: var(--color-paper);
+    border-color: var(--color-field);
+    color: var(--color-ink-soft);
+  }
 
-    .pnl-btn-ghost:hover:not(:disabled) {
-        border-color: var(--color-ink-soft);
-        color: var(--color-ink);
-    }
+  .pnl-btn-ghost:hover:not(:disabled) {
+    border-color: var(--color-ink-soft);
+    color: var(--color-ink);
+  }
 
-    .pnl-btn-danger {
-        background-color: var(--color-paper);
-        border-color: #d9b6aa;
-        color: #a4402a;
-    }
+  .pnl-btn-danger {
+    background-color: var(--color-paper);
+    border-color: #d9b6aa;
+    color: #a4402a;
+  }
 
-    .pnl-btn-danger:hover:not(:disabled) {
-        background-color: #f7ece8;
-        border-color: #a4402a;
-    }
+  .pnl-btn-danger:hover:not(:disabled) {
+    background-color: #f7ece8;
+    border-color: #a4402a;
+  }
 
-    /* ---------------- table ---------------- */
+  /* ---------------- table ---------------- */
 
-    .pnl-table {
-        width: 100%;
-        border-collapse: collapse;
-        font-size: 0.875rem;
-    }
+  .pnl-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+  }
 
-    .pnl-table thead th {
-        position: sticky;
-        top: 0;
-        z-index: 1;
-        background-color: var(--color-linen-deep);
-        padding: 0.5rem 0.75rem;
-        text-align: left;
-        font-size: 0.75rem;
-        font-weight: 600;
-        color: var(--color-ink-soft);
-        border-bottom: 1px solid var(--color-line-strong);
-        white-space: nowrap;
-    }
+  .pnl-table thead th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: var(--color-linen-deep);
+    padding: 0.5rem 0.75rem;
+    text-align: left;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-ink-soft);
+    border-bottom: 1px solid var(--color-line-strong);
+    white-space: nowrap;
+  }
 
-    .pnl-table tbody td {
-        padding: 0.625rem 0.75rem;
-        border-bottom: 1px solid var(--color-line);
-        color: var(--color-ink-soft);
-        vertical-align: middle;
-    }
+  .pnl-table tbody td {
+    padding: 0.625rem 0.75rem;
+    border-bottom: 1px solid var(--color-line);
+    color: var(--color-ink-soft);
+    vertical-align: middle;
+  }
 
-    .pnl-table tbody tr:hover td {
-        background-color: var(--color-linen);
-    }
+  .pnl-table tbody tr:hover td {
+    background-color: var(--color-linen);
+  }
 
-    .pnl-table tbody tr:last-child td {
-        border-bottom: 0;
-    }
+  .pnl-table tbody tr:last-child td {
+    border-bottom: 0;
+  }
 
-    /* Figures line up column to column. Right-alignment belongs to table
+  /* Figures line up column to column. Right-alignment belongs to table
      cells only — on an inline span it would fight the surrounding text. */
-    .pnl-num {
-        font-variant-numeric: tabular-nums;
-        white-space: nowrap;
-    }
+  .pnl-num {
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
 
-    .pnl-table .pnl-num {
-        text-align: right;
-    }
+  .pnl-table .pnl-num {
+    text-align: right;
+  }
 
-    /* ---------------- misc ---------------- */
+  /* ---------------- misc ---------------- */
 
-    .pnl-chip {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.375rem;
-        height: 1.5rem;
-        padding-inline: 0.5rem;
-        border: 1px solid var(--color-line-strong);
-        border-radius: var(--radius-sm);
-        background-color: var(--color-paper);
-        font-size: 0.75rem;
-        color: var(--color-ink-soft);
-        white-space: nowrap;
-    }
+  .pnl-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    height: 1.5rem;
+    padding-inline: 0.5rem;
+    border: 1px solid var(--color-line-strong);
+    border-radius: var(--radius-sm);
+    background-color: var(--color-paper);
+    font-size: 0.75rem;
+    color: var(--color-ink-soft);
+    white-space: nowrap;
+  }
 
-    .pnl-stat {
-        font-variant-numeric: tabular-nums;
-        font-size: 1.75rem;
-        line-height: 1.1;
-        font-weight: 600;
-        letter-spacing: -0.02em;
-        color: var(--color-ink);
-    }
+  .pnl-stat {
+    font-variant-numeric: tabular-nums;
+    font-size: 1.75rem;
+    line-height: 1.1;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--color-ink);
+  }
 
-    .pnl-scroll {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-    }
+  .pnl-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 /* ==================================================================
@@ -612,175 +626,174 @@
 ================================================================== */
 
 @layer base {
-    :root {
-        --header-h: 4rem;
-        --actionbar-h: 4.25rem;
+  :root {
+    --header-h: 4rem;
+    --actionbar-h: 4.25rem;
 
-        /* One ladder, so nothing fights over stacking order by accident. */
-        --z-sticky: 30;
-        --z-header: 40;
-        --z-overlay: 50;
-        --z-modal: 60;
+    /* One ladder, so nothing fights over stacking order by accident. */
+    --z-sticky: 30;
+    --z-header: 40;
+    --z-overlay: 50;
+    --z-modal: 60;
 
-        /* Motion tokens. Exit is ~65% of enter: leaving should feel quicker
+    /* Motion tokens. Exit is ~65% of enter: leaving should feel quicker
        than arriving, or the interface feels like it is dragging its feet. */
-        --dur-fast: 140ms;
-        --dur-base: 240ms;
-        --dur-exit: 160ms;
-        --dur-slow: 420ms;
-        --stagger-step: 40ms;
-    }
+    --dur-fast: 140ms;
+    --dur-base: 240ms;
+    --dur-exit: 160ms;
+    --dur-slow: 420ms;
+    --stagger-step: 40ms;
+  }
 
-    @media (min-width: 1024px) {
-        :root {
-            --header-h: 4.75rem;
-            /* The action bar is mobile-only; desktop has the header CTA instead. */
-            --actionbar-h: 0rem;
-        }
+  @media (min-width: 1024px) {
+    :root {
+      --header-h: 4.75rem;
+      /* The action bar is mobile-only; desktop has the header CTA instead. */
+      --actionbar-h: 0rem;
     }
+  }
 
-    /* Anchor targets and programmatic scrolls must clear both bars. */
-    html {
-        scroll-padding-top: calc(var(--header-h) + 1rem);
-        scroll-padding-bottom: calc(var(--actionbar-h) + 1rem);
-    }
+  /* Anchor targets and programmatic scrolls must clear both bars. */
+  html {
+    scroll-padding-top: calc(var(--header-h) + 1rem);
+    scroll-padding-bottom: calc(var(--actionbar-h) + 1rem);
+  }
 
-    @media (prefers-reduced-motion: reduce) {
-        *,
-        *::before,
-        *::after {
-            animation-duration: 0.01ms !important;
-            animation-iteration-count: 1 !important;
-            transition-duration: 0.01ms !important;
-            scroll-behavior: auto !important;
-        }
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
     }
+  }
 }
 
 @layer components {
-    /* Keyboard users land here first. Visible only on focus, and it sits above
+  /* Keyboard users land here first. Visible only on focus, and it sits above
      the header so it is never the thing the header covers. */
-    .skip-link {
-        position: fixed;
-        top: 0.5rem;
-        left: 0.5rem;
-        z-index: var(--z-modal);
-        padding: 0.625rem 1rem;
-        border-radius: var(--radius-sm);
-        background-color: var(--color-ink);
-        color: var(--color-linen);
-        font-size: 0.875rem;
-        font-weight: 500;
-        transform: translateY(-160%);
-        transition: transform var(--dur-fast) var(--ease-swift);
-    }
+  .skip-link {
+    position: fixed;
+    top: 0.5rem;
+    left: 0.5rem;
+    z-index: var(--z-modal);
+    padding: 0.625rem 1rem;
+    border-radius: var(--radius-sm);
+    background-color: var(--color-ink);
+    color: var(--color-linen);
+    font-size: 0.875rem;
+    font-weight: 500;
+    transform: translateY(-160%);
+    transition: transform var(--dur-fast) var(--ease-swift);
+  }
 
-    /* `:focus`, not `:focus-visible` — a skip link should appear whenever it
+  /* `:focus`, not `:focus-visible` — a skip link should appear whenever it
      holds focus, including when a script moves focus there. `:focus-visible`
      depends on the browser's keyboard heuristic and silently leaves the link
      hidden in cases where it is genuinely focused. */
-    .skip-link:focus {
-        transform: translateY(0);
-    }
+  .skip-link:focus {
+    transform: translateY(0);
+  }
 
-    /* ---------------- buttons ----------------
+  /* ---------------- buttons ----------------
      44px minimum height: a touch target, not a text link wearing a box. */
 
-    .btn-solid,
-    .btn-line {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.5rem;
-        min-height: 2.75rem;
-        padding-inline: 1.5rem;
-        border: 1px solid transparent;
-        border-radius: var(--radius-xs);
-        font-size: 0.875rem;
-        font-weight: 500;
-        line-height: 1;
-        text-align: center;
-        white-space: nowrap;
-        transition:
-            background-color var(--dur-fast) var(--ease-swift),
-            border-color var(--dur-fast) var(--ease-swift),
-            color var(--dur-fast) var(--ease-swift);
-    }
+  .btn-solid,
+  .btn-line {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    padding-inline: 1.5rem;
+    border: 1px solid transparent;
+    border-radius: var(--radius-xs);
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    transition: background-color var(--dur-fast) var(--ease-swift),
+      border-color var(--dur-fast) var(--ease-swift),
+      color var(--dur-fast) var(--ease-swift);
+  }
 
-    /* Charcoal, not brand blue. The palette note at the top of this file is
+  /* Charcoal, not brand blue. The palette note at the top of this file is
      explicit that blue is a line colour; a page of blue fills is the generic
      SaaS look the PRD rules out. Blue arrives on hover instead. */
-    .btn-solid {
-        background-color: var(--color-ink);
-        color: var(--color-linen);
-    }
+  .btn-solid {
+    background-color: var(--color-ink);
+    color: var(--color-linen);
+  }
 
-    .btn-solid:hover {
-        background-color: var(--color-brand);
-    }
+  .btn-solid:hover {
+    background-color: var(--color-brand);
+  }
 
-    .btn-line {
-        border-color: var(--color-field);
-        color: var(--color-ink);
-    }
+  .btn-line {
+    border-color: var(--color-field);
+    color: var(--color-ink);
+  }
 
-    .btn-line:hover {
-        border-color: var(--color-ink);
-        background-color: var(--color-linen-deep);
-    }
+  .btn-line:hover {
+    border-color: var(--color-ink);
+    background-color: var(--color-linen-deep);
+  }
 
-    /* A text link that still reads as editorial: hairline underline, offset
+  /* A text link that still reads as editorial: hairline underline, offset
      far enough to clear Bangla descenders. */
-    .link-quiet {
-        color: var(--color-ink);
-        text-decoration: underline;
-        text-decoration-color: var(--color-line-strong);
-        text-decoration-thickness: 1px;
-        text-underline-offset: 6px;
-        transition: text-decoration-color var(--dur-fast) var(--ease-swift);
-    }
+  .link-quiet {
+    color: var(--color-ink);
+    text-decoration: underline;
+    text-decoration-color: var(--color-line-strong);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 6px;
+    transition: text-decoration-color var(--dur-fast) var(--ease-swift);
+  }
 
-    .link-quiet:hover {
-        text-decoration-color: var(--color-clay);
-    }
+  .link-quiet:hover {
+    text-decoration-color: var(--color-clay);
+  }
 
-    /* Long-form measure. 68ch keeps Bangla and Latin both inside the 65–75
+  /* Long-form measure. 68ch keeps Bangla and Latin both inside the 65–75
      character band; `pretty` stops a one-word last line. */
-    .measure {
-        max-width: 68ch;
-        text-wrap: pretty;
-    }
+  .measure {
+    max-width: 68ch;
+    text-wrap: pretty;
+  }
 
-    /* URLs, IDs and pasted user content reflow instead of forcing a
+  /* URLs, IDs and pasted user content reflow instead of forcing a
      horizontal scrollbar — without break-all mangling ordinary prose. */
-    .wrap-anywhere {
-        overflow-wrap: anywhere;
-        min-width: 0;
-    }
+  .wrap-anywhere {
+    overflow-wrap: anywhere;
+    min-width: 0;
+  }
 
-    /* Mobile lead-capture bar. `env()` keeps it off the iOS home indicator. */
-    .action-bar {
-        position: fixed;
-        inset-inline: 0;
-        bottom: 0;
-        z-index: var(--z-sticky);
-        display: grid;
-        grid-auto-flow: column;
-        grid-auto-columns: 1fr;
-        gap: 0.5rem;
-        padding: 0.5rem 0.75rem calc(0.5rem + env(safe-area-inset-bottom));
-        background-color: var(--color-paper);
-        border-top: 1px solid var(--color-line);
-        box-shadow: var(--shadow-lift);
-    }
+  /* Mobile lead-capture bar. `env()` keeps it off the iOS home indicator. */
+  .action-bar {
+    position: fixed;
+    inset-inline: 0;
+    bottom: 0;
+    z-index: var(--z-sticky);
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem calc(0.5rem + env(safe-area-inset-bottom));
+    background-color: var(--color-paper);
+    border-top: 1px solid var(--color-line);
+    box-shadow: var(--shadow-lift);
+  }
 
-    /* Anything scrolling under the header needs this so a focused control
+  /* Anything scrolling under the header needs this so a focused control
      never ends up behind it. */
-    .clears-header {
-        scroll-margin-top: calc(var(--header-h) + 1rem);
-    }
+  .clears-header {
+    scroll-margin-top: calc(var(--header-h) + 1rem);
+  }
 
-    /* ---------------- loading placeholders ----------------
+  /* ---------------- loading placeholders ----------------
      One class for both sides of the app. A skeleton is not brand surface —
      it is a shape standing in for content that has not arrived — so it has
      no `pnl-` twin and no second definition to keep in sync.
@@ -793,15 +806,312 @@
      Reduced motion is handled by the kill switch in the base layer above —
      it drops the iteration count to 1, and since the keyframes only dim
      from the base style, the block settles back to a plain static fill. */
-    .skel {
-        background-color: var(--color-linen-deep);
-        border-radius: var(--radius-xs);
-        animation: skel-pulse 1.6s var(--ease-swift) infinite;
-    }
+  .skel {
+    background-color: var(--color-linen-deep);
+    border-radius: var(--radius-xs);
+    animation: skel-pulse 1.6s var(--ease-swift) infinite;
+  }
 }
 
 @keyframes skel-pulse {
-    50% {
-        opacity: 0.5;
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* ==================================================================
+   PUBLIC SITE — COLOUR BANDS, ARCHES & TEXTURE (phase 10)
+
+   Phase 6 built the brochure as one continuous linen sheet with
+   hairlines between sections. Read end to end that is very quiet — the
+   whole page is one value, and nothing tells you that you have moved
+   from "what we have" to "why us" except a 1px rule.
+
+   Phase 10 keeps every phase 6 primitive and adds rhythm *underneath*
+   them: the page is now a stack of full-bleed colour fields. Ink at the
+   top and bottom, warm and cool alternating between, so scrolling feels
+   like turning pages rather than falling down a single sheet.
+
+   Three things here are load-bearing rather than decorative.
+
+   1. A band REBINDS `--color-ink-mute` and `--color-line` rather than
+      overriding utilities one by one. `text-ink-mute` compiles to
+      `color: var(--color-ink-mute)`, so rebinding the variable on the
+      band fixes every descendant at once — including markers, captions
+      and hairlines nobody remembered to check. This is contrast, not
+      taste: #66727B is 4.62:1 on linen (already the tightest value in
+      the system) and drops to 4.01:1 on the sky band and 4.05:1 on
+      sand, both under the 4.5 body minimum. The rebound #5B666E is
+      4.81:1 and 4.86:1 on those two grounds.
+
+   2. `--color-brand` NEVER appears on an ink band. It is 2.6:1 there.
+      `.on-ink` is what routes links and hovers to `--color-brand-on-ink`
+      (5.29:1 on the band ground) so a page author cannot reach for the
+      wrong one by habit.
+
+   3. Still NO GRADIENTS. The bands are flat fills; depth comes from the
+      woven SVG texture below and from parallax, not from a ramp. The
+      same rule that has governed this file since phase 0.
+================================================================== */
+
+@layer components {
+  /* ---------------- bands ----------------
+
+     A band is a full-bleed colour field with the editorial gutter
+     (`.shell`) inside it. It is a block-level child of <main>, so it is
+     already the viewport's width — no negative-margin trick, which is
+     what breaks horizontally on a page that ever gains a scrollbar.
+
+     `isolation: isolate` gives each band its own stacking context so the
+     texture pseudo-element below (z-index: -1) sits behind that band's
+     content and in front of that band's own background, instead of
+     falling through to the body. */
+  .band {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .band-linen {
+    background-color: var(--color-linen);
+  }
+
+  .band-paper {
+    background-color: var(--color-paper);
+  }
+
+  /* Warm band. See note 1 above for why the two tokens are rebound. */
+  .band-sand {
+    background-color: var(--color-sand);
+    --color-ink-mute: #5b666e;
+    --color-line: #e2d5c8;
+    --color-line-strong: #cbb9a8;
+  }
+
+  /* Cool band, the sand band's opposite number. */
+  .band-sky {
+    background-color: var(--color-sky-band);
+    --color-ink-mute: #5b666e;
+    --color-line: #c5d8e5;
+    --color-line-strong: #a8c2d4;
+  }
+
+  .band-ink {
+    background-color: var(--color-ink-band);
+    color: var(--color-linen);
+  }
+
+  /* ---------------- type on a dark ground ----------------
+
+     `.on-ink` REBINDS the ink/line/brand tokens instead of overriding
+     utilities one by one. Every Tailwind colour utility in this system
+     compiles to `color: var(--color-…)`, so rebinding on the band makes
+     `text-ink`, `text-ink-soft`, `border-line`, `divide-line`,
+     `hover:text-brand` and the base-layer `:focus-visible` ring all
+     resolve to their dark-ground values with no class changes at the
+     call site. That is the difference between converting the header and
+     the footer in two lines each and auditing ninety utilities.
+
+     It also closes the trap phase 6 documented: `--color-brand` is
+     2.6:1 on charcoal, so inside a dark band it simply IS
+     `--color-brand-on-ink` (5.29:1 on this ground) and a page author
+     cannot reach for the wrong one by habit.
+
+     Measured on --color-ink-band: ink-soft 10.5:1, ink-mute 6.9:1,
+     brand 5.29:1, linen 16.5:1, field 3.47:1 (control boundary, needs
+     3:1). All pass.
+
+     ⚠ Because `--color-ink` is rebound here, any rule INSIDE this block
+     that wants real charcoal must write the hex. `var(--color-ink)`
+     would resolve to linen and paint linen on linen. */
+  .on-ink {
+    color: var(--color-linen);
+
+    --color-ink: var(--color-linen);
+    --color-ink-soft: #c3c9cd;
+    --color-ink-mute: #9aa3a9;
+    --color-line: rgb(255 255 255 / 0.14);
+    --color-line-strong: rgb(255 255 255 / 0.22);
+    --color-field: rgb(255 255 255 / 0.38);
+    --color-brand: var(--color-brand-on-ink);
+  }
+
+  .on-ink h1,
+  .on-ink h2,
+  .on-ink h3,
+  .on-ink h4 {
+    color: var(--color-linen);
+  }
+
+  /* The inverted button pair. `.btn-line` needs no override at all — it
+     reads `--color-field` and `--color-ink`, both rebound above. The
+     solid one does, because its foreground must be real charcoal, and
+     see the warning above for why that is a literal. */
+  .on-ink .btn-solid {
+    background-color: var(--color-linen);
+    color: #1a1d20;
+  }
+
+  .on-ink .btn-solid:hover {
+    background-color: var(--color-brand-on-ink);
+    color: #1a1d20;
+  }
+
+  .on-ink .btn-line:hover {
+    border-color: var(--color-linen);
+    background-color: rgb(255 255 255 / 0.08);
+  }
+
+  .on-ink .link-quiet:hover {
+    text-decoration-color: var(--color-brand-on-ink);
+  }
+
+  /* ---------------- arch frames ----------------
+
+     The one shape concession in the system: a dome on top, the usual
+     4px at the foot. It is what keeps a column of 4:5 photographs from
+     reading as a contact sheet, and it is confined to feature frames —
+     buttons, cards, chips and inputs all stay at 2–8px.
+
+     Written as `horizontal / vertical` radii so the dome keeps its shape
+     across aspect ratios instead of turning into a circle on a square. */
+  .arch {
+    border-radius: 50% 50% var(--radius-sm) var(--radius-sm) /
+      34% 34% var(--radius-sm) var(--radius-sm);
+  }
+
+  /* Shallower dome, for wide frames where a 34% rise eats the subject. */
+  .arch-soft {
+    border-radius: 50% 50% var(--radius-sm) var(--radius-sm) /
+      16% 16% var(--radius-sm) var(--radius-sm);
+  }
+
+  /* ---------------- woven texture ----------------
+
+     A nest is woven, so the texture is a weave: two hairline diagonals
+     tiled at 24px. Flat colour at band scale looks synthetic and the
+     obvious fix — a gradient wash — is the one thing this file has never
+     allowed. An SVG tile costs one cached data URI and no repaint.
+
+     Behind content (`z-index: -1`) inside the band's own stacking
+     context, and `pointer-events: none` so it never eats a tap. */
+  .weave::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.55;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Cpath d='M0 24L24 0M-6 6L6 -6M18 30L30 18' stroke='%23000' stroke-opacity='0.055' stroke-width='1' fill='none'/%3E%3C/svg%3E");
+  }
+
+  .on-ink.weave::before,
+  .on-ink .weave::before {
+    opacity: 1;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Cpath d='M0 24L24 0M-6 6L6 -6M18 30L30 18' stroke='%23fff' stroke-opacity='0.045' stroke-width='1' fill='none'/%3E%3C/svg%3E");
+  }
+
+  /* ---------------- sticker seal ----------------
+
+     The hand-applied counterweight to an otherwise typeset page: a
+     stamped circle that sits *on* a photograph at an angle, the way a
+     price sticker does. Not an eyebrow badge — it never labels a
+     heading, it only ever lands on an image. */
+  .sticker {
+    display: grid;
+    place-content: center;
+    place-items: center;
+    text-align: center;
+    border-radius: var(--radius-pill);
+    background-color: var(--color-clay);
+    color: var(--color-linen);
+    font-size: 0.6875rem;
+    line-height: 1.35;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    box-shadow: var(--shadow-lift);
+  }
+
+  .sticker-leaf {
+    background-color: var(--color-leaf);
+  }
+
+  /* ---------------- ticker ----------------
+
+     The strip of repeating claims between two bands. The track holds the
+     list twice and travels exactly -50%, so the seam lands where the
+     copy repeats and the loop is invisible.
+
+     Pauses on hover — a line of moving text that cannot be stopped is a
+     WCAG 2.2.2 failure once it runs past five seconds, and this one runs
+     forever. Under `prefers-reduced-motion` the animation is removed by
+     NAME rather than duration: the global kill switch at the top of this
+     file forces `animation-duration: 0.01ms !important`, which on a
+     translating track would not stop it — it would teleport it to -50%
+     and leave the strip visibly half-empty.
+
+     The `linear-gradient` below is the file's only one and it is a MASK,
+     not paint: it fades the track's two cut edges to transparent so the
+     strip does not appear to start and stop at the viewport border. The
+     no-gradient rule is about colour ramps used as fill; nothing here is
+     painted with it. Do not read this as permission for a background. */
+  .ticker {
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      transparent,
+      #000 6%,
+      #000 94%,
+      transparent
+    );
+    mask-image: linear-gradient(
+      90deg,
+      transparent,
+      #000 6%,
+      #000 94%,
+      transparent
+    );
+  }
+
+  .ticker-track {
+    display: flex;
+    width: max-content;
+    animation: ticker-run 42s linear infinite;
+  }
+
+  .ticker:hover .ticker-track,
+  .ticker:focus-within .ticker-track {
+    animation-play-state: paused;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ticker-track {
+      animation: none;
     }
+  }
+
+  /* ---------------- idle float ----------------
+
+     For the sticker and the small decorative marks only. 0% and 100% are
+     left implicit so the element's resting state IS the base style: when
+     the global kill switch clamps this to a single 0.01ms iteration it
+     settles back where it started instead of freezing mid-travel. */
+  .float-y {
+    animation: float-y 7s var(--ease-swift) infinite;
+  }
+
+  .float-y-slow {
+    animation: float-y 11s var(--ease-swift) infinite;
+  }
+}
+
+@keyframes ticker-run {
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes float-y {
+  50% {
+    transform: translate3d(0, -10px, 0);
+  }
 }

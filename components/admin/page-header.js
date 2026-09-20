@@ -9,26 +9,14 @@ import { ChevronRight } from "lucide-react";
  * give you the way back. So it renders as a breadcrumb instead — a link when
  * `eyebrowHref` is set, plain text when it is not.
  */
-export default function PageHeader({
-    eyebrow,
-    eyebrowHref,
-    title,
-    description,
-    actions,
-}) {
+export default function PageHeader({ eyebrow, eyebrowHref, title, description, actions }) {
     return (
         <div className="flex flex-wrap items-start justify-between gap-x-6 gap-y-4 border-b border-line pb-5">
             <div className="min-w-0 max-w-2xl">
                 {eyebrow ? (
-                    <nav
-                        aria-label="পথ"
-                        className="flex items-center gap-1 text-xs text-ink-mute"
-                    >
+                    <nav aria-label="পথ" className="flex items-center gap-1 text-xs text-ink-mute">
                         {eyebrowHref ? (
-                            <Link
-                                href={eyebrowHref}
-                                className="transition-colors hover:text-brand"
-                            >
+                            <Link href={eyebrowHref} className="transition-colors hover:text-brand">
                                 {eyebrow}
                             </Link>
                         ) : (
@@ -42,15 +30,11 @@ export default function PageHeader({
                 <h1 className="pnl-title mt-1.5 truncate">{title}</h1>
 
                 {description ? (
-                    <p className="mt-1 text-sm leading-relaxed text-ink-mute">
-                        {description}
-                    </p>
+                    <p className="mt-1 text-sm leading-relaxed text-ink-mute">{description}</p>
                 ) : null}
             </div>
 
-            {actions ? (
-                <div className="flex flex-wrap items-center gap-2">{actions}</div>
-            ) : null}
+            {actions ? <div className="flex flex-wrap items-center gap-2">{actions}</div> : null}
         </div>
     );
 }

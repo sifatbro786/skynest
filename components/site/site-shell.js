@@ -46,10 +46,7 @@ export default function SiteShell({
             <SiteFooter reserveActionBar={actionBar} />
 
             {actionBar ? (
-                <MobileActionBar
-                    whatsappMessage={whatsappMessage}
-                    showVisit={showVisit}
-                />
+                <MobileActionBar whatsappMessage={whatsappMessage} showVisit={showVisit} />
             ) : null}
         </>
     );

@@ -27,8 +27,7 @@ import { site, telLink, whatsappLink } from "@/lib/site";
  */
 export default function MobileActionBar({ whatsappMessage, showVisit = true }) {
     const message =
-        whatsappMessage ||
-        `আসসালামু আলাইকুম। ${site.name}-এর কালেকশন সম্পর্কে জানতে চাই।`;
+        whatsappMessage || `আসসালামু আলাইকুম। ${site.name}-এর কালেকশন সম্পর্কে জানতে চাই।`;
 
     return (
         <div className="action-bar lg:hidden" role="group" aria-label="দ্রুত যোগাযোগ">

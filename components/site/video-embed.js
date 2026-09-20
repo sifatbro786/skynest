@@ -53,7 +53,7 @@ export default function VideoEmbed({ url, title, className }) {
         video.kind === "youtube"
             ? `https://www.youtube-nocookie.com/embed/${encodeURIComponent(video.id)}?rel=0`
             : `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(
-                  video.href
+                  video.href,
               )}&show_text=false`;
 
     return (

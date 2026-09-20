@@ -32,9 +32,7 @@ export function CardHead({ title, hint, actions, className }) {
                 <h2 className="pnl-h2">{title}</h2>
                 {hint ? <p className="pnl-hint mt-0.5">{hint}</p> : null}
             </div>
-            {actions ? (
-                <div className="flex flex-wrap items-center gap-2">{actions}</div>
-            ) : null}
+            {actions ? <div className="flex flex-wrap items-center gap-2">{actions}</div> : null}
         </header>
     );
 }
@@ -116,7 +114,7 @@ export function Checkbox({ label, hint, className, ...rest }) {
         <label
             className={cn(
                 "flex cursor-pointer items-start gap-2.5 text-sm text-ink-soft",
-                className
+                className,
             )}
         >
             <input type="checkbox" className="pnl-check mt-0.5" {...rest} />
@@ -143,7 +141,7 @@ export function Button({ tone = "ghost", size, className, as, href, ...rest }) {
         "pnl-btn",
         TONE[tone] ?? TONE.ghost,
         size === "sm" && "pnl-btn-sm",
-        className
+        className,
     );
 
     if (href) {
@@ -169,7 +167,7 @@ export function Alert({ tone = "error", className, children }) {
             className={cn(
                 "rounded-sm border px-3.5 py-2.5 text-sm",
                 tones[tone] ?? tones.error,
-                className
+                className,
             )}
         >
             {children}
@@ -186,13 +184,11 @@ export function EmptyState({ title, hint, action, className }) {
         <div
             className={cn(
                 "rounded-md border border-dashed border-line-strong bg-paper px-6 py-10 text-center",
-                className
+                className,
             )}
         >
             <p className="text-sm font-medium text-ink">{title}</p>
-            {hint ? (
-                <p className="mx-auto mt-1.5 max-w-md text-sm text-ink-mute">{hint}</p>
-            ) : null}
+            {hint ? <p className="mx-auto mt-1.5 max-w-md text-sm text-ink-mute">{hint}</p> : null}
             {action ? <div className="mt-5">{action}</div> : null}
         </div>
     );
@@ -215,10 +211,7 @@ export function Pagination({ page, pages, hrefFor, className }) {
     }
 
     return (
-        <nav
-            aria-label="পৃষ্ঠা"
-            className={cn("flex flex-wrap items-center gap-1", className)}
-        >
+        <nav aria-label="পৃষ্ঠা" className={cn("flex flex-wrap items-center gap-1", className)}>
             {window.map((p, index) => (
                 <span key={p} className="flex items-center gap-1">
                     {index > 0 && p - window[index - 1] > 1 ? (
@@ -231,7 +224,7 @@ export function Pagination({ page, pages, hrefFor, className }) {
                         aria-current={p === page ? "page" : undefined}
                         className={cn(
                             "pnl-btn pnl-btn-sm pnl-num min-w-8 justify-center",
-                            p === page ? "pnl-btn-primary" : "pnl-btn-ghost"
+                            p === page ? "pnl-btn-primary" : "pnl-btn-ghost",
                         )}
                     >
                         {p}

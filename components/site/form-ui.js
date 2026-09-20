@@ -24,9 +24,7 @@ export const ALERT = {
 export function inputCls(hasError) {
     return cn(
         "h-11 w-full rounded-xs border bg-paper px-3 text-sm text-ink placeholder:text-ink-mute/70 focus:outline-none",
-        hasError
-            ? "border-[#b4573f] focus:border-[#a4402a]"
-            : "border-field focus:border-brand"
+        hasError ? "border-[#b4573f] focus:border-[#a4402a]" : "border-field focus:border-brand",
     );
 }
 
@@ -81,7 +79,7 @@ export function FormErrorSummary({ ref, error, fields = {}, prefix, className })
             role="alert"
             className={cn(
                 "rounded-sm border border-[#d9b6aa] bg-[#f7ece8] px-4 py-3 focus:outline-2 focus:outline-offset-2 focus:outline-[#a4402a]",
-                className
+                className,
             )}
         >
             <p className="text-sm font-medium text-[#7d3220]">

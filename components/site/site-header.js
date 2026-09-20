@@ -25,6 +25,21 @@ const NAV = [
  * centred-logo-with-nav-either-side arrangement, and it is also the layout
  * that forces a Bangla wordmark to compete with its own nav for space.
  *
+ * Phase 10 put it on ink. On the homepage that is the same ground as the
+ * hero directly below, so the two merge into one dark block — the page opens
+ * with a statement rather than with a chrome bar sitting on top of one. On
+ * every other page it bookends with the footer, which is the same ground.
+ *
+ * The colour work is all in `.on-ink` (globals.css): it rebinds `--color-ink`,
+ * `--color-ink-soft`, `--color-line`, `--color-field` and `--color-brand`, so
+ * the utilities below are the light-ground ones and resolve to their dark
+ * values automatically. Two consequences worth knowing before editing:
+ *
+ *  · `text-brand` here IS `--color-brand-on-ink`. Do not "fix" it — the raw
+ *    brand blue is 2.6:1 on this ground.
+ *  · `bg-ink` would resolve to LINEN inside this component. The overlay scrim
+ *    below therefore uses `bg-black/60`, which is not a style choice.
+ *
  * The mobile menu is a real overlay with Escape, a close button and a scroll
  * lock, not a disclosure that pushes the page down.
  */
@@ -55,7 +70,7 @@ export default function SiteHeader() {
     const isActive = (href) => pathname === href || pathname.startsWith(`${href}/`);
 
     return (
-        <header className="sticky top-0 z-40 border-b border-line bg-paper">
+        <header className="on-ink sticky top-0 z-40 border-b border-white/10 bg-ink-band">
             <div className="shell flex h-[var(--header-h)] items-center justify-between gap-6">
                 <Link
                     href="/"
@@ -71,7 +86,7 @@ export default function SiteHeader() {
                         className="h-9 w-9 shrink-0 object-contain lg:h-10 lg:w-10"
                     />
                     <span className="min-w-0 leading-tight">
-                        <span className="block truncate font-display text-[15px] text-ink lg:text-base">
+                        <span className="block truncate font-display text-[15px] text-linen lg:text-base">
                             {site.name}
                         </span>
                         <span className="text-micro hidden uppercase text-ink-mute sm:block">
@@ -92,8 +107,8 @@ export default function SiteHeader() {
                                 className={cn(
                                     "border-b py-1 text-sm transition-colors",
                                     active
-                                        ? "border-brand text-ink"
-                                        : "border-transparent text-ink-soft hover:border-line-strong hover:text-ink"
+                                        ? "border-brand text-linen"
+                                        : "border-transparent text-linen/70 hover:border-white/30 hover:text-linen"
                                 )}
                             >
                                 {item.label}
@@ -112,7 +127,7 @@ export default function SiteHeader() {
                     <a
                         href={telLink()}
                         aria-label="ফোন করুন"
-                        className="inline-flex h-11 w-11 items-center justify-center rounded-xs text-ink-soft transition-colors hover:bg-linen-deep hover:text-ink"
+                        className="inline-flex h-11 w-11 items-center justify-center rounded-xs text-linen/75 transition-colors hover:bg-white/10 hover:text-linen"
                     >
                         <Phone size={18} strokeWidth={1.75} aria-hidden />
                     </a>
@@ -121,7 +136,7 @@ export default function SiteHeader() {
                         onClick={() => setOpen(true)}
                         aria-expanded={open}
                         aria-controls="site-menu"
-                        className="inline-flex h-11 w-11 items-center justify-center rounded-xs text-ink-soft transition-colors hover:bg-linen-deep hover:text-ink"
+                        className="inline-flex h-11 w-11 items-center justify-center rounded-xs text-linen/75 transition-colors hover:bg-white/10 hover:text-linen"
                     >
                         <Menu size={20} strokeWidth={1.75} aria-hidden />
                         <span className="sr-only">মেনু খুলুন</span>
@@ -143,23 +158,23 @@ export default function SiteHeader() {
                             type="button"
                             aria-label="মেনু বন্ধ করুন"
                             onClick={() => setOpen(false)}
-                            className="absolute inset-0 bg-ink/40"
+                            className="absolute inset-0 bg-black/60"
                         />
 
                         <motion.div
                             id="site-menu"
                             variants={panelVariants}
-                            className="absolute inset-x-0 top-0 border-b border-line bg-paper pb-8"
+                            className="absolute inset-x-0 top-0 border-b border-white/10 bg-ink-band pb-8"
                         >
                             <div className="shell flex h-[var(--header-h)] items-center justify-between">
-                                <span className="font-display text-[15px] text-ink">
+                                <span className="font-display text-[15px] text-linen">
                                     {site.name}
                                 </span>
                                 <button
                                     type="button"
                                     onClick={() => setOpen(false)}
                                     autoFocus
-                                    className="inline-flex h-11 w-11 items-center justify-center rounded-xs text-ink-soft transition-colors hover:bg-linen-deep hover:text-ink"
+                                    className="inline-flex h-11 w-11 items-center justify-center rounded-xs text-linen/75 transition-colors hover:bg-white/10 hover:text-linen"
                                 >
                                     <X size={20} strokeWidth={1.75} aria-hidden />
                                     <span className="sr-only">মেনু বন্ধ করুন</span>
@@ -167,7 +182,7 @@ export default function SiteHeader() {
                             </div>
 
                             <nav aria-label="প্রধান মেনু" className="shell">
-                                <ul className="divide-y divide-line border-t border-line">
+                                <ul className="divide-y divide-white/10 border-t border-white/10">
                                     {NAV.map((item) => {
                                         const active = isActive(item.href);
                                         return (
@@ -177,7 +192,7 @@ export default function SiteHeader() {
                                                     aria-current={active ? "page" : undefined}
                                                     className={cn(
                                                         "flex min-h-14 items-center font-display text-title transition-colors",
-                                                        active ? "text-brand" : "text-ink"
+                                                        active ? "text-brand" : "text-linen"
                                                     )}
                                                 >
                                                     {item.label}

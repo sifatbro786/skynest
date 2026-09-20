@@ -53,7 +53,7 @@ export default function AnimalGrid({
             <div
                 className={cn(
                     "rounded-md border border-dashed border-line-strong bg-paper px-6 py-16 text-center",
-                    className
+                    className,
                 )}
             >
                 <p className="font-display text-title text-ink">
@@ -65,9 +65,7 @@ export default function AnimalGrid({
                         : "খুব শিগগিরই নতুন কালেকশন যোগ হবে। যোগাযোগ করলে আগেভাগে জানিয়ে দেওয়া হবে।"}
                 </p>
                 {emptyAction ? (
-                    <div className="mt-7 flex flex-wrap justify-center gap-3">
-                        {emptyAction}
-                    </div>
+                    <div className="mt-7 flex flex-wrap justify-center gap-3">{emptyAction}</div>
                 ) : null}
             </div>
         );

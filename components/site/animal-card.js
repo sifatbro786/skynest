@@ -22,6 +22,15 @@ const STATUS = {
  *    are all visible at rest, because on a touch screen hover never happens.
  *  · Status is a dot *plus a word*. Colour alone is not an indicator.
  *
+ * Phase 10 added two hover states and no third. The card rises 6px and the
+ * photograph scales 4% inside its own clip — transform only, both of them, so
+ * a nine-card grid costs no layout on mouse move. The 700ms zoom against the
+ * 240ms lift is deliberate: matched durations read as one canned effect,
+ * offset ones read as the picture having depth behind the card.
+ *
+ * Nothing was ADDED to hover. Everything the card says at rest it still says
+ * at rest — see the second point above, which touch screens depend on.
+ *
  * `sizes` is passed down explicitly so the grid's breakpoints and the image
  * budget stay in one place.
  */
@@ -47,7 +56,7 @@ export default function AnimalCard({
         : formatPriceRange(animal.price?.min, animal.price?.max, { bangla: true });
 
     return (
-        <StaggerItem as="li" className={cn("min-w-0", className)}>
+        <StaggerItem as="li" lift={6} className={cn("min-w-0", className)}>
             <Link href={`/showcase/${animal.slug}`} className="group block">
                 <Frame
                     src={animal.cover?.path}
@@ -57,7 +66,7 @@ export default function AnimalCard({
                     blur={animal.cover?.blur}
                     sizes={sizes}
                     priority={priority}
-                    className="transition-opacity duration-200 group-hover:opacity-90"
+                    imgClassName="transition-transform duration-700 ease-[var(--ease-editorial)] group-hover:scale-[1.04]"
                 />
 
                 <div className="mt-4">

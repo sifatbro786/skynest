@@ -1,6 +1,13 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { useRef } from "react";
+import {
+    motion,
+    useReducedMotion,
+    useScroll,
+    useSpring,
+    useTransform,
+} from "framer-motion";
 
 /**
  * The public site's motion vocabulary.
@@ -133,8 +140,26 @@ export function Stagger({
     );
 }
 
-/** A direct child of `Stagger`. Inherits the parent's orchestration. */
-export function StaggerItem({ as = "div", y = 16, className, children, ...rest }) {
+/**
+ * A direct child of `Stagger`. Inherits the parent's orchestration.
+ *
+ * `lift` raises the item by that many pixels on hover. It is a prop rather
+ * than a `whileHover` the caller spreads through `...rest`, because under
+ * reduced motion this component renders a plain `<li>` and React would then
+ * forward `whileHover={{...}}` to the DOM as an unknown attribute — a console
+ * warning, and an object stringified into markup. Taking it as a named prop
+ * keeps the reduced-motion branch clean.
+ *
+ * @param {number} [props.lift=0] px of hover rise. 0 disables it.
+ */
+export function StaggerItem({
+    as = "div",
+    y = 16,
+    lift = 0,
+    className,
+    children,
+    ...rest
+}) {
     const still = useReducedMotion();
     const Tag = motion[as] ?? motion.div;
 
@@ -158,6 +183,7 @@ export function StaggerItem({ as = "div", y = 16, className, children, ...rest }
                     transition: { duration: DUR.base, ease: EASE_ENTER },
                 },
             }}
+            whileHover={lift ? { y: -lift } : undefined}
             {...rest}
         >
             {children}
@@ -202,5 +228,153 @@ export const panelVariants = {
         transition: { duration: DUR.base, ease: EASE_ENTER },
     },
 };
+
+/* ------------------------------------------------------------------ */
+/* Parallax (phase 10)                                                 */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Scroll-linked vertical drift.
+ *
+ * Two elements, not one, and that split is the whole trick. `useScroll`
+ * measures its target with `getBoundingClientRect`, which already includes
+ * any transform on that element — so putting the ref and the `y` on the same
+ * node feeds the transform back into the measurement and the element drifts
+ * away under its own motion. The outer div is what gets measured and never
+ * moves; the inner one is what moves and is never measured.
+ *
+ * `offset: ["start end", "end start"]` maps progress across the element's
+ * whole pass through the viewport: 0 as its top touches the bottom edge, 1 as
+ * its bottom leaves the top. So `distance` is the *total* travel, split
+ * either side of centre — the element sits at its laid-out position when it
+ * is centred, which is what keeps captions aligned with their frames.
+ *
+ * The spring is intentionally stiff and heavily damped. A loose spring on a
+ * scroll-linked value keeps integrating after the finger lifts and reads as
+ * the page being slow rather than the image being deep.
+ *
+ * Everything the browser needs to promote the layer is on the inner element,
+ * and it only ever writes `transform` — no top, no margin, so no layout pass
+ * per frame and no CLS.
+ *
+ * @param {number} [props.distance=56] total px of travel, top of pass to
+ *   bottom. Negative inverts it, which is how two frames in one composition
+ *   are made to separate instead of sliding together.
+ * @param {string} [props.className] on the measured wrapper.
+ * @param {string} [props.innerClassName] on the moving element.
+ */
+export function Parallax({
+    distance = 56,
+    className,
+    innerClassName,
+    children,
+    ...rest
+}) {
+    const still = useReducedMotion();
+    const ref = useRef(null);
+
+    const { scrollYProgress } = useScroll({
+        target: ref,
+        offset: ["start end", "end start"],
+    });
+
+    const raw = useTransform(
+        scrollYProgress,
+        [0, 1],
+        [distance / 2, -distance / 2]
+    );
+    const y = useSpring(raw, { stiffness: 140, damping: 30, mass: 0.3 });
+
+    if (still) {
+        return (
+            <div ref={ref} className={className} {...rest}>
+                <div className={innerClassName}>{children}</div>
+            </div>
+        );
+    }
+
+    return (
+        <div ref={ref} className={className} {...rest}>
+            <motion.div style={{ y, willChange: "transform" }} className={innerClassName}>
+                {children}
+            </motion.div>
+        </div>
+    );
+}
+
+/* ------------------------------------------------------------------ */
+/* Headline entrance                                                   */
+/* ------------------------------------------------------------------ */
+
+/**
+ * A display heading that arrives a word at a time.
+ *
+ * Split on SPACES ONLY. Splitting a Bangla string per character breaks
+ * conjuncts (ক্ষ, ন্ত) and orphans matras from the consonant they attach to,
+ * and the result renders as visible garbage rather than as a nice effect.
+ * Word boundaries are safe in both scripts.
+ *
+ * There is also no `overflow: hidden` mask here, which is the usual way this
+ * effect is built. A mask clips the line box, and Bangla puts its ikars and
+ * matras *above* the line and several marks below it — a clip tight enough to
+ * look crisp in Latin decapitates বৈ and চূ. Opacity and translate only.
+ *
+ * `aria-label` carries the whole string and the fragments are hidden, so a
+ * screen reader reads one heading rather than five loose words.
+ *
+ * @param {string} props.text
+ * @param {string} [props.as="h2"]
+ * @param {number} [props.step=0.055] seconds between words
+ */
+export function WordReveal({
+    as: Tag = "h2",
+    text = "",
+    step = 0.055,
+    delay = 0,
+    y = 24,
+    className,
+}) {
+    const still = useReducedMotion();
+    const words = String(text).split(/\s+/).filter(Boolean);
+
+    if (still) {
+        return <Tag className={className}>{text}</Tag>;
+    }
+
+    const MotionTag = motion[Tag] ?? motion.h2;
+
+    return (
+        <MotionTag
+            className={className}
+            aria-label={text}
+            initial="hidden"
+            whileInView="shown"
+            viewport={{ once: true, amount: 0.4 }}
+            variants={{
+                hidden: {},
+                shown: { transition: { staggerChildren: step, delayChildren: delay } },
+            }}
+        >
+            {words.map((word, i) => (
+                <motion.span
+                    key={`${word}-${i}`}
+                    aria-hidden
+                    className="inline-block will-change-transform"
+                    variants={{
+                        hidden: { opacity: 0, y },
+                        shown: {
+                            opacity: 1,
+                            y: 0,
+                            transition: { duration: DUR.slow, ease: EASE_ENTER },
+                        },
+                    }}
+                >
+                    {word}
+                    {i < words.length - 1 ? "\u00A0" : null}
+                </motion.span>
+            ))}
+        </MotionTag>
+    );
+}
 
 export { motion };
