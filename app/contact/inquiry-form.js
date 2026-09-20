@@ -5,6 +5,12 @@ import { Check, LoaderCircle, MessageCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { site, whatsappLink } from "@/lib/site";
 import { Button } from "@/components/site/ui";
+import {
+    Field,
+    FormErrorSummary,
+    Honeypot,
+    inputCls,
+} from "@/components/site/form-ui";
 
 const SLOTS = [
     ["morning", "সকাল"],
@@ -31,9 +37,11 @@ function tomorrow() {
  * Three things here exist because the server does them and the UI has to
  * match:
  *
- *  · `website` is the honeypot. It must be present and empty. It is hidden
- *    from sight *and* from assistive tech, and marked `tabIndex={-1}` so a
- *    keyboard user never lands in it.
+ *  · `website` is the honeypot. It is hidden from sight, from assistive tech
+ *    and from Tab — and it is *read from the DOM* on submit. It used to be
+ *    hard-coded to `""` in the payload, which made it decorative: the body is
+ *    built from React state, so a bot that filled every input still sent an
+ *    empty `website` and sailed through.
  *  · A 429 is a normal outcome, not a crash — the route rate-limits by IP and
  *    by phone/email. It gets its own message and offers WhatsApp instead of
  *    telling the visitor to try again into a wall.
@@ -56,6 +64,7 @@ export default function InquiryForm({ className }) {
     const [sending, setSending] = useState(false);
     const [done, setDone] = useState(false);
     const summaryRef = useRef(null);
+    const potRef = useRef(null);
 
     const set = (patch) => setValues((v) => ({ ...v, ...patch }));
 
@@ -73,7 +82,7 @@ export default function InquiryForm({ className }) {
             phone: values.phone,
             email: values.email,
             message: values.message,
-            website: "", // honeypot: always empty from a real submit
+            website: potRef.current?.value ?? "", // honeypot — read, not assumed
             source: typeof window !== "undefined" ? window.location.pathname : "",
             ...(kind === "visit"
                 ? { visitDate: values.visitDate, visitSlot: values.visitSlot }
@@ -145,8 +154,6 @@ export default function InquiryForm({ className }) {
         );
     }
 
-    const errorList = Object.entries(fields);
-
     return (
         <form onSubmit={submit} noValidate className={className}>
             {/* ---------- kind ---------- */}
@@ -177,30 +184,13 @@ export default function InquiryForm({ className }) {
                 </div>
             </fieldset>
 
-            {/* ---------- error summary ---------- */}
-            {error || errorList.length > 0 ? (
-                <div
-                    ref={summaryRef}
-                    tabIndex={-1}
-                    role="alert"
-                    className="mt-6 rounded-sm border border-[#d9b6aa] bg-[#f7ece8] px-4 py-3 focus:outline-2 focus:outline-offset-2 focus:outline-[#a4402a]"
-                >
-                    <p className="text-sm font-medium text-[#7d3220]">
-                        {error || "কিছু তথ্য ঠিক করতে হবে"}
-                    </p>
-                    {errorList.length > 0 ? (
-                        <ul className="mt-2 space-y-1">
-                            {errorList.map(([field, message]) => (
-                                <li key={field} className="text-xs text-[#7d3220]">
-                                    <a href={`#iq-${field}`} className="underline underline-offset-2">
-                                        {message}
-                                    </a>
-                                </li>
-                            ))}
-                        </ul>
-                    ) : null}
-                </div>
-            ) : null}
+            <FormErrorSummary
+                ref={summaryRef}
+                error={error}
+                fields={fields}
+                prefix="iq"
+                className="mt-6"
+            />
 
             <div className="mt-6 grid gap-5 sm:grid-cols-2">
                 <Field id="iq-name" label="আপনার নাম" error={fields.name} required>
@@ -319,11 +309,7 @@ export default function InquiryForm({ className }) {
                 </Field>
             </div>
 
-            {/* Honeypot. Hidden from sight, from assistive tech, and from Tab. */}
-            <div aria-hidden className="hidden">
-                <label htmlFor="iq-website">Website</label>
-                <input id="iq-website" name="website" tabIndex={-1} autoComplete="off" />
-            </div>
+            <Honeypot ref={potRef} id="iq-website" />
 
             <div className="mt-7 flex flex-wrap items-center gap-4">
                 <button type="submit" disabled={sending} className="btn-solid px-7">
@@ -341,33 +327,5 @@ export default function InquiryForm({ className }) {
                 </p>
             </div>
         </form>
-    );
-}
-
-/* ------------------------------------------------------------------ */
-
-function inputCls(hasError) {
-    return cn(
-        "h-11 w-full rounded-xs border bg-paper px-3 text-sm text-ink placeholder:text-ink-mute/70 focus:outline-none",
-        hasError ? "border-[#b4573f] focus:border-[#a4402a]" : "border-field focus:border-brand"
-    );
-}
-
-function Field({ id, label, hint, error, required, className, children }) {
-    return (
-        <div className={cn("min-w-0", className)}>
-            <label htmlFor={id} className="text-micro block uppercase text-ink-mute">
-                {label}
-                {required ? <span className="text-clay"> *</span> : null}
-            </label>
-            <div className="mt-2">{children}</div>
-            {error ? (
-                <p id={`${id}-err`} className="mt-1.5 text-xs text-[#a4402a]">
-                    {error}
-                </p>
-            ) : hint ? (
-                <p className="mt-1.5 text-xs text-ink-mute">{hint}</p>
-            ) : null}
-        </div>
     );
 }

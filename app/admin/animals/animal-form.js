@@ -56,6 +56,7 @@ function emptyDraft() {
         description: "",
         careNotes: "",
         isFeatured: false,
+        isHero: false,
         isPublished: true,
     };
 }
@@ -81,6 +82,7 @@ function fromAnimal(animal) {
         description: animal.description ?? "",
         careNotes: animal.careNotes ?? "",
         isFeatured: Boolean(animal.isFeatured),
+        isHero: Boolean(animal.isHero),
         isPublished: animal.isPublished !== false,
     };
 }
@@ -510,6 +512,30 @@ export default function AnimalForm({ categories, animal = null }) {
                                     onChange={(e) => set({ isFeatured: e.target.checked })}
                                     label="হোম পেজে ফিচার করুন"
                                 />
+                                <Checkbox
+                                    checked={draft.isHero}
+                                    onChange={(e) => set({ isHero: e.target.checked })}
+                                    label="হোম পেজের হিরোতে বড় ছবি"
+                                />
+
+                                {/* The hero shows exactly two. Saying so here is
+                                    cheaper than letting the owner flag six and
+                                    wonder why four never appear. */}
+                                <p className="text-xs leading-relaxed text-ink-mute">
+                                    হিরোতে দুইটি ছবি দেখানো হয়। দুইয়ের বেশি চিহ্নিত করলে
+                                    সবচেয়ে নতুন দুইটি নেওয়া হবে।
+                                    {draft.isHero && !draft.isPublished ? (
+                                        <span className="mt-1 block text-clay">
+                                            এটি এখন প্রকাশিত নয় — প্রকাশ না করা পর্যন্ত
+                                            হিরোতে আসবে না।
+                                        </span>
+                                    ) : null}
+                                    {draft.isHero && images.length === 0 ? (
+                                        <span className="mt-1 block text-clay">
+                                            ছবি না থাকলে হিরোতে আসবে না।
+                                        </span>
+                                    ) : null}
+                                </p>
 
                                 <div className="flex flex-wrap items-center gap-2 border-t border-line pt-3">
                                     {saveButton()}

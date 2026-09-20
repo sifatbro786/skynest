@@ -10,8 +10,8 @@
         "lint": "eslint",
         "seed": "node --env-file=.env.local scripts/seed.js",
         "create-admin": "node --env-file=.env.local scripts/create-admin.js",
-        "cleanup:uploads": "node --env-file=.env.local scripts/cleanup-uploads.js",
-        "verify-mail": "node --env-file=.env.local scripts/verify-mail.js"
+        "verify-mail": "node --env-file=.env.local scripts/verify-mail.js",
+        "cleanup:uploads": "node --env-file=.env.local scripts/cleanup-uploads.js"
     },
     "dependencies": {
         "bcryptjs": "^3.0.2",

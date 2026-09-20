@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
+import { registerModel } from "./register.js";
 import { uniqueSlug } from "../lib/slug.js";
 
-const { Schema, model, models } = mongoose;
+const { Schema } = mongoose;
 
 export const ANIMAL_STATUS = ["available", "reserved", "sold"];
 export const ANIMAL_GENDER = ["male", "female", "pair", "unknown"];
@@ -75,6 +76,13 @@ const AnimalSchema = new Schema(
         careNotes: { type: String, trim: true, maxlength: 2000, default: "" },
 
         isFeatured: { type: Boolean, default: false },
+        /**
+         * Show this animal in the homepage hero. The hero uses exactly two;
+         * flagging more is harmless (newest two win) and flagging one is
+         * topped up from `isFeatured`, because a lone frame reads as a
+         * missing image rather than a deliberate single.
+         */
+        isHero: { type: Boolean, default: false },
         isPublished: { type: Boolean, default: true },
         publishedAt: { type: Date, default: null },
 
@@ -94,6 +102,9 @@ AnimalSchema.index({ isPublished: 1, category: 1, status: 1, createdAt: -1 });
 
 // Home page featured rail
 AnimalSchema.index({ isPublished: 1, isFeatured: 1, createdAt: -1 });
+
+// Home page hero pair — same shape, its own flag
+AnimalSchema.index({ isPublished: 1, isHero: 1, createdAt: -1 });
 
 // Breed-level filtering
 AnimalSchema.index({ isPublished: 1, subcategory: 1, createdAt: -1 });
@@ -156,4 +167,4 @@ AnimalSchema.pre("validate", async function normalise(next) {
 AnimalSchema.set("toJSON", { virtuals: true });
 AnimalSchema.set("toObject", { virtuals: true });
 
-export default models.Animal || model("Animal", AnimalSchema);
+export default registerModel("Animal", AnimalSchema);

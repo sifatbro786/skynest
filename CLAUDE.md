@@ -89,6 +89,13 @@ the public site. Build admin screens from
 What the panel keeps from the brand: the palette, the 2–8px radii, and the ban
 on gradients and glassmorphism.
 
+Listing screens share one filter shape: a `Card` holding a labelled search box
+and labelled `Select`s, with a "ফিল্টার সরান" button and a `useTransition`
+pending indicator — `animal-filters.js` and `inquiry-filters.js`. Rows of chip
+tabs are not the pattern; the inbox used to have two of them and they cost
+more vertical space than the first result row underneath. Every filter writes
+to the URL and resets `page` to 1.
+
 > **⚠ Never name a class `ad-…`, `ads-…`, `advert…`, `sponsor…` or
 > `banner-ad…`, anywhere in this project.**
 >
@@ -121,6 +128,80 @@ exist purely for this and both have bitten already:
 
 Quick check, pasted into the browser console on any route:
 `[...document.querySelectorAll('main h1,main h2,main h3')].map(h=>h.tagName)`
+
+## Mongoose schemas change nothing until the dev server restarts
+
+`mongoose.models` lives on the mongoose singleton, which survives Next's HMR.
+The usual `models.X || model("X", schema)` guard therefore also means **an
+edited schema is never picked up while the dev server is running** — and
+Mongoose is strict by default, so a field the cached schema has never heard
+of is dropped on `save()` **with no error**. The form posts it, the route
+assigns it, the response looks fine, and the value is gone on reload. Adding
+`isHero` cost exactly one round of that.
+
+`models/register.js` fixes it: in development the old model is deleted and the
+schema recompiled. All four models go through `registerModel(name, schema)` —
+do not go back to the raw `models.X ||` form.
+
+If a new field still does not persist, restart `npm run dev` before debugging
+anything else.
+
+## Section spacing (`components/site/ui.js`)
+
+`cn` is `twMerge`, which resolves Tailwind conflicts **per breakpoint**. A base
+class with an `lg:` variant is therefore NOT overridden by a caller's unprefixed
+or `md:` class — they are different variants, so both survive and the `lg:` one
+wins on desktop.
+
+That is a real bug this project already shipped: `Section` carried
+`lg:pb-24` in its base classes, the homepage hero passed `md:pb-0`, and the
+hero kept 96px of bottom padding that nothing on the page could remove. It
+read as a "huge gap" under the hero and looked like a grid problem.
+
+So: **`Section`'s vertical padding stays symmetric (`py-*` only)**, and a
+caller that wants a different bottom on desktop passes `lg:pb-*` explicitly —
+see `visit-cta.js`, which writes `pb-24 md:pb-24 lg:pb-24` on purpose.
+
+## Homepage composition
+
+`app/page.js` is data only: one `getHomeData()`, the hero-pair selection, and
+four components from `components/site/home/` — `hero`, `featured-animals`,
+`category-rail`, `visit-cta`. Those take plain serialized props and never
+touch Mongo, so they can be reordered or previewed without a connection.
+
+**Which two animals appear in the hero is the owner's choice**, via the
+`isHero` checkbox on the animal form (`models/Animal.js` → validators →
+serializer → form; the PATCH route assigns generically so it needed no
+change). Three rules live in `pickHeroPair()` in `app/page.js`:
+
+- an animal with no cover photo is dropped, so the flag is a request rather
+  than a guarantee — an empty grey box in the most prominent slot on the site
+  is worse than no hero at all;
+- fewer than two flagged tops up from `isFeatured`;
+- the result is always exactly two or exactly zero, because one frame alone
+  reads as a missing image rather than a deliberate single.
+
+## Public forms
+
+Both public forms post to `POST /api/inquiries`, a zod discriminated union on
+`kind`. Build new ones from `components/site/form-ui.js` (`Field`, `inputCls`,
+`FormErrorSummary`, `Honeypot`) rather than restyling inputs per page.
+
+- **The honeypot must be read from the DOM.** `<Honeypot ref={...}/>` plus
+  `website: potRef.current?.value ?? ""` in the payload. Rendering the hidden
+  input and then hard-coding `website: ""` — which is what both forms did
+  originally — makes it decorative: the body is built from React state, so a
+  bot that fills every input still submits an empty `website`.
+- **A 429 is a normal outcome**, not a crash. The route limits by IP (8/hr)
+  and by phone-or-email (3/hr), and returns its own Bangla message. Show it
+  and offer WhatsApp; never "try again" into a wall.
+- **Errors come back as `{field: message}`** keyed by schema field. Render
+  them inline *and* in the focused summary. Any key that is not a field on
+  the form (e.g. `animal`) must be promoted to the top-level message, or the
+  summary renders a link to an anchor that does not exist.
+- `kind: "animal"` is created **only** by the inline form on
+  `/showcase/[slug]`. It sends the animal id; the route snapshots the title
+  into `animalLabel` itself. Never send the label from the client.
 
 ## System pages
 
@@ -211,16 +292,45 @@ not by password length — if you change one of those two, change the other.
   notifications. Without them the app still runs and still saves inquiries —
   `sendMail()` reports `skipped` and the inbox shows the mail as not sent.
 
-## Phase 9 cleanup pass (required before handover)
+## Orphan sweep — status
 
-During the early phases `device_bash` was unavailable on the dev machine, so
-files could not be deleted — a few things were replaced with component-based
-alternatives instead of removing the superseded file (the admin chrome is a
-component rather than a route-group layout for exactly this reason).
+Done in phase 9. `public/` holds only `logo.png` and `uploads/`; the
+`create-next-app` SVGs and the stray "Claude outputs" folder are gone, and
+`README.md` is written.
 
-Before handover, sweep for orphans: superseded components, unused route
-handlers, leftover `create-next-app` assets in `public/` (`next.svg`,
-`vercel.svg`, `file.svg`, `globe.svg`, `window.svg`), and the empty
-`README.md`. **Always run a fresh `grep -r` for the identifier before
-deleting anything** — a file being old is not evidence that nothing imports
-it.
+One thing is still open and is a judgement call, not a cleanup:
+`/public/uploads/*` was left **commented out** in `.gitignore`, so every
+photograph added through the admin had been committing to git as a binary
+blob. The rule is now active, but gitignore does not untrack what is already
+tracked — run this once when convenient:
+
+```bash
+git rm -r --cached public/uploads
+```
+
+The files on disk are untouched; only git stops following them. Old blobs
+stay in history, which is fine unless the repo has grown enough to matter.
+
+The old note about `device_bash` being unavailable no longer applies, but the
+rule it ended with still does: **always `grep -r` for an identifier before
+deleting the file that defines it.** A file being old is not evidence that
+nothing imports it.
+
+## SEO surfaces (phase 9)
+
+- `app/sitemap.js` builds from the same filters the pages use (`isPublished`,
+  `isActive`), so it cannot advertise a URL that 404s. `lastModified` comes
+  from the document, never `new Date()`.
+- `app/robots.js` blocks **everything** unless `NODE_ENV=production` and
+  `NEXT_PUBLIC_SITE_URL` is not localhost. A staging copy competing with the
+  live site for the same Bangla queries is easier to prevent than to
+  de-index. If robots.txt says `Disallow: /` on the real server, that env var
+  is wrong.
+- `lib/jsonld.js` — `PetStore` once on the homepage (everything else refers
+  to it by `@id`), `Product` + `Offer` per animal, `BreadcrumbList` built from
+  the trail the page actually renders. No `aggregateRating`, no `review`, and
+  no `price` on a "দাম জানতে যোগাযোগ" listing: markup that disagrees with the
+  page is worse than no rich result.
+- Security headers are in `next.config.mjs`, with the CSP trade-offs written
+  out above the policy. HSTS is deliberately nginx's job — see
+  `docs/DEPLOY.md`.

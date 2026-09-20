@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
+import { registerModel } from "./register.js";
 
-const { Schema, model, models } = mongoose;
+const { Schema } = mongoose;
 
 export const ADMIN_ROLES = ["owner", "editor"];
 
@@ -42,4 +43,4 @@ AdminUserSchema.methods.isLocked = function isLocked() {
     return Boolean(this.lockedUntil && this.lockedUntil.getTime() > Date.now());
 };
 
-export default models.AdminUser || model("AdminUser", AdminUserSchema);
+export default registerModel("AdminUser", AdminUserSchema);

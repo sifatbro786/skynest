@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { redirect } from "next/navigation";
-import { ImageOff, Pencil, Plus, Star } from "lucide-react";
+import { ImageOff, LayoutTemplate, Pencil, Plus, Star } from "lucide-react";
 
 import { requireAdmin } from "@/lib/guard";
 import { dbConnect } from "@/lib/db";
@@ -189,6 +189,14 @@ export default async function AnimalsPage({ searchParams }) {
                                                         fill="currentColor"
                                                         aria-label="ফিচার্ড"
                                                         className="shrink-0 text-clay"
+                                                    />
+                                                ) : null}
+                                                {animal.isHero ? (
+                                                    <LayoutTemplate
+                                                        size={13}
+                                                        strokeWidth={2}
+                                                        aria-label="হিরোতে আছে"
+                                                        className="shrink-0 text-brand"
                                                     />
                                                 ) : null}
                                             </Link>

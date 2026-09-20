@@ -5,6 +5,7 @@ import { ChevronRight } from "lucide-react";
 import { dbConnect } from "@/lib/db";
 import { Animal, Category } from "@/models/index.js";
 import { serializeAnimal, serializeCategory } from "@/lib/serialize";
+import { JsonLd, breadcrumbLd } from "@/lib/jsonld";
 import { listQuerySchema } from "@/lib/validators";
 import { buildPublicAnimalFilter, publicSortFor } from "@/lib/animal-query";
 import { site } from "@/lib/site";
@@ -92,10 +93,19 @@ export default async function CategoryPage({ params, searchParams }) {
             ? `/category/${category.slug}?page=${page}`
             : `/category/${category.slug}`;
 
+    // Mirrors the visible breadcrumb below, including the optional parent.
+    const trail = [
+        ["কালেকশন", "/showcase"],
+        ...(parent ? [[parent.name, `/category/${parent.slug}`]] : []),
+        [category.name, `/category/${category.slug}`],
+    ];
+
     return (
         <SiteShell
             whatsappMessage={`আসসালামু আলাইকুম। ${category.name} কালেকশন সম্পর্কে জানতে চাই।`}
         >
+            <JsonLd data={breadcrumbLd(trail)} />
+
             <Section>
                 <nav
                     aria-label="পথ"

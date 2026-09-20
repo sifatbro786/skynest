@@ -21,6 +21,14 @@ import { cn, toBanglaDigits } from "@/lib/utils";
  *
  * `.shell` is asymmetric by design (see globals.css) — the content reads as a
  * column, not a centred block, which is the PRD's first layout rule.
+ *
+ * ⚠ Keep the vertical padding SYMMETRIC (`py-*` only, never a lone `lg:pb-*`).
+ * `cn` is `twMerge`, which resolves conflicts per breakpoint: a base
+ * `lg:pb-24` here is not overridden by a caller's `pb-10` or `md:pb-0`,
+ * because those are different variants. That is how the homepage ended up
+ * with 96px of unkillable padding under the hero — the caller had set
+ * `md:pb-0` and reasonably assumed it had won. A caller that wants a
+ * different bottom on desktop must now pass `lg:pb-*`, and it will work.
  */
 export function Section({ id, as = "section", tight, className, children }) {
     const Tag = as;
@@ -29,7 +37,7 @@ export function Section({ id, as = "section", tight, className, children }) {
             id={id}
             className={cn(
                 "shell clears-header",
-                tight ? "py-12 md:py-16" : "py-16 md:py-24 lg:py-28",
+                tight ? "py-5 md:py-10" : "py-5 md:py-10 lg:py-14",
                 className
             )}
         >

@@ -5,6 +5,7 @@ import { CalendarDays, ChevronRight, MessageCircle, Phone } from "lucide-react";
 import { dbConnect } from "@/lib/db";
 import { Animal } from "@/models/index.js";
 import { serializeAnimal } from "@/lib/serialize";
+import { JsonLd, animalLd, breadcrumbLd } from "@/lib/jsonld";
 import { formatAge, formatPriceRange, truncate } from "@/lib/utils";
 import { site, telLink, whatsappLink } from "@/lib/site";
 import SiteShell from "@/components/site/site-shell";
@@ -13,6 +14,7 @@ import { Reveal, Stagger } from "@/components/site/motion";
 import AnimalCard from "@/components/site/animal-card";
 import VideoEmbed from "@/components/site/video-embed";
 import Gallery from "./gallery";
+import AnimalInquiryForm from "./animal-inquiry-form";
 
 export const dynamic = "force-dynamic";
 
@@ -113,8 +115,20 @@ export default async function AnimalPage({ params }) {
 
     const waMessage = `আসসালামু আলাইকুম। "${animal.title}" (${animal.breed}) নিয়ে জানতে চাই।`;
 
+    // Built from the trail the page actually renders below, not from the URL.
+    const trail = [
+        ["কালেকশন", "/showcase"],
+        ...(animal.category?.slug
+            ? [[animal.category.name, `/category/${animal.category.slug}`]]
+            : []),
+        [animal.title, `/showcase/${animal.slug}`],
+    ];
+
     return (
         <SiteShell whatsappMessage={waMessage}>
+            <JsonLd data={animalLd(animal)} />
+            <JsonLd data={breadcrumbLd(trail)} />
+
             <Section>
                 {/* ---------- breadcrumb ---------- */}
                 <nav aria-label="পথ" className="flex flex-wrap items-center gap-1.5 text-xs text-ink-mute">
@@ -277,6 +291,84 @@ export default async function AnimalPage({ params }) {
                     </Reveal>
                 </Section>
             ) : null}
+
+            {/* ---------- inquiry ----------
+                Only for an animal someone can still buy. On a sold listing the
+                form would collect leads for something that no longer exists,
+                and the honest answer — "this one is gone, here is the rest of
+                the family" — is more useful to both sides. */}
+            {animal.status === "sold" ? (
+                <Section tight id="inquiry">
+                    <Rule className="mb-12" />
+                    <h2 className="text-headline font-display text-ink">
+                        এটি বিক্রি হয়ে গেছে
+                    </h2>
+                    <Measure as="p" className="mt-5 leading-relaxed text-ink-soft">
+                        একই ধরনের প্রাণী নিয়মিত আসে। কী খুঁজছেন জানালে নতুন কিছু এলে
+                        আপনাকে জানানো যাবে।
+                    </Measure>
+                    <div className="mt-8 flex flex-wrap gap-3">
+                        <Button href="/contact">কী খুঁজছেন বলুন</Button>
+                        {animal.category?.slug ? (
+                            <Button
+                                href={`/category/${animal.category.slug}`}
+                                tone="line"
+                            >
+                                {animal.category.name} — সব দেখুন
+                            </Button>
+                        ) : null}
+                    </div>
+                </Section>
+            ) : (
+                <Section tight id="inquiry">
+                    <Rule className="mb-12" />
+                    <div className="grid gap-10 lg:grid-cols-12 lg:gap-14">
+                        <Reveal className="lg:col-span-4">
+                            <h2 className="text-headline font-display text-ink">
+                                এই প্রাণীটি নিয়ে{" "}
+                                <span className="stroke-under">জানতে চান?</span>
+                            </h2>
+                            <Measure
+                                as="p"
+                                className="mt-5 text-sm leading-relaxed text-ink-soft"
+                            >
+                                নাম আর নম্বরটা রেখে যান — আমরা ফোন করে বাকিটা বলব।
+                                এখনই কথা বলতে চাইলে WhatsApp বা সরাসরি কল দুটোই খোলা।
+                            </Measure>
+                            <div className="mt-7 flex flex-wrap gap-3">
+                                <Button
+                                    as="a"
+                                    href={whatsappLink(waMessage)}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    tone="line"
+                                >
+                                    <MessageCircle
+                                        size={16}
+                                        strokeWidth={1.75}
+                                        aria-hidden
+                                    />
+                                    WhatsApp
+                                </Button>
+                                <Button as="a" href={telLink()} tone="line">
+                                    <Phone size={16} strokeWidth={1.75} aria-hidden />
+                                    <span className="tnum">{site.phone}</span>
+                                </Button>
+                            </div>
+                        </Reveal>
+
+                        <Reveal
+                            delay={0.08}
+                            className="lg:col-span-7 lg:col-start-6"
+                        >
+                            <AnimalInquiryForm
+                                animalId={animal.id}
+                                animalTitle={animal.title}
+                            />
+                        </Reveal>
+                    </div>
+                </Section>
+            )}
 
             {/* ---------- related ---------- */}
             {related.length > 0 ? (

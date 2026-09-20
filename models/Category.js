@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
+import { registerModel } from "./register.js";
 import { uniqueSlug } from "../lib/slug.js";
 
-const { Schema, model, models } = mongoose;
+const { Schema } = mongoose;
 
 /**
  * Two levels only: a family (Dogs, Cats, Exotic Birds…) and its breeds
@@ -82,4 +83,4 @@ CategorySchema.pre("validate", async function normalise(next) {
 CategorySchema.set("toJSON", { virtuals: true });
 CategorySchema.set("toObject", { virtuals: true });
 
-export default models.Category || model("Category", CategorySchema);
+export default registerModel("Category", CategorySchema);

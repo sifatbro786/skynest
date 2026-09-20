@@ -43,6 +43,10 @@ Claude outputs
 *.tsbuildinfo
 next-env.d.ts
 
-# uploaded media — lives on the VPS disk, never in git
-# /public/uploads/*
-# !/public/uploads/.gitkeep
+# Uploaded media lives on the VPS disk, never in git. These lines were left
+# commented, so every photograph added through the admin was being committed
+# as a binary blob. Files already tracked stay tracked — run
+#   git rm -r --cached public/uploads
+# once to untrack them (the files on disk are not touched).
+/public/uploads/*
+!/public/uploads/.gitkeep

@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
+import { registerModel } from "./register.js";
 
-const { Schema, model, models } = mongoose;
+const { Schema } = mongoose;
 
 export const INQUIRY_KINDS = ["general", "visit", "animal"];
 export const INQUIRY_STATUS = ["new", "contacted", "scheduled", "closed"];
@@ -63,4 +64,4 @@ InquirySchema.index({ animal: 1, createdAt: -1 });
 // Upcoming farm visits
 InquirySchema.index({ kind: 1, visitDate: 1 });
 
-export default models.Inquiry || model("Inquiry", InquirySchema);
+export default registerModel("Inquiry", InquirySchema);
