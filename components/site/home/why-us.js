@@ -24,8 +24,15 @@ import { Parallax, Stagger, StaggerItem } from "@/components/site/motion";
  *    the review verdict was accurate: three tall empty rectangles read as
  *    unloaded images, not as a designed block. An arch needs its dome filled
  *    or it is just a gap with a curved top.
- *  · Each tile has its own ground, drawn from a different family (paper,
- *    leaf, sky). One repeated tint would read as a colour-coded legend.
+ *  · No tile is GREEN, on a green band. The first pass put a `leaf-wash`
+ *    tile on the sage ground and it all but vanished — same hue, four
+ *    percent apart in lightness. A tile has to separate from the band it
+ *    sits on, so the three grounds are paper, sky wash and cool linen, and
+ *    the greens are in the band and in the ink instead.
+ *  · Ground and ink are deliberately crossed — green icon on white, deep
+ *    blue on sky, blue on grey. Matching each icon to its own ground would
+ *    read as a colour-coded legend, which implies a meaning these three
+ *    items do not have.
  *  · The number is set in the display face at the size of a heading. It is
  *    the composition's rhythm, not a list bullet.
  *  · Each column drifts at its own rate on scroll, so the staircase opens as
@@ -41,7 +48,7 @@ const PROMISES = [
         title: "সরাসরি নিজের ফার্ম থেকে",
         body: "কোনো মাঝের হাত নেই। যে প্রাণীটি ছবিতে দেখছেন, সেটিই ফার্মে আছে — এসে দেখে নিতে পারেন।",
         ground: "bg-paper",
-        ink: "text-clay",
+        ink: "text-leaf",
         ratio: "sm:aspect-5/4",
         offset: "",
     },
@@ -49,8 +56,8 @@ const PROMISES = [
         icon: ShieldCheck,
         title: "স্বাস্থ্য ও ভ্যাকসিনেশন লেখা",
         body: "বয়স, ভ্যাকসিনের অবস্থা আর প্রয়োজনীয় যত্নের কথা প্রতিটি প্রাণীর পাতায় খোলাখুলি লেখা থাকে।",
-        ground: "bg-leaf-wash",
-        ink: "text-leaf",
+        ground: "bg-brand-wash",
+        ink: "text-brand-deep",
         ratio: "sm:aspect-4/3",
         offset: "lg:mt-16",
     },
@@ -58,7 +65,7 @@ const PROMISES = [
         icon: Tag,
         title: "দাম আগেই জানা",
         body: "দরদামের ঝামেলা নেই। যেখানে দাম আলোচনাসাপেক্ষ, সেখানেও সেটি স্পষ্ট করে বলা থাকে।",
-        ground: "bg-brand-wash",
+        ground: "bg-linen-deep",
         ink: "text-brand",
         ratio: "sm:aspect-5/4",
         offset: "lg:mt-7",
@@ -67,7 +74,7 @@ const PROMISES = [
 
 export default function WhyUs() {
     return (
-        <Band tone="sand" grain>
+        <Band tone="sage" grain>
             <SectionHead
                 index={2}
                 label="কেন এখান থেকে"

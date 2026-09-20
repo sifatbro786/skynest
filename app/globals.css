@@ -51,7 +51,21 @@
   --color-leaf-soft: #388e3c;
   --color-leaf-wash: #e6efe6;
 
-  /* Nest warm clay/brown — the warm counterweight (was gold/bronze) */
+  /* Nest brown. Demoted in phase 10d and kept on purpose, not by accident.
+     The logo is blue and green; the brown in it is the nest twigs and the
+     rabbit, and it is small. So clay is no longer a band, a seal or an icon
+     colour — every one of those went green. Two uses are left, both because
+     green would be actively wrong there rather than merely different:
+
+       · `--color-status-reserved` below has to be distinguishable from
+         `available` (green) and `sold` (grey) at 6px. Brown is the only
+         third value in the palette that manages it.
+       · the required-field asterisk in `components/site/form-ui.js`. Green
+         next to a field label reads as "validated", which is a claim the
+         form has not made yet — the marker appears before anything has been
+         typed.
+
+     Do not reach for this for decoration. */
   --color-clay: #8d5b3a;
   --color-clay-soft: #a06a42;
   --color-clay-wash: #f0e7e0;
@@ -65,12 +79,38 @@
 
        --color-ink-band  hero + footer ground. A hair deeper than
                          --color-ink so ink type still has somewhere to go.
-       --color-sand      warm band. The counterweight that stops a page of
-                         sky blue from reading like a SaaS dashboard.
-       --color-sky-band  cool band, the sand band's opposite number. */
+       --color-sage      the leaf band. This was `--color-sand`, a warm
+                         #F4E8DC, and at band scale it rendered as peach —
+                         a colour that is nowhere in the logo. The logo is
+                         blue and green with a little nest brown, so the
+                         warm band became a green one.
+                         It is deliberately DEEPER than a tint. `--color-sage`
+                         and `--color-sky-band` sit next to each other on the
+                         homepage, and the old pair separated by temperature
+                         (warm vs cool) rather than by lightness. Two pale
+                         near-whites in the same family would have no visible
+                         seam at all, so sage carries a real value step.
+       --color-sky-band  the sky band, from the logo's ground. */
   --color-ink-band: #16191c;
-  --color-sand: #f4e8dc;
+  --color-sage: #d6e4d1;
   --color-sky-band: #dcebf5;
+
+  /* The second DARK band, and the reason it exists is a review note rather
+     than a colour idea: the closing CTA and the footer were both ink, they
+     touched, and the seam between them vanished — so the footer read as
+     roughly twice its actual height and the page looked like it ended in a
+     wall. Two dark grounds are fine; two IDENTICAL dark grounds stacked are
+     not. This is the nest brown at band strength, which also gets the third
+     logo colour onto the page as a fill instead of only as a 15px accent.
+     Warm against the charcoal footer below it and against the sky band
+     above, so both boundaries are legible without a rule. */
+  --color-leaf-deep: #234d28;
+
+  /* Light sky accent for the deep-green band. `--color-brand-on-ink` is only
+     3.9:1 on #234D28 — under the body minimum — so the green band lightens
+     the blue instead of darkening the ground. Light sky on deep green is the
+     logo's own pairing, which is the point. 5.20:1. */
+  --color-sky-lit: #8fc4e8;
 
   /* Structure — sky-tinted neutrals so hairlines sit in the same family.
      Three weights, and the difference between them is a WCAG rule, not taste:
@@ -262,11 +302,12 @@
     transform: translateY(-0.25em);
   }
 
-  /* Hand-drawn underline for a single emphasised word. Deliberately
-     clay, not blue — a brown stroke reads hand-drawn, a blue one reads
-     like a hyperlink underline. */
+  /* Hand-drawn underline for a single emphasised word. Leaf green, not
+     brand blue — the point is that it must NOT read as a hyperlink
+     underline, and green clears that as well as the old brown did while
+     staying inside the logo's two colours. */
   .stroke-under {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 8' preserveAspectRatio='none'%3E%3Cpath d='M1 5.5c18-3 32-4 49-3.5s31 2.5 49 4' stroke='%238d5b3a' stroke-width='2.2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 8' preserveAspectRatio='none'%3E%3Cpath d='M1 5.5c18-3 32-4 49-3.5s31 2.5 49 4' stroke='%232e7d32' stroke-width='2.2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: 0 100%;
     background-size: 100% 0.4em;
@@ -880,11 +921,14 @@
   }
 
   /* Warm band. See note 1 above for why the two tokens are rebound. */
-  .band-sand {
-    background-color: var(--color-sand);
-    --color-ink-mute: #5b666e;
-    --color-line: #e2d5c8;
-    --color-line-strong: #cbb9a8;
+  /* The leaf band. #54606a rather than the sky band's #5b666e because sage
+     is a shade darker: the lighter mute measures 4.43:1 here, under the
+     body minimum, and 4.86:1 at #54606a. */
+  .band-sage {
+    background-color: var(--color-sage);
+    --color-ink-mute: #54606a;
+    --color-line: #c2d4bd;
+    --color-line-strong: #a9c0a3;
   }
 
   /* Cool band, the sand band's opposite number. */
@@ -898,6 +942,29 @@
   .band-ink {
     background-color: var(--color-ink-band);
     color: var(--color-linen);
+  }
+
+  /* Carries `.on-ink` like the charcoal band does, then re-rebinds the three
+     values that do not survive the hue change. Measured on #234D28:
+
+       linen              9.11:1
+       ink-soft  #c3c9cd  5.79:1   (inherited from .on-ink, still passes)
+       ink-mute  #9aa3a9  3.80:1   FAILS — rebound to #b9c6bb, 5.44:1
+       brand     #2e93d8  3.90:1   FAILS as text — rebound to --color-sky-lit,
+                                   5.20:1
+       field     w/0.38   ~2.7:1   FAILS the 3:1 control boundary — raised to
+                                   w/0.50, 3.74:1
+
+     Three of the five dark-ground values break on a second dark ground —
+     and they broke on the brown one this replaced, at different numbers.
+     That is the thing to remember before adding a third: `.on-ink` is tuned
+     for charcoal, not for "dark", and every new ground needs its own pass
+     with a contrast checker. */
+  .band-leaf {
+    background-color: var(--color-leaf-deep);
+    --color-ink-mute: #b9c6bb;
+    --color-brand: var(--color-sky-lit);
+    --color-field: rgb(255 255 255 / 0.5);
   }
 
   /* ---------------- type on a dark ground ----------------
@@ -1033,17 +1100,13 @@
     place-items: center;
     text-align: center;
     border-radius: var(--radius-pill);
-    background-color: var(--color-clay);
+    background-color: var(--color-leaf);
     color: var(--color-linen);
     font-size: 0.6875rem;
     line-height: 1.35;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     box-shadow: var(--shadow-lift);
-  }
-
-  .sticker-leaf {
-    background-color: var(--color-leaf);
   }
 
   /* ---------------- ticker ----------------

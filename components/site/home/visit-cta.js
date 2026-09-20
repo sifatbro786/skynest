@@ -7,11 +7,24 @@ import { Reveal, WordReveal } from "@/components/site/motion";
 /**
  * Closing call to action: come and see them.
  *
- * Ink again, closing the bracket the hero opened — the page now begins and
- * ends dark with the colour running between, which is what gives a five
- * section scroll a shape instead of a length. The footer below is the same
- * ground, so the two read as one closing block rather than as a band sitting
- * on top of a footer.
+ * Deep leaf green, not ink, and that is a bug fix rather than a preference. This shipped
+ * on the ink ground — the same ground as the footer directly below it — and
+ * with nothing between them the seam vanished: the two dark blocks fused, and
+ * the footer read as roughly twice its real height. The page looked like it
+ * ended in a wall.
+ *
+ * A second dark ground still closes the page dark and still brackets the ink
+ * hero, but it gives the boundary a hue change to land on. Two dark bands are
+ * fine — two IDENTICAL dark bands touching are not.
+ *
+ * It was a deep nest brown for one revision and read as rust-orange at band
+ * scale, which is a colour the logo does not contain. Green is the logo's
+ * own second colour and holds the same structural job.
+ *
+ * `.band-leaf` re-rebinds ink-mute, brand and field on top of `.on-ink`,
+ * because three of the five dark-ground values fail on green — at different
+ * numbers than they failed on brown. Read that note in globals.css before
+ * reaching for a third dark ground.
  *
  * `pb-*` is spelled out at every breakpoint that `Band` sets a `py-*` on.
  * twMerge resolves per variant, so a bare `pb-28` would lose to `Band`'s own
@@ -26,7 +39,7 @@ import { Reveal, WordReveal } from "@/components/site/motion";
  */
 export default function VisitCta() {
     return (
-        <Band tone="ink" grain innerClassName="py-20 pb-28 md:py-24 md:pb-28 lg:pt-32 lg:pb-24">
+        <Band tone="leaf" grain innerClassName="py-20 pb-28 md:py-24 md:pb-28 lg:pt-32 lg:pb-24">
             <div className="grid gap-12 lg:grid-cols-12 lg:items-end lg:gap-10">
                 <div className="lg:col-span-7">
                     <span className="marker">ফার্ম ভিজিট</span>

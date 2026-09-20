@@ -67,7 +67,7 @@ export default function CategoryRail({ families = [], countBy = {} }) {
                             ) : (
                                 <span
                                     aria-hidden
-                                    className="tnum hidden w-14 shrink-0 font-display text-sm text-ink-mute transition-colors group-hover:text-clay sm:block lg:w-18"
+                                    className="tnum hidden w-14 shrink-0 font-display text-sm text-ink-mute transition-colors group-hover:text-leaf sm:block lg:w-18"
                                 >
                                     {toBanglaDigits(String(i + 1).padStart(2, "0"))}
                                 </span>

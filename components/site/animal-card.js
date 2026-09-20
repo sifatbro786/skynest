@@ -80,7 +80,7 @@ export default function AnimalCard({
                                 strokeWidth={2}
                                 fill="currentColor"
                                 aria-label="ফিচার্ড"
-                                className="mt-1 shrink-0 text-clay"
+                                className="mt-1 shrink-0 text-leaf"
                             />
                         ) : null}
                     </div>

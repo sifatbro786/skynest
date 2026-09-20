@@ -31,7 +31,7 @@ export const metadata = {
  *
  * Phase 10 rebuilt this page on the homepage's band rhythm:
  *
- *     ink (portrait) → sand (the story) → paper (how we work) → ink (CTA)
+ *     ink (portrait) → sage (the story) → paper (how we work) → leaf (CTA)
  *
  * Dark, warm, light, dark — the same shape as the homepage without being the
  * same page. The closing band is the homepage's own `VisitCta`, reused rather
@@ -53,25 +53,25 @@ const PRINCIPLES = [
         icon: Store,
         title: "আগে দেখুন, তারপর সিদ্ধান্ত",
         body: "ছবি দেখে নয় — ফার্মে এসে প্রাণীটি নিজের চোখে দেখে, হাতে নিয়ে তবেই সিদ্ধান্ত নেবেন। অগ্রিম পেমেন্ট ছাড়াই সময় নেওয়া যায়।",
-        ink: "text-clay",
+        ink: "text-leaf",
     },
     {
         icon: HeartPulse,
         title: "স্বাস্থ্য গোপন করা হয় না",
         body: "ভ্যাকসিনেশনের অবস্থা প্রতিটি প্রাণীর পাতায় খোলা লেখা থাকে — সম্পন্ন, আংশিক নাকি বাকি। যেটুকু হয়েছে ঠিক সেটুকুই লেখা।",
-        ink: "text-leaf",
+        ink: "text-brand",
     },
     {
         icon: ScrollText,
         title: "বংশ পরিচয় যাচাইযোগ্য",
         body: "যেসব প্রাণীর পেডিগ্রি পেপার আছে, সেটি বিবরণে উল্লেখ করা থাকে। কাগজ না থাকলে সেটাও লুকানো হয় না।",
-        ink: "text-brand",
+        ink: "text-brand-deep",
     },
     {
         icon: Handshake,
         title: "কেনার পরেও যোগাযোগ",
         body: "খাবার, যত্ন বা হঠাৎ কোনো সমস্যা — নেওয়ার পরেও ফোন করতে পারবেন। শখের প্রাণী একবার বিক্রি করে ভুলে যাওয়ার জিনিস না।",
-        ink: "text-clay",
+        ink: "text-leaf",
     },
 ];
 
@@ -167,8 +167,8 @@ export default function AboutPage() {
                 </div>
             </Band>
 
-            {/* ---------------- sand: the story ---------------- */}
-            <Band tone="sand" grain>
+            {/* ---------------- sage: the story ---------------- */}
+            <Band tone="sage" grain>
                 <SectionHead
                     index={1}
                     label="শুরুর কথা"
@@ -213,7 +213,7 @@ export default function AboutPage() {
                         the same first-person draft voice as the prose beside
                         it. Attribute it only once Robiul has actually said it. */}
                     <Reveal delay={0.1} className="lg:col-span-4 lg:col-start-9">
-                        <p className="border-l-2 border-clay pl-6 font-display text-title text-ink">
+                        <p className="border-l-2 border-leaf pl-6 font-display text-title text-ink">
                             যে প্রাণীটা নিজের ঘরে রাখতে চাই না, সেটা কারও হাতে তুলে দিই না।
                         </p>
                     </Reveal>

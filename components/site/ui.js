@@ -117,7 +117,7 @@ export function SectionHead({
  * overriding the bottom on desktop must pass `lg:pb-*`, because a bare
  * `pb-10` does not beat this component's `lg:py-28`.
  *
- * @param {"linen"|"paper"|"sand"|"sky"|"ink"} [props.tone="linen"]
+ * @param {"linen"|"paper"|"sage"|"sky"|"ink"|"leaf"} [props.tone="linen"]
  * @param {boolean} [props.grain=false] fine noise behind the content. Worth
  *   it on a large flat field, pointless on a short one. It was a diagonal
  *   hatch until a review called it an eye-ache; see the note in globals.css
@@ -163,9 +163,10 @@ export function Band({
 const BAND_TONES = {
     linen: "band-linen",
     paper: "band-paper",
-    sand: "band-sand",
+    sage: "band-sage",
     sky: "band-sky",
     ink: "band-ink on-ink",
+    leaf: "band-leaf on-ink",
 };
 
 export function Rule({ className }) {
