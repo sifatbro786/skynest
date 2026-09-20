@@ -54,9 +54,7 @@ export default function ShowcaseFilters({ categories, current, className }) {
 
     const families = categories.filter((c) => !c.parent);
     const activeFamily = families.find((f) => f.slug === current.category);
-    const breeds = activeFamily
-        ? categories.filter((c) => c.parent === activeFamily.id)
-        : [];
+    const breeds = activeFamily ? categories.filter((c) => c.parent === activeFamily.id) : [];
 
     function apply(patch) {
         const next = { ...current, ...patch, page: 1 };
@@ -209,10 +207,7 @@ export default function ShowcaseFilters({ categories, current, className }) {
             ) : null}
 
             {pending ? (
-                <span
-                    aria-live="polite"
-                    className="flex items-center gap-2 text-xs text-ink-mute"
-                >
+                <span aria-live="polite" className="flex items-center gap-2 text-xs text-ink-mute">
                     <LoaderCircle size={13} className="animate-spin" aria-hidden />
                     খোঁজা হচ্ছে…
                 </span>
@@ -249,7 +244,7 @@ export default function ShowcaseFilters({ categories, current, className }) {
                     // The rail tracks the page rather than the viewport: pinned
                     // to the viewport it would scroll independently of the grid
                     // and leave a tall column of filters beside empty space.
-                    "lg:sticky lg:top-[calc(var(--header-h)+2rem)]"
+                    "lg:sticky lg:top-[calc(var(--header-h)+2rem)]",
                 )}
             >
                 {body}
@@ -270,7 +265,7 @@ function RowItem({ active, onClick, children }) {
                 aria-pressed={active}
                 className={cn(
                     "flex min-h-11 w-full items-center justify-between gap-3 text-left text-sm transition-colors",
-                    active ? "font-medium text-brand" : "text-ink-soft hover:text-ink"
+                    active ? "font-medium text-brand" : "text-ink-soft hover:text-ink",
                 )}
             >
                 {children}
@@ -292,7 +287,7 @@ function Chip({ active, onClick, children }) {
                 "inline-flex min-h-9 items-center rounded-xs border px-3 text-xs transition-colors",
                 active
                     ? "border-ink bg-ink text-linen"
-                    : "border-field text-ink-soft hover:border-ink hover:text-ink"
+                    : "border-field text-ink-soft hover:border-ink hover:text-ink",
             )}
         >
             {children}

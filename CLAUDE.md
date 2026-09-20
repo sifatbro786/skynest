@@ -196,7 +196,7 @@ Both public forms post to `POST /api/inquiries`, a zod discriminated union on
   and by phone-or-email (3/hr), and returns its own Bangla message. Show it
   and offer WhatsApp; never "try again" into a wall.
 - **Errors come back as `{field: message}`** keyed by schema field. Render
-  them inline *and* in the focused summary. Any key that is not a field on
+  them inline _and_ in the focused summary. Any key that is not a field on
   the form (e.g. `animal`) must be promoted to the top-level message, or the
   summary renders a link to an anchor that does not exist.
 - `kind: "animal"` is created **only** by the inline form on

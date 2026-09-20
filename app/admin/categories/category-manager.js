@@ -94,9 +94,7 @@ export default function CategoryManager({ initialCategories, usage }) {
         setFields({});
 
         const isEdit = form.mode === "edit";
-        const url = isEdit
-            ? `/api/admin/categories/${form.id}`
-            : "/api/admin/categories";
+        const url = isEdit ? `/api/admin/categories/${form.id}` : "/api/admin/categories";
 
         try {
             const res = await fetch(url, {
@@ -122,7 +120,7 @@ export default function CategoryManager({ initialCategories, usage }) {
             setCategories((prev) =>
                 isEdit
                     ? prev.map((c) => (c.id === data.category.id ? data.category : c))
-                    : [...prev, data.category]
+                    : [...prev, data.category],
             );
             resetForm();
         } catch {
@@ -156,9 +154,7 @@ export default function CategoryManager({ initialCategories, usage }) {
     }
 
     const formIsFamily = form ? !form.parent : true;
-    const familyName = form?.parent
-        ? (families.find((f) => f.id === form.parent)?.name ?? "")
-        : "";
+    const familyName = form?.parent ? (families.find((f) => f.id === form.parent)?.name ?? "") : "";
 
     return (
         <div className="mt-4 space-y-3">
@@ -311,9 +307,7 @@ export default function CategoryManager({ initialCategories, usage }) {
 
                             <Checkbox
                                 checked={draft.isActive}
-                                onChange={(e) =>
-                                    setDraft({ ...draft, isActive: e.target.checked })
-                                }
+                                onChange={(e) => setDraft({ ...draft, isActive: e.target.checked })}
                                 label="পাবলিক সাইটে দেখাও"
                             />
 
@@ -472,9 +466,7 @@ function Confirm({ label, busy, onCancel, onConfirm }) {
         <div className="flex flex-wrap items-center gap-3 border-y border-[#d9b6aa] bg-[#f7ece8] px-4 py-3 text-sm text-[#7d3220]">
             <span className="flex-1">“{label}” মুছে ফেলবেন? ফিরিয়ে আনা যাবে না।</span>
             <Button tone="danger" size="sm" onClick={onConfirm} disabled={busy}>
-                {busy ? (
-                    <LoaderCircle size={13} className="animate-spin" aria-hidden />
-                ) : null}
+                {busy ? <LoaderCircle size={13} className="animate-spin" aria-hidden /> : null}
                 হ্যাঁ, মুছুন
             </Button>
             <Button size="sm" onClick={onCancel}>

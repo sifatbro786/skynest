@@ -55,9 +55,7 @@ export default function AnimalFilters({ categories, current }) {
         }
 
         const qs = sp.toString();
-        startTransition(() =>
-            router.push(qs ? `/admin/animals?${qs}` : "/admin/animals")
-        );
+        startTransition(() => router.push(qs ? `/admin/animals?${qs}` : "/admin/animals"));
     }
 
     const dirty =
@@ -117,10 +115,7 @@ export default function AnimalFilters({ categories, current }) {
                         id="f-category"
                         value={current.category}
                         onChange={(e) => apply({ category: e.target.value })}
-                        options={[
-                            ["", "সব ক্যাটাগরি"],
-                            ...families.map((f) => [f.id, f.name]),
-                        ]}
+                        options={[["", "সব ক্যাটাগরি"], ...families.map((f) => [f.id, f.name])]}
                     />
                 </Field>
 

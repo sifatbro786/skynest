@@ -30,16 +30,16 @@ The public site is at `/`, the admin panel at `/admin`.
 
 ## Scripts
 
-| Command                   | What it does                                            |
-| ------------------------- | ------------------------------------------------------- |
-| `npm run dev`             | Dev server (Turbopack)                                   |
-| `npm run build`           | Production build                                         |
-| `npm start`               | Serve the build                                          |
-| `npm run lint`            | ESLint                                                   |
-| `npm run seed`            | Seed the catalogue; `-- --fresh` wipes first             |
-| `npm run create-admin`    | Create or update an admin user                           |
-| `npm run verify-mail`     | Check the whole SMTP path end to end                     |
-| `npm run cleanup:uploads` | Delete uploaded images no animal references              |
+| Command                   | What it does                                 |
+| ------------------------- | -------------------------------------------- |
+| `npm run dev`             | Dev server (Turbopack)                       |
+| `npm run build`           | Production build                             |
+| `npm start`               | Serve the build                              |
+| `npm run lint`            | ESLint                                       |
+| `npm run seed`            | Seed the catalogue; `-- --fresh` wipes first |
+| `npm run create-admin`    | Create or update an admin user               |
+| `npm run verify-mail`     | Check the whole SMTP path end to end         |
+| `npm run cleanup:uploads` | Delete uploaded images no animal references  |
 
 ## Where things are
 

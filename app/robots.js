@@ -20,8 +20,7 @@ const BASE = site.url.replace(/\/$/, "");
  */
 export default function robots() {
     const isProduction =
-        process.env.VERCEL_ENV === "production" ||
-        process.env.NODE_ENV === "production";
+        process.env.VERCEL_ENV === "production" || process.env.NODE_ENV === "production";
     const publicSite = isProduction && !BASE.includes("localhost");
 
     if (!publicSite) {

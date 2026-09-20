@@ -40,10 +40,7 @@ export default function AdminLoading() {
                         </div>
                         <div className="divide-y divide-line">
                             {Array.from({ length: 8 }).map((_, i) => (
-                                <div
-                                    key={i}
-                                    className="flex items-center gap-4 px-4 py-3.5"
-                                >
+                                <div key={i} className="flex items-center gap-4 px-4 py-3.5">
                                     <div className="skel h-10 w-10 shrink-0" />
                                     <div className="min-w-0 flex-1">
                                         <div className="skel h-3.5 w-1/3" />

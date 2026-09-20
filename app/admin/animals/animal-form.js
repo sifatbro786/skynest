@@ -91,9 +91,7 @@ export default function AnimalForm({ categories, animal = null }) {
     const router = useRouter();
     const isEdit = Boolean(animal);
 
-    const [draft, setDraft] = useState(() =>
-        animal ? fromAnimal(animal) : emptyDraft()
-    );
+    const [draft, setDraft] = useState(() => (animal ? fromAnimal(animal) : emptyDraft()));
     const [images, setImages] = useState(animal?.images ?? []);
     const [coverIndex, setCoverIndex] = useState(animal?.coverIndex ?? 0);
     const [busy, setBusy] = useState(false);
@@ -102,13 +100,10 @@ export default function AnimalForm({ categories, animal = null }) {
     const [confirmDelete, setConfirmDelete] = useState(false);
     const [dirty, setDirty] = useState(false);
 
-    const families = useMemo(
-        () => categories.filter((c) => !c.parent),
-        [categories]
-    );
+    const families = useMemo(() => categories.filter((c) => !c.parent), [categories]);
     const breeds = useMemo(
         () => categories.filter((c) => c.parent === draft.category),
-        [categories, draft.category]
+        [categories, draft.category],
     );
 
     /**
@@ -164,7 +159,7 @@ export default function AnimalForm({ categories, animal = null }) {
                     method: isEdit ? "PATCH" : "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(payload),
-                }
+                },
             );
             const data = await res.json().catch(() => ({}));
 
@@ -210,13 +205,7 @@ export default function AnimalForm({ categories, animal = null }) {
     }
 
     const saveButton = (extra) => (
-        <Button
-            tone="primary"
-            type="submit"
-            disabled={busy}
-            as="button"
-            className={extra}
-        >
+        <Button tone="primary" type="submit" disabled={busy} as="button" className={extra}>
             {busy ? (
                 <LoaderCircle size={15} className="animate-spin" aria-hidden />
             ) : (
@@ -340,10 +329,7 @@ export default function AnimalForm({ categories, animal = null }) {
                     </Card>
 
                     <Card>
-                        <CardHead
-                            title="ছবি"
-                            hint="তারকা চিহ্ন দিয়ে কভার ছবি বেছে নিন।"
-                        />
+                        <CardHead title="ছবি" hint="তারকা চিহ্ন দিয়ে কভার ছবি বেছে নিন।" />
                         <CardBody>
                             <ImageUploader
                                 value={images}
@@ -355,9 +341,7 @@ export default function AnimalForm({ categories, animal = null }) {
                                 }}
                             />
                             {fields.images || fields.coverIndex ? (
-                                <p className="pnl-error">
-                                    {fields.images || fields.coverIndex}
-                                </p>
+                                <p className="pnl-error">{fields.images || fields.coverIndex}</p>
                             ) : null}
                         </CardBody>
                     </Card>
@@ -374,11 +358,7 @@ export default function AnimalForm({ categories, animal = null }) {
                                 />
                             </Field>
 
-                            <Field
-                                label="বয়স (মাসে)"
-                                error={fields.ageMonths}
-                                htmlFor="af-age"
-                            >
+                            <Field label="বয়স (মাসে)" error={fields.ageMonths} htmlFor="af-age">
                                 <Input
                                     id="af-age"
                                     type="number"
@@ -392,11 +372,7 @@ export default function AnimalForm({ categories, animal = null }) {
                                 />
                             </Field>
 
-                            <Field
-                                label="রং / মিউটেশন"
-                                error={fields.color}
-                                htmlFor="af-color"
-                            >
+                            <Field label="রং / মিউটেশন" error={fields.color} htmlFor="af-color">
                                 <Input
                                     id="af-color"
                                     value={draft.color}
@@ -405,11 +381,7 @@ export default function AnimalForm({ categories, animal = null }) {
                                 />
                             </Field>
 
-                            <Field
-                                label="ভ্যাকসিনেশন"
-                                error={fields.vaccination}
-                                htmlFor="af-vax"
-                            >
+                            <Field label="ভ্যাকসিনেশন" error={fields.vaccination} htmlFor="af-vax">
                                 <Select
                                     id="af-vax"
                                     value={draft.vaccination}
@@ -522,12 +494,12 @@ export default function AnimalForm({ categories, animal = null }) {
                                     cheaper than letting the owner flag six and
                                     wonder why four never appear. */}
                                 <p className="text-xs leading-relaxed text-ink-mute">
-                                    হিরোতে দুইটি ছবি দেখানো হয়। দুইয়ের বেশি চিহ্নিত করলে
-                                    সবচেয়ে নতুন দুইটি নেওয়া হবে।
+                                    হিরোতে দুইটি ছবি দেখানো হয়। দুইয়ের বেশি চিহ্নিত করলে সবচেয়ে
+                                    নতুন দুইটি নেওয়া হবে।
                                     {draft.isHero && !draft.isPublished ? (
                                         <span className="mt-1 block text-clay">
-                                            এটি এখন প্রকাশিত নয় — প্রকাশ না করা পর্যন্ত
-                                            হিরোতে আসবে না।
+                                            এটি এখন প্রকাশিত নয় — প্রকাশ না করা পর্যন্ত হিরোতে আসবে
+                                            না।
                                         </span>
                                     ) : null}
                                     {draft.isHero && images.length === 0 ? (
@@ -553,11 +525,7 @@ export default function AnimalForm({ categories, animal = null }) {
                         <Card>
                             <CardHead title="দাম ও অবস্থা" />
                             <CardBody className="space-y-4">
-                                <Field
-                                    label="স্ট্যাটাস"
-                                    error={fields.status}
-                                    htmlFor="af-status"
-                                >
+                                <Field label="স্ট্যাটাস" error={fields.status} htmlFor="af-status">
                                     <Select
                                         id="af-status"
                                         value={draft.status}

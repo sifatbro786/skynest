@@ -19,9 +19,7 @@ const HOURS = [
 ];
 
 export default function ContactPage() {
-    const wa = whatsappLink(
-        `আসসালামু আলাইকুম। ${site.name}-এ যোগাযোগ করতে চাই।`
-    );
+    const wa = whatsappLink(`আসসালামু আলাইকুম। ${site.name}-এ যোগাযোগ করতে চাই।`);
 
     return (
         // The action bar is off here: the page already is the contact surface,
@@ -100,9 +98,7 @@ export default function ContactPage() {
                             <Rule />
 
                             <div>
-                                <h2 className="text-micro uppercase text-ink-mute">
-                                    ভিজিটের সময়
-                                </h2>
+                                <h2 className="text-micro uppercase text-ink-mute">ভিজিটের সময়</h2>
                                 <dl className="mt-3 space-y-2.5 text-sm">
                                     {HOURS.map(([days, hours]) => (
                                         <div
@@ -133,8 +129,8 @@ export default function ContactPage() {
             <Section tight className="pb-24">
                 <Rule className="mb-12" />
                 <Measure as="p" className="text-sm leading-relaxed text-ink-mute">
-                    আমরা কোনো কুরিয়ার বা অগ্রিম পেমেন্ট ছাড়া বুকিং নিই না। প্রাণী নিজে দেখে,
-                    পছন্দ হলে তবেই লেনদেন — এটাই {site.name}-এর নিয়ম।
+                    আমরা কোনো কুরিয়ার বা অগ্রিম পেমেন্ট ছাড়া বুকিং নিই না। প্রাণী নিজে দেখে, পছন্দ
+                    হলে তবেই লেনদেন — এটাই {site.name}-এর নিয়ম।
                 </Measure>
             </Section>
         </SiteShell>

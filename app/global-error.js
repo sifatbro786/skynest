@@ -1,6 +1,7 @@
 "use client";
 
 import { site } from "@/lib/site";
+import Link from "next/link";
 
 /**
  * Last line of defence: a throw inside `app/layout.js` itself.
@@ -72,8 +73,8 @@ export default function GlobalError({ error, reset }) {
                             color: "#3f4a52",
                         }}
                     >
-                        সাময়িক একটি সমস্যা হয়েছে। একটু পরে আবার চেষ্টা করুন, অথবা সরাসরি
-                        ফোন করুন —{" "}
+                        সাময়িক একটি সমস্যা হয়েছে। একটু পরে আবার চেষ্টা করুন, অথবা সরাসরি ফোন করুন
+                        —{" "}
                         <a
                             href={`tel:${site.phone.replace(/[^\d+]/g, "")}`}
                             style={{ color: "#1a1d20", fontWeight: 600 }}
@@ -107,7 +108,7 @@ export default function GlobalError({ error, reset }) {
                         >
                             আবার চেষ্টা করুন
                         </button>
-                        <a
+                        <Link
                             href="/"
                             style={{
                                 display: "inline-flex",
@@ -122,7 +123,7 @@ export default function GlobalError({ error, reset }) {
                             }}
                         >
                             হোমে ফিরুন
-                        </a>
+                        </Link>
                     </div>
 
                     {error?.digest ? (

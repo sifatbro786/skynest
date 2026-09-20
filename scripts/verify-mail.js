@@ -34,7 +34,7 @@ async function main() {
         console.error(
             "\n✗ SMTP is NOT configured — SMTP_HOST, SMTP_USER and SMTP_PASS must all\n" +
                 "  be set. Until then inquiries are still saved, but every notification\n" +
-                "  is recorded as `skipped` and nothing leaves the server.\n"
+                "  is recorded as `skipped` and nothing leaves the server.\n",
         );
         process.exit(1);
     }
@@ -49,20 +49,18 @@ async function main() {
         `${pass.length} characters`,
         /\s/.test(pass)
             ? "⚠ contains a space — Gmail app passwords must be pasted without them"
-            : ""
+            : "",
     );
     line("from", serverEnv.mailFrom);
     line("admin inbox", serverEnv.adminEmail || "(not set)");
 
     if (port === 465 && !secure) {
-        console.log(
-            "\n⚠ Port 465 with SMTP_SECURE=false will hang: 465 is implicit TLS."
-        );
+        console.log("\n⚠ Port 465 with SMTP_SECURE=false will hang: 465 is implicit TLS.");
     }
     if (port === 587 && secure) {
         console.log(
             "\n⚠ Port 587 with SMTP_SECURE=true will hang: 587 expects STARTTLS," +
-                " so set SMTP_SECURE=false."
+                " so set SMTP_SECURE=false.",
         );
     }
 
@@ -76,16 +74,14 @@ async function main() {
             "\n  Common causes:\n" +
                 "    · Gmail without an App Password (a normal password is rejected)\n" +
                 "    · 2-Step Verification off, so App Passwords are unavailable\n" +
-                "    · the VPS firewall blocking outbound 465/587\n"
+                "    · the VPS firewall blocking outbound 465/587\n",
         );
         process.exit(1);
     }
     console.log("  ✓ server accepted the credentials");
 
     if (!SEND) {
-        console.log(
-            "\nHandshake only. Re-run with --send to put a real message through.\n"
-        );
+        console.log("\nHandshake only. Re-run with --send to put a real message through.\n");
         return;
     }
 
@@ -100,8 +96,10 @@ async function main() {
 
     // Uses the real template, so a broken layout import fails here rather than
     // on the first live inquiry.
-    const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000")
-        .replace(/\/$/, "");
+    const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000").replace(
+        /\/$/,
+        "",
+    );
 
     const sample = {
         id: "000000000000000000000000",
@@ -109,8 +107,7 @@ async function main() {
         name: "টেস্ট বার্তা",
         phone: "01700000000",
         email: to,
-        message:
-            "This is a delivery test from scripts/verify-mail.js. No action needed.",
+        message: "This is a delivery test from scripts/verify-mail.js. No action needed.",
         animalLabel: "",
         visitDate: null,
         visitSlot: null,
@@ -128,7 +125,7 @@ async function main() {
         console.log(`    messageId ${result.messageId}`);
         console.log(
             "\n  Not in the inbox? Check spam — a brand-new Gmail sender without" +
-                "\n  SPF/DKIM on the site domain often lands there the first few times.\n"
+                "\n  SPF/DKIM on the site domain often lands there the first few times.\n",
         );
     } else {
         console.error(`  ✗ ${result.error}`);

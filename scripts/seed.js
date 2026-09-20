@@ -435,7 +435,7 @@ async function writePlaceholder(slug, index) {
     return writeMaster(
         slug,
         index,
-        placeholderSvg(index + slug.length, MASTER_WIDTH, MASTER_HEIGHT)
+        placeholderSvg(index + slug.length, MASTER_WIDTH, MASTER_HEIGHT),
     );
 }
 
@@ -565,9 +565,7 @@ async function main() {
 
         const images = [];
         for (let i = 0; i < PHOTOS_PER_ANIMAL; i += 1) {
-            const remote = photos[i]
-                ? await writeRemotePhoto(doc.slug, i, photos[i])
-                : null;
+            const remote = photos[i] ? await writeRemotePhoto(doc.slug, i, photos[i]) : null;
 
             if (remote) {
                 fetched += 1;
@@ -591,9 +589,7 @@ async function main() {
         console.log(`  · ${item.title}`);
     }
 
-    console.log(
-        `→ ${created} animals · ${fetched} real photos, ${placeheld} placeholders`
-    );
+    console.log(`→ ${created} animals · ${fetched} real photos, ${placeheld} placeholders`);
     console.log(`→ images written to ${path.join(UPLOAD_DIR, SEED_DIRNAME)}`);
     if (credits.size > 0) {
         console.log(`→ photos via Pexels — ${[...credits].sort().join(", ")}`);
@@ -601,7 +597,7 @@ async function main() {
     if (usePhotos && !PEXELS_KEY) {
         console.log(
             "→ tip: set PEXELS_API_KEY in .env.local for real breed photos\n" +
-                "       (free key: https://www.pexels.com/api/)"
+                "       (free key: https://www.pexels.com/api/)",
         );
     }
 

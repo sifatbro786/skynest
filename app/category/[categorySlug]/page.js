@@ -38,8 +38,7 @@ export async function generateMetadata({ params }) {
     return {
         title: `${category.name} — ${category.nameEn}`,
         description:
-            category.blurb ||
-            `${category.name} কালেকশন — ${site.name}, ${site.address.line}।`,
+            category.blurb || `${category.name} কালেকশন — ${site.name}, ${site.address.line}।`,
         alternates: { canonical: `/category/${category.slug}` },
     };
 }
@@ -63,9 +62,7 @@ export default async function CategoryPage({ params, searchParams }) {
             : Category.find({ parent: category.parent, isActive: true })
                   .sort({ order: 1, nameEn: 1 })
                   .lean(),
-        category.parent
-            ? Category.findById(category.parent).select("name slug").lean()
-            : null,
+        category.parent ? Category.findById(category.parent).select("name slug").lean() : null,
     ]);
 
     const filter = buildPublicAnimalFilter(query, {
@@ -89,9 +86,7 @@ export default async function CategoryPage({ params, searchParams }) {
     const children = siblings.map(serializeCategory);
 
     const hrefFor = (page) =>
-        page > 1
-            ? `/category/${category.slug}?page=${page}`
-            : `/category/${category.slug}`;
+        page > 1 ? `/category/${category.slug}?page=${page}` : `/category/${category.slug}`;
 
     // Mirrors the visible breadcrumb below, including the optional parent.
     const trail = [

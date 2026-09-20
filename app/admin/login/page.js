@@ -23,10 +23,7 @@ export default async function LoginPage({ searchParams }) {
     const next = safeAdminPath(params?.next);
 
     return (
-        <div
-            translate="no"
-            className="notranslate panel-root grid flex-1 lg:grid-cols-12"
-        >
+        <div translate="no" className="notranslate panel-root grid flex-1 lg:grid-cols-12">
             {/* ---------- form ---------- */}
             <div className="flex flex-col justify-center bg-paper px-6 py-14 sm:px-10 lg:col-span-5 lg:px-12">
                 <div className="mx-auto w-full max-w-sm lg:mx-0">
@@ -55,7 +52,8 @@ export default async function LoginPage({ searchParams }) {
                     <p className="mt-8 border-t border-line pt-4 text-xs leading-relaxed text-ink-mute">
                         পাসওয়ার্ড ভুলে গেলে সার্ভারে{" "}
                         <code className="rounded-sm bg-linen-deep px-1.5 py-0.5 font-mono text-[0.95em] text-ink-soft">
-                            npm run create-admin -- &lt;email&gt; &apos;&lt;password&gt;&apos; --reset
+                            npm run create-admin -- &lt;email&gt; &apos;&lt;password&gt;&apos;
+                            --reset
                         </code>{" "}
                         চালিয়ে রিসেট করতে হবে।
                     </p>
@@ -74,8 +72,8 @@ export default async function LoginPage({ searchParams }) {
                         কালেকশন, ইনকোয়ারি আর ফার্ম ভিজিট — সবকিছু এক জায়গা থেকে।
                     </p>
                     <p className="mt-4 max-w-prose text-ink-soft">
-                        নতুন প্রাণী যোগ করা, স্ট্যাটাস বদলানো, ছবি আপলোড আর ভিজিটের রিকোয়েস্ট
-                        দেখা — সবই এই প্যানেল থেকে।
+                        নতুন প্রাণী যোগ করা, স্ট্যাটাস বদলানো, ছবি আপলোড আর ভিজিটের রিকোয়েস্ট দেখা
+                        — সবই এই প্যানেল থেকে।
                     </p>
                 </div>
 

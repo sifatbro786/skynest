@@ -27,19 +27,14 @@ async function getHomeData() {
     const [heroDocs, featuredDocs, families, counts, total] = await Promise.all([
         // Owner's pick for the hero. Newest first, and a couple spare in case
         // one of them has no photograph.
-        Animal.find({ isPublished: true, isHero: true })
-            .sort({ createdAt: -1 })
-            .limit(4)
-            .lean(),
+        Animal.find({ isPublished: true, isHero: true }).sort({ createdAt: -1 }).limit(4).lean(),
         // Eight, not six: the hero may take two of these as a fallback, and the
         // grid below still wants a full set.
         Animal.find({ isPublished: true, isFeatured: true })
             .sort({ createdAt: -1 })
             .limit(8)
             .lean(),
-        Category.find({ parent: null, isActive: true })
-            .sort({ order: 1, nameEn: 1 })
-            .lean(),
+        Category.find({ parent: null, isActive: true }).sort({ order: 1, nameEn: 1 }).lean(),
         Animal.aggregate([
             { $match: { isPublished: true } },
             { $group: { _id: "$category", n: { $sum: 1 } } },
@@ -52,10 +47,7 @@ async function getHomeData() {
     // rather than as "nothing here yet".
     let featured = featuredDocs;
     if (featured.length === 0) {
-        featured = await Animal.find({ isPublished: true })
-            .sort({ createdAt: -1 })
-            .limit(8)
-            .lean();
+        featured = await Animal.find({ isPublished: true }).sort({ createdAt: -1 }).limit(8).lean();
     }
 
     const countBy = {};
@@ -114,10 +106,7 @@ export default async function Home() {
             <JsonLd data={organizationLd()} />
 
             <Hero pair={heroPair} total={total} />
-            <FeaturedAnimals
-                animals={gridFeatured}
-                priority={heroPair.length === 0}
-            />
+            <FeaturedAnimals animals={gridFeatured} priority={heroPair.length === 0} />
             <CategoryRail families={families} countBy={countBy} />
             <VisitCta />
         </SiteShell>

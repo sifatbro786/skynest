@@ -6,12 +6,7 @@ import { Check, LoaderCircle, MessageCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { site, whatsappLink } from "@/lib/site";
 import { Button } from "@/components/site/ui";
-import {
-    Field,
-    FormErrorSummary,
-    Honeypot,
-    inputCls,
-} from "@/components/site/form-ui";
+import { Field, FormErrorSummary, Honeypot, inputCls } from "@/components/site/form-ui";
 
 /**
  * "Ask about this animal" — the inline form on an animal page.
@@ -106,7 +101,7 @@ export default function AnimalInquiryForm({ animalId, animalTitle, className }) 
             <div
                 className={cn(
                     "rounded-md border border-leaf/40 bg-leaf-wash p-6 sm:p-7",
-                    className
+                    className,
                 )}
                 role="status"
             >
@@ -121,7 +116,7 @@ export default function AnimalInquiryForm({ animalId, animalTitle, className }) 
                     <Button
                         as="a"
                         href={whatsappLink(
-                            `আসসালামু আলাইকুম। এইমাত্র "${animalTitle}" নিয়ে ওয়েবসাইট থেকে বার্তা পাঠিয়েছি।`
+                            `আসসালামু আলাইকুম। এইমাত্র "${animalTitle}" নিয়ে ওয়েবসাইট থেকে বার্তা পাঠিয়েছি।`,
                         )}
                         target="_blank"
                         rel="noreferrer"
@@ -215,7 +210,7 @@ export default function AnimalInquiryForm({ animalId, animalTitle, className }) 
                         aria-describedby={fields.message ? "aq-message-err" : undefined}
                         className={cn(
                             inputCls(fields.message),
-                            "min-h-24 resize-y py-3 leading-relaxed"
+                            "min-h-24 resize-y py-3 leading-relaxed",
                         )}
                     />
                 </Field>

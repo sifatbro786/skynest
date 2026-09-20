@@ -56,8 +56,7 @@ export default async function InquiriesPage({ searchParams }) {
     ]);
 
     const pages = Math.max(1, Math.ceil(total / params.limit));
-    const filtered =
-        params.kind !== "all" || params.status !== "all" || params.q !== "";
+    const filtered = params.kind !== "all" || params.status !== "all" || params.q !== "";
 
     return (
         <AdminShell admin={admin}>
@@ -73,15 +72,12 @@ export default async function InquiriesPage({ searchParams }) {
             <InquiryFilters current={params} />
 
             <p className="mt-3 text-sm text-ink-mute">
-                <span className="pnl-num font-medium text-ink">{formatCount(total)}</span>টি
-                পাওয়া গেছে
+                <span className="pnl-num font-medium text-ink">{formatCount(total)}</span>টি পাওয়া
+                গেছে
                 {pages > 1 ? ` · পৃষ্ঠা ${params.page}/${pages}` : ""}
             </p>
 
-            <InquiryBoard
-                initialInquiries={docs.map(serializeInquiry)}
-                filtered={filtered}
-            />
+            <InquiryBoard initialInquiries={docs.map(serializeInquiry)} filtered={filtered} />
 
             <Pagination
                 className="mt-4"

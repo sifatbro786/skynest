@@ -5,12 +5,7 @@ import { Check, LoaderCircle, MessageCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { site, whatsappLink } from "@/lib/site";
 import { Button } from "@/components/site/ui";
-import {
-    Field,
-    FormErrorSummary,
-    Honeypot,
-    inputCls,
-} from "@/components/site/form-ui";
+import { Field, FormErrorSummary, Honeypot, inputCls } from "@/components/site/form-ui";
 
 const SLOTS = [
     ["morning", "সকাল"],
@@ -127,18 +122,16 @@ export default function InquiryForm({ className }) {
                 role="status"
             >
                 <Check size={22} strokeWidth={2} aria-hidden className="text-leaf" />
-                <h2 className="mt-4 font-display text-title text-ink">
-                    বার্তা পৌঁছে গেছে
-                </h2>
+                <h2 className="mt-4 font-display text-title text-ink">বার্তা পৌঁছে গেছে</h2>
                 <p className="measure mt-3 text-sm leading-relaxed text-ink-soft">
-                    ধন্যবাদ। সাধারণত একই দিনে উত্তর দেওয়া হয়। জরুরি হলে সরাসরি ফোন বা
-                    WhatsApp করতে পারেন — {site.phone}
+                    ধন্যবাদ। সাধারণত একই দিনে উত্তর দেওয়া হয়। জরুরি হলে সরাসরি ফোন বা WhatsApp
+                    করতে পারেন — {site.phone}
                 </p>
                 <div className="mt-6 flex flex-wrap gap-3">
                     <Button
                         as="a"
                         href={whatsappLink(
-                            `আসসালামু আলাইকুম। এইমাত্র ওয়েবসাইট থেকে বার্তা পাঠিয়েছি।`
+                            `আসসালামু আলাইকুম। এইমাত্র ওয়েবসাইট থেকে বার্তা পাঠিয়েছি।`,
                         )}
                         target="_blank"
                         rel="noreferrer"
@@ -158,9 +151,7 @@ export default function InquiryForm({ className }) {
         <form onSubmit={submit} noValidate className={className}>
             {/* ---------- kind ---------- */}
             <fieldset>
-                <legend className="text-micro uppercase text-ink-mute">
-                    কী নিয়ে যোগাযোগ
-                </legend>
+                <legend className="text-micro uppercase text-ink-mute">কী নিয়ে যোগাযোগ</legend>
                 <div className="mt-3 flex flex-wrap gap-2">
                     {[
                         ["general", "সাধারণ প্রশ্ন"],
@@ -175,7 +166,7 @@ export default function InquiryForm({ className }) {
                                 "inline-flex min-h-11 items-center rounded-xs border px-4 text-sm transition-colors",
                                 kind === value
                                     ? "border-ink bg-ink text-linen"
-                                    : "border-field text-ink-soft hover:border-ink hover:text-ink"
+                                    : "border-field text-ink-soft hover:border-ink hover:text-ink",
                             )}
                         >
                             {label}
@@ -304,7 +295,10 @@ export default function InquiryForm({ className }) {
                         }
                         aria-invalid={fields.message ? "true" : undefined}
                         aria-describedby={fields.message ? "iq-message-err" : undefined}
-                        className={cn(inputCls(fields.message), "min-h-32 resize-y py-3 leading-relaxed")}
+                        className={cn(
+                            inputCls(fields.message),
+                            "min-h-32 resize-y py-3 leading-relaxed",
+                        )}
                     />
                 </Field>
             </div>

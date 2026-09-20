@@ -27,13 +27,11 @@ export default function NotFound() {
             <Section className="py-24 md:py-32">
                 <span className="marker">৪০৪</span>
 
-                <h1 className="text-headline mt-6 font-display text-ink">
-                    এই পাতাটি আর নেই
-                </h1>
+                <h1 className="text-headline mt-6 font-display text-ink">এই পাতাটি আর নেই</h1>
 
                 <Measure as="p" className="text-lede mt-6 text-ink-soft">
-                    লিংকটা পুরনো হয়ে যেতে পারে — কোনো প্রাণী বিক্রি হয়ে গেলে বা ক্যাটাগরির
-                    নাম বদলালে তার পুরনো ঠিকানা আর কাজ করে না।
+                    লিংকটা পুরনো হয়ে যেতে পারে — কোনো প্রাণী বিক্রি হয়ে গেলে বা ক্যাটাগরির নাম
+                    বদলালে তার পুরনো ঠিকানা আর কাজ করে না।
                 </Measure>
 
                 <div className="mt-10 flex flex-wrap gap-3">

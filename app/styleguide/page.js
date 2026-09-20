@@ -24,10 +24,7 @@ export const metadata = {
  * developer tool, and the client's site should not carry it.
  */
 function styleguideEnabled() {
-    return (
-        process.env.NODE_ENV !== "production" ||
-        process.env.ENABLE_STYLEGUIDE === "true"
-    );
+    return process.env.NODE_ENV !== "production" || process.env.ENABLE_STYLEGUIDE === "true";
 }
 
 /* ---------------- measured values ---------------- */
@@ -116,19 +113,18 @@ export default function StyleguidePage() {
             <Section>
                 <span className="marker">ডিজাইন সিস্টেম</span>
                 <h1 className="text-headline mt-5 font-display text-ink">
-                    পাবলিক সাইটের{" "}
-                    <span className="stroke-under">ভিজ্যুয়াল</span> ভাষা
+                    পাবলিক সাইটের <span className="stroke-under">ভিজ্যুয়াল</span> ভাষা
                 </h1>
                 <Measure as="p" className="text-lede mt-6 text-ink-soft">
-                    এই পেজটা আসল কম্পোনেন্ট রেন্ডার করে — কোনো স্ক্রিনশট না। তাই কোড বদলালে
-                    এই রেফারেন্সও সাথে সাথে বদলায়। নিচের প্রতিটা contrast সংখ্যা আসল token
-                    ভ্যালু থেকে মাপা।
+                    এই পেজটা আসল কম্পোনেন্ট রেন্ডার করে — কোনো স্ক্রিনশট না। তাই কোড বদলালে এই
+                    রেফারেন্সও সাথে সাথে বদলায়। নিচের প্রতিটা contrast সংখ্যা আসল token ভ্যালু থেকে
+                    মাপা।
                 </Measure>
 
                 <div className="mt-8 border-l-2 border-clay bg-clay-wash px-4 py-3">
                     <p className="text-sm text-ink-soft">
-                        হেডার, ফুটার আর মোবাইল অ্যাকশন বার — তিনটাই এই পেজের চারপাশে live
-                        চলছে। মোবাইল সাইজে দেখলে নিচের বারটা পাবেন।
+                        হেডার, ফুটার আর মোবাইল অ্যাকশন বার — তিনটাই এই পেজের চারপাশে live চলছে।
+                        মোবাইল সাইজে দেখলে নিচের বারটা পাবেন।
                     </p>
                 </div>
             </Section>
@@ -188,9 +184,9 @@ export default function StyleguidePage() {
                             ))}
                         </ul>
                         <p className="mt-3 text-xs leading-relaxed text-ink-mute">
-                            সাজসজ্জার divider-এর জন্য ৩:১ লাগে না (WCAG 1.4.11 ছাড় দেয়)। কিন্তু
-                            যে লাইনটা একটা ইনপুটের সীমানা বোঝায়, সেটা কন্ট্রোলের অংশ — তার
-                            জন্য <code>--color-field</code>।
+                            সাজসজ্জার divider-এর জন্য ৩:১ লাগে না (WCAG 1.4.11 ছাড় দেয়)। কিন্তু যে
+                            লাইনটা একটা ইনপুটের সীমানা বোঝায়, সেটা কন্ট্রোলের অংশ — তার জন্য{" "}
+                            <code>--color-field</code>।
                         </p>
                     </div>
 
@@ -201,10 +197,7 @@ export default function StyleguidePage() {
                         <ul className="mt-4 divide-y divide-line border-y border-line">
                             {INK.map(([token, hex, ratio, verdict]) => (
                                 <li key={token} className="flex items-baseline gap-4 py-3.5">
-                                    <span
-                                        className="flex-1 text-base"
-                                        style={{ color: hex }}
-                                    >
+                                    <span className="flex-1 text-base" style={{ color: hex }}>
                                         অ্যাবাব — Aa 123
                                     </span>
                                     <code className="text-xs text-ink-mute">{token}</code>
@@ -230,12 +223,8 @@ export default function StyleguidePage() {
                         </ul>
 
                         <div className="mt-6 bg-ink p-5">
-                            <p className="text-micro uppercase text-linen/70">
-                                ইঙ্ক সারফেসে
-                            </p>
-                            <p className="mt-2 text-sm text-linen">
-                                সাদা টেক্সট ১৫.৮৪:১ — নিরাপদ।
-                            </p>
+                            <p className="text-micro uppercase text-linen/70">ইঙ্ক সারফেসে</p>
+                            <p className="mt-2 text-sm text-linen">সাদা টেক্সট ১৫.৮৪:১ — নিরাপদ।</p>
                             <p className="mt-1.5 text-sm" style={{ color: "#2E93D8" }}>
                                 লিংকের জন্য <code>--color-brand-on-ink</code> — ৫.০৬:১।
                             </p>
@@ -319,15 +308,13 @@ export default function StyleguidePage() {
                             — offset ৬px, যাতে বাংলা যুক্তাক্ষরের নিচের অংশ কাটা না পড়ে।
                         </p>
 
-                        <h3 className="text-micro mt-10 uppercase text-ink-mute">
-                            সেকশন মার্কার
-                        </h3>
+                        <h3 className="text-micro mt-10 uppercase text-ink-mute">সেকশন মার্কার</h3>
                         <div className="mt-4">
                             <span className="marker">০৪ · ফিচার্ড</span>
                         </div>
                         <p className="mt-3 text-xs leading-relaxed text-ink-mute">
-                            নিষিদ্ধ কেন্দ্রীভূত pill badge-এর বদলে — একটা নম্বর, একটা লেবেল,
-                            বাঁয়ে সারিবদ্ধ, সামনে হেয়ারলাইন।
+                            নিষিদ্ধ কেন্দ্রীভূত pill badge-এর বদলে — একটা নম্বর, একটা লেবেল, বাঁয়ে
+                            সারিবদ্ধ, সামনে হেয়ারলাইন।
                         </p>
                     </div>
 
@@ -340,8 +327,8 @@ export default function StyleguidePage() {
                             <Frame ratio="square" sizes="(min-width:1024px) 240px, 45vw" />
                         </div>
                         <p className="mt-3 text-xs leading-relaxed text-ink-mute">
-                            ছবি না থাকলেও বক্সটা রেন্ডার হয় — জায়গা আগে থেকে ধরে রাখলে ছবি
-                            আসার সময় গ্রিড লাফায় না (CLS)।
+                            ছবি না থাকলেও বক্সটা রেন্ডার হয় — জায়গা আগে থেকে ধরে রাখলে ছবি আসার
+                            সময় গ্রিড লাফায় না (CLS)।
                         </p>
                     </div>
                 </div>
@@ -388,9 +375,9 @@ export default function StyleguidePage() {
                 </Reveal>
 
                 <Measure as="p" className="mt-6 text-xs leading-relaxed text-ink-mute">
-                    ঢোকার সময় গতি কমে আসে (<code>--ease-editorial</code>), বেরোনোর সময় বাড়ে
-                    (<code>--ease-exit</code>), আর বেরোনো সবসময় ছোট। শুধু transform আর opacity
-                    — width/height/top/left কখনো না, ওগুলো প্রতি ফ্রেমে layout আবার চালায়।
+                    ঢোকার সময় গতি কমে আসে (<code>--ease-editorial</code>), বেরোনোর সময় বাড়ে (
+                    <code>--ease-exit</code>), আর বেরোনো সবসময় ছোট। শুধু transform আর opacity —
+                    width/height/top/left কখনো না, ওগুলো প্রতি ফ্রেমে layout আবার চালায়।
                 </Measure>
             </Section>
 
@@ -398,19 +385,27 @@ export default function StyleguidePage() {
 
             {/* ---------------- 05 a11y ---------------- */}
             <Section tight>
-                <SectionHead
-                    index={5}
-                    label="যাচাই"
-                    title="অ্যাক্সেসিবিলিটি"
-                />
+                <SectionHead index={5} label="যাচাই" title="অ্যাক্সেসিবিলিটি" />
                 <ul className="mt-10 grid gap-x-10 gap-y-6 text-sm text-ink-soft lg:grid-cols-2">
                     {[
-                        ["স্কিপ লিংক", "Tab চাপলে বাঁ-উপরে আসে, হেডারের উপরে বসে — হেডার কখনো ওটাকে ঢাকে না।"],
-                        ["ফোকাস কখনো ঢাকা পড়ে না", "sticky হেডার আর নিচের বার দুটোর উচ্চতাই টোকেন, আর html-এ scroll-padding দিয়ে দেওয়া (WCAG 2.2 AA)।"],
+                        [
+                            "স্কিপ লিংক",
+                            "Tab চাপলে বাঁ-উপরে আসে, হেডারের উপরে বসে — হেডার কখনো ওটাকে ঢাকে না।",
+                        ],
+                        [
+                            "ফোকাস কখনো ঢাকা পড়ে না",
+                            "sticky হেডার আর নিচের বার দুটোর উচ্চতাই টোকেন, আর html-এ scroll-padding দিয়ে দেওয়া (WCAG 2.2 AA)।",
+                        ],
                         ["টাচ টার্গেট", "বাটন ও নেভ আইটেম ≥৪৪px, মাঝে ≥৮px ফাঁক।"],
-                        ["হোভারে কিছু লুকানো নেই", "টাচ স্ক্রিনে হোভার হয় না — স্ট্যাটাস, দাম, সব বিশ্রামেই দেখা যায়।"],
+                        [
+                            "হোভারে কিছু লুকানো নেই",
+                            "টাচ স্ক্রিনে হোভার হয় না — স্ট্যাটাস, দাম, সব বিশ্রামেই দেখা যায়।",
+                        ],
                         ["রঙই একমাত্র সংকেত নয়", "স্ট্যাটাস ডটের সাথে সবসময় শব্দ থাকে।"],
-                        ["reduced-motion", "CSS kill switch + Framer প্রিমিটিভে JS চেক — দুই জায়গাতেই।"],
+                        [
+                            "reduced-motion",
+                            "CSS kill switch + Framer প্রিমিটিভে JS চেক — দুই জায়গাতেই।",
+                        ],
                     ].map(([title, body]) => (
                         <li key={title} className="border-l-2 border-line pl-4">
                             <span className="block font-medium text-ink">{title}</span>
@@ -423,9 +418,9 @@ export default function StyleguidePage() {
             <Section tight className="pb-24">
                 <SectionHead index={6} label="যাচাই" title="মোবাইল অ্যাকশন বার" />
                 <Measure as="p" className="mt-6 text-sm leading-relaxed text-ink-soft">
-                    ফোনে প্রতিটা পাবলিক পেজের নিচে থাকে — WhatsApp (prefilled বাংলা বার্তা সহ),
-                    কল, আর ফার্ম ভিজিট। প্রাণীর পেজে WhatsApp বার্তায় সেই প্রাণীর নাম বসে যায়,
-                    যাতে মালিক উত্তর দেওয়ার আগেই জানেন কোনটা নিয়ে কথা।
+                    ফোনে প্রতিটা পাবলিক পেজের নিচে থাকে — WhatsApp (prefilled বাংলা বার্তা সহ), কল,
+                    আর ফার্ম ভিজিট। প্রাণীর পেজে WhatsApp বার্তায় সেই প্রাণীর নাম বসে যায়, যাতে
+                    মালিক উত্তর দেওয়ার আগেই জানেন কোনটা নিয়ে কথা।
                 </Measure>
                 <div className="mt-8 flex flex-wrap gap-3">
                     <span className="btn-solid pointer-events-none px-4 text-[13px]">

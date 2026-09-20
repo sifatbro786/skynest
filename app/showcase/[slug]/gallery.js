@@ -62,7 +62,7 @@ export default function Gallery({ images, alt, className }) {
                                 "frame relative aspect-square overflow-hidden border-2 transition-colors",
                                 i === index
                                     ? "border-brand"
-                                    : "border-transparent hover:border-field"
+                                    : "border-transparent hover:border-field",
                             )}
                         >
                             {/* eslint-disable-next-line @next/next/no-img-element */}

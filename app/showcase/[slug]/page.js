@@ -55,7 +55,7 @@ export async function generateMetadata({ params }) {
 
     const description = truncate(
         animal.description || `${animal.breed} — ${site.name}-এর কালেকশন থেকে।`,
-        160
+        160,
     );
 
     return {
@@ -131,7 +131,10 @@ export default async function AnimalPage({ params }) {
 
             <Section>
                 {/* ---------- breadcrumb ---------- */}
-                <nav aria-label="পথ" className="flex flex-wrap items-center gap-1.5 text-xs text-ink-mute">
+                <nav
+                    aria-label="পথ"
+                    className="flex flex-wrap items-center gap-1.5 text-xs text-ink-mute"
+                >
                     <Link href="/showcase" className="transition-colors hover:text-brand">
                         কালেকশন
                     </Link>
@@ -161,7 +164,7 @@ export default async function AnimalPage({ params }) {
                         <Gallery
                             images={animal.images}
                             alt={`${animal.breed} — ${animal.title}`}
-                            className="mx-auto w-full max-w-[26rem] sm:max-w-[30rem] lg:mx-0 lg:max-w-[32.5rem]"
+                            className="mx-auto w-full max-w-104 sm:max-w-120 lg:mx-0 lg:max-w-130"
                         />
                     </div>
 
@@ -258,9 +261,7 @@ export default async function AnimalPage({ params }) {
                         <Reveal delay={0.08} className="space-y-10 lg:col-span-4 lg:col-start-9">
                             {animal.pedigree ? (
                                 <div>
-                                    <h2 className="text-micro uppercase text-ink-mute">
-                                        পেডিগ্রি
-                                    </h2>
+                                    <h2 className="text-micro uppercase text-ink-mute">পেডিগ্রি</h2>
                                     <p className="mt-3 whitespace-pre-line text-sm leading-relaxed text-ink-soft">
                                         {animal.pedigree}
                                     </p>
@@ -300,20 +301,15 @@ export default async function AnimalPage({ params }) {
             {animal.status === "sold" ? (
                 <Section tight id="inquiry">
                     <Rule className="mb-12" />
-                    <h2 className="text-headline font-display text-ink">
-                        এটি বিক্রি হয়ে গেছে
-                    </h2>
+                    <h2 className="text-headline font-display text-ink">এটি বিক্রি হয়ে গেছে</h2>
                     <Measure as="p" className="mt-5 leading-relaxed text-ink-soft">
-                        একই ধরনের প্রাণী নিয়মিত আসে। কী খুঁজছেন জানালে নতুন কিছু এলে
-                        আপনাকে জানানো যাবে।
+                        একই ধরনের প্রাণী নিয়মিত আসে। কী খুঁজছেন জানালে নতুন কিছু এলে আপনাকে জানানো
+                        যাবে।
                     </Measure>
                     <div className="mt-8 flex flex-wrap gap-3">
                         <Button href="/contact">কী খুঁজছেন বলুন</Button>
                         {animal.category?.slug ? (
-                            <Button
-                                href={`/category/${animal.category.slug}`}
-                                tone="line"
-                            >
+                            <Button href={`/category/${animal.category.slug}`} tone="line">
                                 {animal.category.name} — সব দেখুন
                             </Button>
                         ) : null}
@@ -325,15 +321,11 @@ export default async function AnimalPage({ params }) {
                     <div className="grid gap-10 lg:grid-cols-12 lg:gap-14">
                         <Reveal className="lg:col-span-4">
                             <h2 className="text-headline font-display text-ink">
-                                এই প্রাণীটি নিয়ে{" "}
-                                <span className="stroke-under">জানতে চান?</span>
+                                এই প্রাণীটি নিয়ে <span className="stroke-under">জানতে চান?</span>
                             </h2>
-                            <Measure
-                                as="p"
-                                className="mt-5 text-sm leading-relaxed text-ink-soft"
-                            >
-                                নাম আর নম্বরটা রেখে যান — আমরা ফোন করে বাকিটা বলব।
-                                এখনই কথা বলতে চাইলে WhatsApp বা সরাসরি কল দুটোই খোলা।
+                            <Measure as="p" className="mt-5 text-sm leading-relaxed text-ink-soft">
+                                নাম আর নম্বরটা রেখে যান — আমরা ফোন করে বাকিটা বলব। এখনই কথা বলতে
+                                চাইলে WhatsApp বা সরাসরি কল দুটোই খোলা।
                             </Measure>
                             <div className="mt-7 flex flex-wrap gap-3">
                                 <Button
@@ -343,11 +335,7 @@ export default async function AnimalPage({ params }) {
                                     rel="noreferrer"
                                     tone="line"
                                 >
-                                    <MessageCircle
-                                        size={16}
-                                        strokeWidth={1.75}
-                                        aria-hidden
-                                    />
+                                    <MessageCircle size={16} strokeWidth={1.75} aria-hidden />
                                     WhatsApp
                                 </Button>
                                 <Button as="a" href={telLink()} tone="line">
@@ -357,14 +345,8 @@ export default async function AnimalPage({ params }) {
                             </div>
                         </Reveal>
 
-                        <Reveal
-                            delay={0.08}
-                            className="lg:col-span-7 lg:col-start-6"
-                        >
-                            <AnimalInquiryForm
-                                animalId={animal.id}
-                                animalTitle={animal.title}
-                            />
+                        <Reveal delay={0.08} className="lg:col-span-7 lg:col-start-6">
+                            <AnimalInquiryForm animalId={animal.id} animalTitle={animal.title} />
                         </Reveal>
                     </div>
                 </Section>
@@ -375,9 +357,7 @@ export default async function AnimalPage({ params }) {
                 <Section>
                     <Rule className="mb-14" />
                     <div className="flex flex-wrap items-end justify-between gap-6">
-                        <h2 className="text-headline font-display text-ink">
-                            একই ক্যাটাগরির আরও
-                        </h2>
+                        <h2 className="text-headline font-display text-ink">একই ক্যাটাগরির আরও</h2>
                         {animal.category?.slug ? (
                             <Button href={`/category/${animal.category.slug}`} tone="line">
                                 {animal.category.name} — সব দেখুন

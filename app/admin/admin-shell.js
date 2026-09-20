@@ -35,11 +35,11 @@ export default async function AdminShell({ admin, children }) {
 
             <div className="flex min-w-0 flex-1 flex-col">
                 <main className="flex-1 px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
-                    <div className="mx-auto w-full max-w-[80rem]">{children}</div>
+                    <div className="mx-auto w-full max-w-7xl">{children}</div>
                 </main>
 
                 <footer className="border-t border-line px-4 py-4 sm:px-6 lg:px-8">
-                    <p className="mx-auto w-full max-w-[80rem] text-xs text-ink-mute">
+                    <p className="mx-auto w-full max-w-7xl text-xs text-ink-mute">
                         {site.name} · {site.taglineEn}
                     </p>
                 </footer>

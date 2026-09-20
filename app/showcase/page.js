@@ -53,14 +53,10 @@ export default async function ShowcasePage({ searchParams }) {
     const [categories, catDoc, subDoc] = await Promise.all([
         Category.find({ isActive: true }).sort({ order: 1, nameEn: 1 }).lean(),
         params.category
-            ? Category.findOne({ slug: params.category, isActive: true })
-                  .select("_id")
-                  .lean()
+            ? Category.findOne({ slug: params.category, isActive: true }).select("_id").lean()
             : null,
         params.subcategory
-            ? Category.findOne({ slug: params.subcategory, isActive: true })
-                  .select("_id")
-                  .lean()
+            ? Category.findOne({ slug: params.subcategory, isActive: true }).select("_id").lean()
             : null,
     ]);
 
@@ -91,7 +87,9 @@ export default async function ShowcasePage({ searchParams }) {
         params.gender !== "all";
 
     return (
-        <SiteShell whatsappMessage={`আসসালামু আলাইকুম। ${site.name}-এর কালেকশন থেকে কিছু দেখতে চাই।`}>
+        <SiteShell
+            whatsappMessage={`আসসালামু আলাইকুম। ${site.name}-এর কালেকশন থেকে কিছু দেখতে চাই।`}
+        >
             <Section>
                 <SectionHead
                     as="h1"

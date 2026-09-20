@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import { registerModel } from "./register.js";
 import { uniqueSlug } from "../lib/slug.js";
+import { registerModel } from "./register.js";
 
 const { Schema } = mongoose;
 

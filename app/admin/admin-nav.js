@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
 import { useEffect, useState } from "react";
@@ -101,7 +102,7 @@ export default function AdminNav({ admin, newInquiries = 0 }) {
                                         "flex items-center gap-2.5 rounded-sm px-3 py-2 text-sm transition-colors",
                                         active
                                             ? "bg-brand-wash font-medium text-brand-deep"
-                                            : "text-ink-soft hover:bg-linen-deep hover:text-ink"
+                                            : "text-ink-soft hover:bg-linen-deep hover:text-ink",
                                     )}
                                 >
                                     <link.icon
@@ -159,9 +160,7 @@ export default function AdminNav({ admin, newInquiries = 0 }) {
                             height={72}
                             className="h-7 w-7 shrink-0 object-contain"
                         />
-                        <span className="truncate text-sm font-semibold text-ink">
-                            {site.name}
-                        </span>
+                        <span className="truncate text-sm font-semibold text-ink">{site.name}</span>
                     </Link>
                     <button
                         type="button"
@@ -191,7 +190,7 @@ export default function AdminNav({ admin, newInquiries = 0 }) {
                         />
                         <div
                             id="admin-drawer"
-                            className="absolute inset-y-0 left-0 w-[17rem] max-w-[85vw] border-r border-line shadow-lift"
+                            className="absolute inset-y-0 left-0 w-68 max-w-[85vw] border-r border-line shadow-lift"
                         >
                             {panel}
                         </div>

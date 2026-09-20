@@ -58,15 +58,10 @@ export default function InquiryFilters({ current }) {
         }
 
         const qs = sp.toString();
-        startTransition(() =>
-            router.push(qs ? `/admin/inquiries?${qs}` : "/admin/inquiries")
-        );
+        startTransition(() => router.push(qs ? `/admin/inquiries?${qs}` : "/admin/inquiries"));
     }
 
-    const dirty =
-        (current.q ?? "") !== "" ||
-        current.kind !== "all" ||
-        current.status !== "all";
+    const dirty = (current.q ?? "") !== "" || current.kind !== "all" || current.status !== "all";
 
     return (
         <Card className="mt-4 p-3">

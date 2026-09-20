@@ -88,14 +88,11 @@ export default async function AnimalsPage({ searchParams }) {
                 }
             />
 
-            <AnimalFilters
-                categories={categories.map(serializeCategory)}
-                current={params}
-            />
+            <AnimalFilters categories={categories.map(serializeCategory)} current={params} />
 
             <p className="mt-3 text-sm text-ink-mute">
-                <span className="pnl-num font-medium text-ink">{formatCount(total)}</span>টি
-                পাওয়া গেছে
+                <span className="pnl-num font-medium text-ink">{formatCount(total)}</span>টি পাওয়া
+                গেছে
                 {pages > 1 ? ` · পৃষ্ঠা ${params.page}/${pages}` : ""}
             </p>
 
@@ -123,7 +120,7 @@ export default async function AnimalsPage({ searchParams }) {
             ) : (
                 <Card className="mt-3 overflow-hidden">
                     <div className="pnl-scroll">
-                        <table className="pnl-table min-w-[54rem]">
+                        <table className="pnl-table min-w-216">
                             <thead>
                                 <tr>
                                     <th scope="col" className="w-14">

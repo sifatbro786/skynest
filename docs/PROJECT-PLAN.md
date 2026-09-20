@@ -18,19 +18,19 @@ payment gateway — the site captures leads via WhatsApp and farm-visit bookings
 
 ## Phases
 
-| #   | Phase           | Scope                                                                                                                |
-| --- | --------------- | -------------------------------------------------------------------------------------------------------------------- |
-| 1   | Foundation      | next.config, Tailwind v4 design tokens, fonts, `lib/db`, `lib/env`, `lib/site`, folder layout                        |
-| 2   | Data layer      | Mongoose models (Category, Animal, Inquiry, AdminUser), indexes, slugs, zod validators, seed script                  |
-| 3   | Upload engine   | `/api/admin/upload` — FormData parsing, mime/size guards, sharp → WebP variants, safe paths, delete + orphan cleanup |
-| 4   | Admin auth      | bcrypt password, jose JWT in httpOnly cookie, `proxy.js` guard, login rate limit, admin bootstrap script             |
-| 5   | Admin dashboard | Stats via aggregation pipeline, Animals CRUD, Categories manager, Inquiries inbox                                    |
+| #   | Phase           | Scope                                                                                                                         |
+| --- | --------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| 1   | Foundation      | next.config, Tailwind v4 design tokens, fonts, `lib/db`, `lib/env`, `lib/site`, folder layout                                 |
+| 2   | Data layer      | Mongoose models (Category, Animal, Inquiry, AdminUser), indexes, slugs, zod validators, seed script                           |
+| 3   | Upload engine   | `/api/admin/upload` — FormData parsing, mime/size guards, sharp → WebP variants, safe paths, delete + orphan cleanup          |
+| 4   | Admin auth      | bcrypt password, jose JWT in httpOnly cookie, `proxy.js` guard, login rate limit, admin bootstrap script                      |
+| 5   | Admin dashboard | Stats via aggregation pipeline, Animals CRUD, Categories manager, Inquiries inbox                                             |
 | 5.5 | Admin polish    | ✅ `.pnl-*` panel layer, shared `components/admin/ui.js`, table listing, sticky form rails, Latin numerals, SMTP health check |
-| 6   | Design system   | ✅ Editorial primitives, header/footer, sticky mobile action bar, Framer Motion patterns, `/styleguide`              |
-| 7   | Public pages    | ✅ `/`, `/showcase`, `/showcase/[slug]`, `/category/[categorySlug]`, `/about`, `/contact` (+ inquiry form)      |
-| 7.5 | System pages    | ✅ `/terms`, `/privacy`, `not-found`, `error`, `global-error`, public + admin `loading`, footer legal strip |
-| 8   | Lead capture    | ✅ WhatsApp deep links, `/contact` form, inline animal form on `/showcase/[slug]`, shared form primitives |
-| 9   | SEO & deploy    | ✅ sitemap, robots, JSON-LD, security headers, `docs/DEPLOY.md`, `.env.example`, README, orphan sweep |
+| 6   | Design system   | ✅ Editorial primitives, header/footer, sticky mobile action bar, Framer Motion patterns, `/styleguide`                       |
+| 7   | Public pages    | ✅ `/`, `/showcase`, `/showcase/[slug]`, `/category/[categorySlug]`, `/about`, `/contact` (+ inquiry form)                    |
+| 7.5 | System pages    | ✅ `/terms`, `/privacy`, `not-found`, `error`, `global-error`, public + admin `loading`, footer legal strip                   |
+| 8   | Lead capture    | ✅ WhatsApp deep links, `/contact` form, inline animal form on `/showcase/[slug]`, shared form primitives                     |
+| 9   | SEO & deploy    | ✅ sitemap, robots, JSON-LD, security headers, `docs/DEPLOY.md`, `.env.example`, README, orphan sweep                         |
 
 ## Design rules (non-negotiable, from the PRD)
 

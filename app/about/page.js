@@ -46,9 +46,7 @@ const PRINCIPLES = [
 
 export default function AboutPage() {
     return (
-        <SiteShell
-            whatsappMessage={`আসসালামু আলাইকুম। ${site.name} সম্পর্কে জানতে চাই।`}
-        >
+        <SiteShell whatsappMessage={`আসসালামু আলাইকুম। ${site.name} সম্পর্কে জানতে চাই।`}>
             <Section>
                 <SectionHead
                     as="h1"
@@ -60,21 +58,21 @@ export default function AboutPage() {
                     <Reveal className="lg:col-span-7">
                         <Measure className="space-y-6 text-ink-soft">
                             <p className="text-lede">
-                                {site.name} শুরু হয়েছিল শখ থেকে — কয়েকটা কবুতর আর একজোড়া
-                                দেশি হাঁস দিয়ে। এখন কুকুর, বিড়াল, এক্সোটিক পাখি, ফ্যান্সি
-                                হাঁস-মুরগি আর খরগোশ — সবই আছে, কিন্তু কাজের ধরনটা বদলায়নি।
+                                {site.name} শুরু হয়েছিল শখ থেকে — কয়েকটা কবুতর আর একজোড়া দেশি
+                                হাঁস দিয়ে। এখন কুকুর, বিড়াল, এক্সোটিক পাখি, ফ্যান্সি হাঁস-মুরগি আর
+                                খরগোশ — সবই আছে, কিন্তু কাজের ধরনটা বদলায়নি।
                             </p>
                             <p className="leading-relaxed">
-                                আমরা পাইকারি বিক্রেতা নই। যে প্রাণীগুলো এখানে আছে, সেগুলো
-                                ফার্মেই বড় হয়েছে বা সরাসরি নির্ভরযোগ্য ব্রিডারের কাছ থেকে আনা।
-                                প্রতিটির বয়স, রং, স্বভাব আর স্বাস্থ্যের অবস্থা আমরা নিজেরা
-                                জানি — তাই প্রশ্ন করলে সত্যি উত্তরটাই পাবেন।
+                                আমরা পাইকারি বিক্রেতা নই। যে প্রাণীগুলো এখানে আছে, সেগুলো ফার্মেই
+                                বড় হয়েছে বা সরাসরি নির্ভরযোগ্য ব্রিডারের কাছ থেকে আনা। প্রতিটির
+                                বয়স, রং, স্বভাব আর স্বাস্থ্যের অবস্থা আমরা নিজেরা জানি — তাই প্রশ্ন
+                                করলে সত্যি উত্তরটাই পাবেন।
                             </p>
                             <p className="leading-relaxed">
-                                ওয়েবসাইটে কোনো কার্ট বা অনলাইন পেমেন্ট নেই, ইচ্ছে করেই।
-                                শখের প্রাণী কেনা মানে একটা প্রাণীর দায়িত্ব নেওয়া — সেটা
-                                একটা &ldquo;অর্ডার&rdquo; বোতাম চেপে হওয়ার জিনিস না। কথা বলুন,
-                                এসে দেখুন, তারপর ঠিক করুন।
+                                ওয়েবসাইটে কোনো কার্ট বা অনলাইন পেমেন্ট নেই, ইচ্ছে করেই। শখের প্রাণী
+                                কেনা মানে একটা প্রাণীর দায়িত্ব নেওয়া — সেটা একটা
+                                &ldquo;অর্ডার&rdquo; বোতাম চেপে হওয়ার জিনিস না। কথা বলুন, এসে
+                                দেখুন, তারপর ঠিক করুন।
                             </p>
                         </Measure>
 
@@ -107,9 +105,7 @@ export default function AboutPage() {
                             <div>
                                 <dt className="text-micro uppercase text-ink-mute">ঠিকানা</dt>
                                 <dd className="mt-1.5 text-ink-soft">{site.address.line}</dd>
-                                <dd className="text-sm text-ink-mute">
-                                    {site.address.lineEn}
-                                </dd>
+                                <dd className="text-sm text-ink-mute">{site.address.lineEn}</dd>
                             </div>
                         </dl>
                     </Reveal>
@@ -128,10 +124,7 @@ export default function AboutPage() {
                 {/* Four, in a 2x2 — not three across. The PRD rules out the
                     symmetric three-card row, and these are prose blocks on
                     hairlines rather than cards with shadows. */}
-                <Stagger
-                    as="ul"
-                    className="mt-14 grid gap-x-12 gap-y-12 sm:grid-cols-2"
-                >
+                <Stagger as="ul" className="mt-14 grid gap-x-12 gap-y-12 sm:grid-cols-2">
                     {PRINCIPLES.map((item) => (
                         <StaggerItem as="li" key={item.title}>
                             <item.icon
@@ -140,9 +133,7 @@ export default function AboutPage() {
                                 aria-hidden
                                 className="text-clay"
                             />
-                            <h3 className="mt-4 font-display text-title text-ink">
-                                {item.title}
-                            </h3>
+                            <h3 className="mt-4 font-display text-title text-ink">{item.title}</h3>
                             <p className="measure mt-3 text-sm leading-relaxed text-ink-soft">
                                 {item.body}
                             </p>

@@ -40,8 +40,8 @@ export default function AdminError({ error, reset }) {
 
                 <div className="pnl-card-body space-y-4">
                     <p className="text-sm text-ink-soft">
-                        অ্যাডমিন প্যানেলের এই অংশে একটি সমস্যা হয়েছে। আবার চেষ্টা করুন — না
-                        হলে নিচের বার্তাটি ডেভেলপারকে পাঠান।
+                        অ্যাডমিন প্যানেলের এই অংশে একটি সমস্যা হয়েছে। আবার চেষ্টা করুন — না হলে
+                        নিচের বার্তাটি ডেভেলপারকে পাঠান।
                     </p>
 
                     {isDev && error?.message ? (

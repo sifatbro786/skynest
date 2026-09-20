@@ -16,13 +16,7 @@ import {
 } from "lucide-react";
 import { StatusTag, InquiryKind } from "@/components/admin/status-tag";
 import { cn, formatDateLatin, VISIT_SLOT_LABELS } from "@/lib/utils";
-import {
-    Alert,
-    Button,
-    Card,
-    EmptyState,
-    Textarea,
-} from "@/components/admin/ui";
+import { Alert, Button, Card, EmptyState, Textarea } from "@/components/admin/ui";
 
 const STATUSES = [
     ["new", "নতুন"],
@@ -58,9 +52,7 @@ export default function InquiryBoard({ initialInquiries, filtered = false }) {
                 setError(data.error || "সংরক্ষণ করা যায়নি");
                 return;
             }
-            setItems((prev) =>
-                prev.map((item) => (item.id === id ? data.inquiry : item))
-            );
+            setItems((prev) => prev.map((item) => (item.id === id ? data.inquiry : item)));
         } catch {
             setError("সার্ভারের সাথে সংযোগ করা যায়নি");
         } finally {
@@ -129,7 +121,7 @@ export default function InquiryBoard({ initialInquiries, filtered = false }) {
                                     aria-expanded={open}
                                     className={cn(
                                         "flex w-full items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-linen",
-                                        unread && "bg-brand-wash/45"
+                                        unread && "bg-brand-wash/45",
                                     )}
                                 >
                                     {/* Unread marker: a 2px rule, not a coloured row — the
@@ -138,7 +130,7 @@ export default function InquiryBoard({ initialInquiries, filtered = false }) {
                                         aria-hidden
                                         className={cn(
                                             "h-8 w-0.5 shrink-0 rounded-full",
-                                            unread ? "bg-brand" : "bg-transparent"
+                                            unread ? "bg-brand" : "bg-transparent",
                                         )}
                                     />
 
@@ -147,7 +139,7 @@ export default function InquiryBoard({ initialInquiries, filtered = false }) {
                                             <span
                                                 className={cn(
                                                     "truncate text-sm text-ink",
-                                                    unread && "font-semibold"
+                                                    unread && "font-semibold",
                                                 )}
                                             >
                                                 {inquiry.name}
@@ -193,7 +185,7 @@ export default function InquiryBoard({ initialInquiries, filtered = false }) {
                                             aria-hidden
                                             className={cn(
                                                 "text-ink-mute transition-transform",
-                                                open && "rotate-180"
+                                                open && "rotate-180",
                                             )}
                                         />
                                     </span>
@@ -221,7 +213,9 @@ export default function InquiryBoard({ initialInquiries, filtered = false }) {
                                             ) : null}
 
                                             {inquiry.source ? (
-                                                <Detail label="যে পেজ থেকে">{inquiry.source}</Detail>
+                                                <Detail label="যে পেজ থেকে">
+                                                    {inquiry.source}
+                                                </Detail>
                                             ) : null}
 
                                             <div className="flex flex-wrap items-center gap-2">
@@ -230,7 +224,11 @@ export default function InquiryBoard({ initialInquiries, filtered = false }) {
                                                     as="a"
                                                     href={`tel:${inquiry.phone}`}
                                                 >
-                                                    <Phone size={14} strokeWidth={1.75} aria-hidden />
+                                                    <Phone
+                                                        size={14}
+                                                        strokeWidth={1.75}
+                                                        aria-hidden
+                                                    />
                                                     কল করুন
                                                 </Button>
                                                 {inquiry.animal ? (
@@ -260,7 +258,9 @@ export default function InquiryBoard({ initialInquiries, filtered = false }) {
                                                                     : "ghost"
                                                             }
                                                             aria-pressed={inquiry.status === value}
-                                                            disabled={busy || inquiry.status === value}
+                                                            disabled={
+                                                                busy || inquiry.status === value
+                                                            }
                                                             onClick={() =>
                                                                 patch(inquiry.id, { status: value })
                                                             }
@@ -334,12 +334,7 @@ function MailReport({ mail }) {
                             key={label}
                             className="flex flex-wrap items-center gap-2 px-3 py-2 text-xs"
                         >
-                            <Icon
-                                size={13}
-                                strokeWidth={1.75}
-                                aria-hidden
-                                className={look.tone}
-                            />
+                            <Icon size={13} strokeWidth={1.75} aria-hidden className={look.tone} />
                             <span className="text-ink-soft">{label}</span>
                             <span className={look.tone}>· {look.label}</span>
                             {state?.at ? (
@@ -411,9 +406,7 @@ function DeleteRow({ busy, onDelete }) {
 
     return (
         <div className="space-y-2 rounded-sm border border-[#d9b6aa] bg-[#f7ece8] px-3 py-2.5">
-            <p className="text-xs text-[#7d3220]">
-                মুছে ফেললে আর ফিরিয়ে আনা যাবে না।
-            </p>
+            <p className="text-xs text-[#7d3220]">মুছে ফেললে আর ফিরিয়ে আনা যাবে না।</p>
             <div className="flex flex-wrap gap-2">
                 <Button tone="danger" size="sm" onClick={onDelete} disabled={busy}>
                     হ্যাঁ, মুছুন

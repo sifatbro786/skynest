@@ -39,8 +39,8 @@ export default function SiteError({ error, reset }) {
                 </h1>
 
                 <Measure as="p" className="text-lede mt-6 text-ink-soft">
-                    সমস্যাটি আমাদের দিকে, আপনার দিকে নয়। একবার আবার চেষ্টা করে দেখুন —
-                    বেশিরভাগ সময়ই এতে কাজ হয়ে যায়।
+                    সমস্যাটি আমাদের দিকে, আপনার দিকে নয়। একবার আবার চেষ্টা করে দেখুন — বেশিরভাগ
+                    সময়ই এতে কাজ হয়ে যায়।
                 </Measure>
 
                 <div className="mt-10 flex flex-wrap gap-3">
