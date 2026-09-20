@@ -48,5 +48,5 @@ next-env.d.ts
 # as a binary blob. Files already tracked stay tracked — run
 #   git rm -r --cached public/uploads
 # once to untrack them (the files on disk are not touched).
-/public/uploads/*
-!/public/uploads/.gitkeep
+# /public/uploads/*
+# !/public/uploads/.gitkeep
