@@ -10,8 +10,10 @@ import { listQuerySchema } from "@/lib/validators";
 import { buildPublicAnimalFilter, publicSortFor } from "@/lib/animal-query";
 import { site } from "@/lib/site";
 import SiteShell from "@/components/site/site-shell";
-import { Button, Section, SectionHead } from "@/components/site/ui";
+import { Band, Button, Measure } from "@/components/site/ui";
+import { Reveal, WordReveal } from "@/components/site/motion";
 import AnimalGrid from "@/components/site/animal-grid";
+import VisitCta from "@/components/site/home/visit-cta";
 
 export const dynamic = "force-dynamic";
 
@@ -101,7 +103,13 @@ export default async function CategoryPage({ params, searchParams }) {
         >
             <JsonLd data={breadcrumbLd(trail)} />
 
-            <Section>
+            {/* ---------------- ink: breadcrumb, title, breeds ---------------- */}
+            <Band
+                as="div"
+                tone="ink"
+                grain
+                innerClassName="pt-8 pb-12 md:pt-12 md:pb-14 lg:pt-16 lg:pb-16"
+            >
                 <nav
                     aria-label="পথ"
                     className="flex flex-wrap items-center gap-1.5 text-xs text-ink-mute"
@@ -124,49 +132,76 @@ export default async function CategoryPage({ params, searchParams }) {
                     <span className="text-ink-soft">{category.name}</span>
                 </nav>
 
-                <SectionHead
-                    as="h1"
-                    className="mt-6"
-                    label={category.nameEn}
-                    title={category.name}
-                    intro={category.blurb || undefined}
-                    action={
+                <div className="mt-8 flex flex-wrap items-end justify-between gap-x-10 gap-y-6">
+                    <div className="max-w-3xl">
+                        <Reveal>
+                            <span className="marker">{category.nameEn}</span>
+                        </Reveal>
+
+                        <WordReveal
+                            as="h1"
+                            text={category.name}
+                            delay={0.05}
+                            className="text-display mt-5 font-display"
+                        />
+
+                        {category.blurb ? (
+                            <Reveal delay={0.2}>
+                                <Measure as="p" className="text-lede mt-6 text-linen/70">
+                                    {category.blurb}
+                                </Measure>
+                            </Reveal>
+                        ) : null}
+                    </div>
+
+                    <Reveal delay={0.26} className="shrink-0">
                         <Button href="/showcase" tone="line">
                             সম্পূর্ণ কালেকশন
                         </Button>
-                    }
-                />
+                    </Reveal>
+                </div>
 
                 {/* Sibling or child breeds. Links, not filter chips — each breed
                     is its own indexable page, which is the whole reason this
-                    route exists alongside the /showcase filters. */}
-                {children.length > 0 ? (
-                    <div className="mt-10 flex flex-wrap items-center gap-2 border-y border-line py-5">
-                        <span className="text-micro mr-1 uppercase text-ink-mute">
-                            {isFamily ? "ব্রিড" : "একই পরিবারে"}
-                        </span>
-                        {children.map((c) => {
-                            const active = c.slug === category.slug;
-                            return (
-                                <Link
-                                    key={c.id}
-                                    href={`/category/${c.slug}`}
-                                    aria-current={active ? "page" : undefined}
-                                    className={
-                                        active
-                                            ? "inline-flex min-h-9 items-center rounded-xs border border-ink bg-ink px-3 text-xs text-linen"
-                                            : "inline-flex min-h-9 items-center rounded-xs border border-field px-3 text-xs text-ink-soft transition-colors hover:border-ink hover:text-ink"
-                                    }
-                                >
-                                    {c.name}
-                                </Link>
-                            );
-                        })}
-                    </div>
-                ) : null}
+                    route exists alongside the /showcase filters.
 
+                    The active chip is `bg-linen text-ink-band`, NOT `bg-ink
+                    text-linen`. Inside `.on-ink`, `--color-ink` is rebound to
+                    linen, so the old pair would have painted linen on linen and
+                    the selected breed would have been invisible.
+                    `--color-ink-band` is not rebound, which is what makes it
+                    safe to use as a foreground here. */}
+                {children.length > 0 ? (
+                    <Reveal delay={0.32}>
+                        <div className="mt-10 flex flex-wrap items-center gap-2 border-y border-line py-5">
+                            <span className="text-micro mr-1 uppercase text-ink-mute">
+                                {isFamily ? "ব্রিড" : "একই পরিবারে"}
+                            </span>
+                            {children.map((c) => {
+                                const active = c.slug === category.slug;
+                                return (
+                                    <Link
+                                        key={c.id}
+                                        href={`/category/${c.slug}`}
+                                        aria-current={active ? "page" : undefined}
+                                        className={
+                                            active
+                                                ? "inline-flex min-h-9 items-center rounded-xs border border-linen bg-linen px-3 text-xs text-ink-band"
+                                                : "inline-flex min-h-9 items-center rounded-xs border border-field px-3 text-xs text-ink-soft transition-colors hover:border-linen hover:text-linen"
+                                        }
+                                    >
+                                        {c.name}
+                                    </Link>
+                                );
+                            })}
+                        </div>
+                    </Reveal>
+                ) : null}
+            </Band>
+
+            {/* ---------------- paper: the grid ---------------- */}
+            <Band tone="paper" innerClassName="py-12 md:py-16 lg:py-20">
                 <AnimalGrid
-                    className="mt-10"
                     cardHeading="h2"
                     animals={animals}
                     total={total}
@@ -180,7 +215,9 @@ export default async function CategoryPage({ params, searchParams }) {
                         </Button>
                     }
                 />
-            </Section>
+            </Band>
+
+            <VisitCta />
         </SiteShell>
     );
 }

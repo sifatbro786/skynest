@@ -5,8 +5,10 @@ import { listQuerySchema } from "@/lib/validators";
 import { buildPublicAnimalFilter, publicSortFor } from "@/lib/animal-query";
 import { site } from "@/lib/site";
 import SiteShell from "@/components/site/site-shell";
-import { Button, Section, SectionHead } from "@/components/site/ui";
+import { Band, Button, Measure } from "@/components/site/ui";
+import { Reveal, WordReveal } from "@/components/site/motion";
 import AnimalGrid from "@/components/site/animal-grid";
+import VisitCta from "@/components/site/home/visit-cta";
 import ShowcaseFilters from "./showcase-filters";
 
 export const dynamic = "force-dynamic";
@@ -90,23 +92,61 @@ export default async function ShowcasePage({ searchParams }) {
         <SiteShell
             whatsappMessage={`আসসালামু আলাইকুম। ${site.name}-এর কালেকশন থেকে কিছু দেখতে চাই।`}
         >
-            <Section>
-                <SectionHead
-                    as="h1"
-                    label="কালেকশন"
-                    title="আমাদের প্রাণীরা"
-                    intro="প্রতিটি প্রাণী ফার্মে নিজে দেখে নেওয়ার সুযোগ আছে। দাম, বয়স আর ভ্যাকসিনেশনের তথ্য প্রতিটি পাতায় খোলা রাখা হয়েছে।"
-                    action={
-                        <Button href="/contact" tone="line">
-                            ফার্ম ভিজিটের সময় নিন
-                        </Button>
-                    }
-                />
+            {/* ---------------- ink: the section opener ----------------
 
-                {/* Rail left, grid right. 3/9 rather than 4/8: the filters are a
-                    list of short labels and do not need a quarter of the page,
-                    and the grid is what the visitor came for. */}
-                <div className="mt-12 grid gap-x-10 gap-y-8 lg:grid-cols-12">
+                A head block and nothing else — no right-hand column, no
+                stats. The number of animals is already printed above the
+                grid by `AnimalGrid`, and it is the FILTERED count there, so
+                repeating it up here would show the same figure twice and
+                make it look like two different measurements. */}
+            <Band
+                as="div"
+                tone="ink"
+                grain
+                innerClassName="pt-10 pb-14 md:pt-16 md:pb-16 lg:pt-20 lg:pb-20"
+            >
+                <div className="max-w-3xl">
+                    <Reveal>
+                        <span className="marker">কালেকশন</span>
+                    </Reveal>
+
+                    <WordReveal
+                        as="h1"
+                        text="আমাদের প্রাণীরা"
+                        delay={0.05}
+                        className="text-display mt-6 font-display"
+                    />
+
+                    <Reveal delay={0.2}>
+                        <Measure as="p" className="text-lede mt-7 text-linen/70">
+                            প্রতিটি প্রাণী ফার্মে নিজে দেখে নেওয়ার সুযোগ আছে। দাম, বয়স আর
+                            ভ্যাকসিনেশনের তথ্য প্রতিটি পাতায় খোলা রাখা হয়েছে।
+                        </Measure>
+                    </Reveal>
+
+                    <Reveal delay={0.28}>
+                        <div className="mt-9 flex flex-wrap items-center gap-x-4 gap-y-3">
+                            <Button href="/contact" tone="line">
+                                ফার্ম ভিজিটের সময় নিন
+                            </Button>
+                        </div>
+                    </Reveal>
+                </div>
+            </Band>
+
+            {/* ---------------- paper: filters + grid ----------------
+
+                The rail has to sit on a light ground and that is not a
+                preference: every control in `showcase-filters.js` is built
+                from `bg-paper`, `border-field` and `bg-ink` — light-ground
+                values, and the count badge in particular would invert to
+                linen-on-linen inside `.on-ink`.
+
+                Rail left, grid right. 3/9 rather than 4/8: the filters are a
+                list of short labels and do not need a quarter of the page,
+                and the grid is what the visitor came for. */}
+            <Band tone="paper" innerClassName="py-12 md:py-16 lg:py-20">
+                <div className="grid gap-x-10 gap-y-8 lg:grid-cols-12">
                     <ShowcaseFilters
                         categories={categories.map(serializeCategory)}
                         current={params}
@@ -136,7 +176,9 @@ export default async function ShowcasePage({ searchParams }) {
                         }
                     />
                 </div>
-            </Section>
+            </Band>
+
+            <VisitCta />
         </SiteShell>
     );
 }

@@ -9,7 +9,7 @@ import { JsonLd, animalLd, breadcrumbLd } from "@/lib/jsonld";
 import { formatAge, formatPriceRange, truncate } from "@/lib/utils";
 import { site, telLink, whatsappLink } from "@/lib/site";
 import SiteShell from "@/components/site/site-shell";
-import { Button, Measure, Rule, Section } from "@/components/site/ui";
+import { Band, Button, Measure, Rule } from "@/components/site/ui";
 import { Reveal, Stagger } from "@/components/site/motion";
 import AnimalCard from "@/components/site/animal-card";
 import VideoEmbed from "@/components/site/video-embed";
@@ -129,7 +129,25 @@ export default async function AnimalPage({ params }) {
             <JsonLd data={animalLd(animal)} />
             <JsonLd data={breadcrumbLd(trail)} />
 
-            <Section>
+            {/* ================= ink: the showroom wall =================
+
+                The gallery and the buying decision sit on the darkest ground
+                on the site, and that is the one place this project can fairly
+                call itself a luxury showroom: a photograph of an animal against
+                charcoal reads as lit, the same photograph on linen reads as a
+                catalogue entry. Everything a buyer needs to decide — status,
+                name, price, specs, and the three ways to make contact — is
+                inside this band.
+
+                Every value here comes from `.on-ink`'s rebinds, so the
+                utilities are the ordinary light-ground ones. Two exceptions
+                are marked below; both would be invisible without the note. */}
+            <Band
+                as="div"
+                tone="ink"
+                grain
+                innerClassName="pt-8 pb-14 md:pt-10 md:pb-18 lg:pt-12 lg:pb-20"
+            >
                 {/* ---------- breadcrumb ---------- */}
                 <nav
                     aria-label="পথ"
@@ -155,11 +173,16 @@ export default async function AnimalPage({ params }) {
 
                 <div className="mt-8 grid gap-10 lg:grid-cols-12 lg:gap-14">
                     {/* ---------- gallery ----------
-                        Six columns with a hard 520px cap. At 1440 an unconstrained
-                        seven-column 4:5 frame renders ~700x875, which pushes the
-                        price and the WhatsApp button below the fold on the one
-                        screen where they matter most. Capped, the whole buying
-                        decision fits above it. */}
+                        Six columns with a hard 520px cap. At 1440 an
+                        unconstrained seven-column 4:5 frame renders ~700x875,
+                        which pushes the price and the WhatsApp button below the
+                        fold on the one screen where they matter most. Capped,
+                        the whole buying decision fits above it.
+
+                        `Gallery` needs no dark variant: its active thumbnail is
+                        `border-brand`, which `.on-ink` rebinds to the sky-blue
+                        on-ink value, and its hover border reads `--color-field`,
+                        raised to white/0.38 on the same band. */}
                     <div className="lg:col-span-6">
                         <Gallery
                             images={animal.images}
@@ -200,18 +223,28 @@ export default async function AnimalPage({ params }) {
                                 ))}
                             </dl>
 
+                            {/* EXCEPTION 1. This was `bg-leaf-wash` with
+                                `text-ink-soft`. On a light page that is a pale
+                                green callout with dark text; inside `.on-ink`,
+                                `--color-ink-soft` rebinds to #c3c9cd and the
+                                result was near-white text on a near-white
+                                block. The note now tints the BAND instead of
+                                replacing it, and the rule uses `leaf-soft`
+                                (4.25:1 here) because full-strength leaf is
+                                2.99:1 on this ground. */}
                             {animal.vaccinationNote ? (
-                                <p className="mt-4 border-l-2 border-leaf bg-leaf-wash px-4 py-2.5 text-xs leading-relaxed text-ink-soft">
+                                <p className="mt-5 border-l-2 border-leaf-soft bg-white/6 px-4 py-3 text-xs leading-relaxed text-ink-soft">
                                     {animal.vaccinationNote}
                                 </p>
                             ) : null}
 
                             <Rule className="my-7" />
 
-                            {/* On phones the sticky action bar already carries these, so
-                                this block is the desktop path — but it stays visible on
-                                mobile too, because a buyer who has scrolled to the specs
-                                should not have to look back down at the bar. */}
+                            {/* On phones the sticky action bar already carries
+                                these, so this block is the desktop path — but it
+                                stays visible on mobile too, because a buyer who
+                                has scrolled to the specs should not have to look
+                                back down at the bar. */}
                             <div className="flex flex-wrap gap-3">
                                 <Button
                                     as="a"
@@ -239,72 +272,84 @@ export default async function AnimalPage({ params }) {
                         </div>
                     </div>
                 </div>
-            </Section>
+            </Band>
 
-            {/* ---------- long form ---------- */}
-            {animal.description || animal.careNotes || animal.pedigree ? (
-                <Section tight>
-                    <Rule className="mb-14" />
+            {/* ================= sage: the reading =================
+                Prose and the video, on the quietest coloured ground. Renders
+                nothing at all when the owner filled none of these in — a
+                heading over an empty column reads as broken rather than as
+                "nothing written yet". */}
+            {animal.description || animal.careNotes || animal.pedigree || animal.videoUrl ? (
+                <Band tone="sage" grain innerClassName="py-14 md:py-18 lg:py-24">
                     <div className="grid gap-12 lg:grid-cols-12 lg:gap-14">
                         {animal.description ? (
                             <Reveal className="lg:col-span-7">
                                 <h2 className="font-display text-title text-ink">বিস্তারিত</h2>
                                 <Measure
                                     as="p"
-                                    className="mt-5 whitespace-pre-line leading-relaxed text-ink-soft"
+                                    className="mt-5 leading-relaxed whitespace-pre-line text-ink-soft"
                                 >
                                     {animal.description}
                                 </Measure>
                             </Reveal>
                         ) : null}
 
-                        <Reveal delay={0.08} className="space-y-10 lg:col-span-4 lg:col-start-9">
-                            {animal.pedigree ? (
-                                <div>
-                                    <h2 className="text-micro uppercase text-ink-mute">পেডিগ্রি</h2>
-                                    <p className="mt-3 whitespace-pre-line text-sm leading-relaxed text-ink-soft">
-                                        {animal.pedigree}
-                                    </p>
-                                </div>
-                            ) : null}
+                        {animal.pedigree || animal.careNotes ? (
+                            <Reveal
+                                delay={0.08}
+                                className="space-y-10 lg:col-span-4 lg:col-start-9"
+                            >
+                                {animal.pedigree ? (
+                                    <div>
+                                        <h2 className="text-micro uppercase text-ink-mute">
+                                            পেডিগ্রি
+                                        </h2>
+                                        <p className="mt-3 text-sm leading-relaxed whitespace-pre-line text-ink-soft">
+                                            {animal.pedigree}
+                                        </p>
+                                    </div>
+                                ) : null}
 
-                            {animal.careNotes ? (
-                                <div>
-                                    <h2 className="text-micro uppercase text-ink-mute">
-                                        যত্নের নির্দেশনা
-                                    </h2>
-                                    <p className="mt-3 whitespace-pre-line text-sm leading-relaxed text-ink-soft">
-                                        {animal.careNotes}
-                                    </p>
+                                {animal.careNotes ? (
+                                    <div>
+                                        <h2 className="text-micro uppercase text-ink-mute">
+                                            যত্নের নির্দেশনা
+                                        </h2>
+                                        <p className="mt-3 text-sm leading-relaxed whitespace-pre-line text-ink-soft">
+                                            {animal.careNotes}
+                                        </p>
+                                    </div>
+                                ) : null}
+                            </Reveal>
+                        ) : null}
+
+                        {animal.videoUrl ? (
+                            <Reveal delay={0.12} className="lg:col-span-8">
+                                <h2 className="font-display text-title text-ink">ভিডিও</h2>
+                                <div className="mt-6">
+                                    <VideoEmbed url={animal.videoUrl} title={animal.title} />
                                 </div>
-                            ) : null}
-                        </Reveal>
+                            </Reveal>
+                        ) : null}
                     </div>
-                </Section>
+                </Band>
             ) : null}
 
-            {/* ---------- video ---------- */}
-            {animal.videoUrl ? (
-                <Section tight>
-                    <h2 className="font-display text-title text-ink">ভিডিও</h2>
-                    <Reveal className="mt-6 max-w-4xl">
-                        <VideoEmbed url={animal.videoUrl} title={animal.title} />
-                    </Reveal>
-                </Section>
-            ) : null}
+            {/* ================= paper: the ask =================
+                The form has to be on a light ground — `form-ui.js` builds every
+                control from `bg-paper` / `border-field` and its alert reds are
+                light-ground values.
 
-            {/* ---------- inquiry ----------
                 Only for an animal someone can still buy. On a sold listing the
                 form would collect leads for something that no longer exists,
                 and the honest answer — "this one is gone, here is the rest of
                 the family" — is more useful to both sides. */}
             {animal.status === "sold" ? (
-                <Section tight id="inquiry">
-                    <Rule className="mb-12" />
+                <Band tone="paper" id="inquiry" innerClassName="py-14 md:py-18 lg:py-24">
                     <h2 className="text-headline font-display text-ink">এটি বিক্রি হয়ে গেছে</h2>
-                    <Measure as="p" className="mt-5 leading-relaxed text-ink-soft">
-                        একই ধরনের প্রাণী নিয়মিত আসে। কী খুঁজছেন জানালে নতুন কিছু এলে আপনাকে জানানো
-                        যাবে।
+                    <Measure as="p" className="text-lede mt-5 leading-relaxed text-ink-soft">
+                        একই ধরনের প্রাণী নিয়মিত আসে। কী খুঁজছেন জানালে নতুন কিছু এলে আপনাকে
+                        জানানো যাবে।
                     </Measure>
                     <div className="mt-8 flex flex-wrap gap-3">
                         <Button href="/contact">কী খুঁজছেন বলুন</Button>
@@ -314,18 +359,17 @@ export default async function AnimalPage({ params }) {
                             </Button>
                         ) : null}
                     </div>
-                </Section>
+                </Band>
             ) : (
-                <Section tight id="inquiry">
-                    <Rule className="mb-12" />
+                <Band tone="paper" id="inquiry" innerClassName="py-14 md:py-18 lg:py-24">
                     <div className="grid gap-10 lg:grid-cols-12 lg:gap-14">
                         <Reveal className="lg:col-span-4">
                             <h2 className="text-headline font-display text-ink">
                                 এই প্রাণীটি নিয়ে <span className="stroke-under">জানতে চান?</span>
                             </h2>
                             <Measure as="p" className="mt-5 text-sm leading-relaxed text-ink-soft">
-                                নাম আর নম্বরটা রেখে যান — আমরা ফোন করে বাকিটা বলব। এখনই কথা বলতে
-                                চাইলে WhatsApp বা সরাসরি কল দুটোই খোলা।
+                                নাম আর নম্বরটা রেখে যান — আমরা ফোন করে বাকিটা বলব। এখনই কথা
+                                বলতে চাইলে WhatsApp বা সরাসরি কল দুটোই খোলা।
                             </Measure>
                             <div className="mt-7 flex flex-wrap gap-3">
                                 <Button
@@ -349,15 +393,16 @@ export default async function AnimalPage({ params }) {
                             <AnimalInquiryForm animalId={animal.id} animalTitle={animal.title} />
                         </Reveal>
                     </div>
-                </Section>
+                </Band>
             )}
 
-            {/* ---------- related ---------- */}
+            {/* ================= sky: the rest of the family ================= */}
             {related.length > 0 ? (
-                <Section>
-                    <Rule className="mb-14" />
+                <Band tone="sky" innerClassName="py-14 md:py-18 lg:py-24">
                     <div className="flex flex-wrap items-end justify-between gap-6">
-                        <h2 className="text-headline font-display text-ink">একই ক্যাটাগরির আরও</h2>
+                        <h2 className="text-headline font-display text-ink">
+                            একই ক্যাটাগরির আরও
+                        </h2>
                         {animal.category?.slug ? (
                             <Button href={`/category/${animal.category.slug}`} tone="line">
                                 {animal.category.name} — সব দেখুন
@@ -367,6 +412,7 @@ export default async function AnimalPage({ params }) {
 
                     <Stagger
                         as="ul"
+                        delayChildren={0.08}
                         className="mt-12 grid grid-cols-2 gap-x-5 gap-y-12 md:gap-x-8 lg:grid-cols-3 lg:gap-x-10"
                     >
                         {related.map((item) => (
@@ -377,7 +423,7 @@ export default async function AnimalPage({ params }) {
                             />
                         ))}
                     </Stagger>
-                </Section>
+                </Band>
             ) : null}
         </SiteShell>
     );
