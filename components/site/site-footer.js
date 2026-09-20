@@ -38,10 +38,10 @@ const SOCIAL = [
  * three lines and not ninety. Note that `text-brand` here IS
  * `--color-brand-on-ink`; the raw brand blue is 2.6:1 on this ground.
  *
- * `relative isolate` on the root is not decoration. The woven texture is a
+ * `relative isolate` on the root is not decoration. The grain is a
  * `::before` at `z-index: -1`, and a negative-z child paints BEHIND its
  * parent's own background unless that parent establishes a stacking context —
- * so without `isolate` the weave is simply invisible, with no error anywhere
+ * so without `isolate` the grain is simply invisible, with no error anywhere
  * to say why. `.band` carries both for the same reason; the footer is not a
  * band, so it carries them itself.
  *
@@ -58,7 +58,7 @@ export default function SiteFooter() {
     const social = SOCIAL.filter((s) => site.social[s.key]);
 
     return (
-        <footer className="on-ink weave relative isolate mt-auto overflow-hidden border-t border-white/10 bg-ink-band">
+        <footer className="on-ink band-grain relative isolate mt-auto overflow-hidden border-t border-white/10 bg-ink-band">
             <div className="shell pb-[calc(var(--actionbar-h)+2rem+env(safe-area-inset-bottom))] pt-14 lg:pb-14">
                 <div className="grid gap-x-10 gap-y-12 lg:grid-cols-12">
                     {/* ---------- brand ---------- */}
@@ -69,7 +69,7 @@ export default function SiteFooter() {
                                 alt=""
                                 width={96}
                                 height={96}
-                                className="h-11 w-11 shrink-0 object-contain"
+                                className="h-11 w-11 shrink-0 rounded-full object-cover"
                             />
                             <span className="leading-tight">
                                 <span className="block font-display text-base text-linen">

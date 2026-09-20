@@ -850,7 +850,7 @@
       wrong one by habit.
 
    3. Still NO GRADIENTS. The bands are flat fills; depth comes from the
-      woven SVG texture below and from parallax, not from a ramp. The
+      fine noise below and from parallax, not from a ramp. The
       same rule that has governed this file since phase 0.
 ================================================================== */
 
@@ -985,29 +985,40 @@
       16% 16% var(--radius-sm) var(--radius-sm);
   }
 
-  /* ---------------- woven texture ----------------
+  /* ---------------- grain ----------------
 
-     A nest is woven, so the texture is a weave: two hairline diagonals
-     tiled at 24px. Flat colour at band scale looks synthetic and the
-     obvious fix — a gradient wash — is the one thing this file has never
-     allowed. An SVG tile costs one cached data URI and no repaint.
+     This was a woven diagonal hatch for about a day. It looked right in a
+     200px swatch and was genuinely unpleasant to sit in front of: two
+     parallel line families on a 24px tile, stretched across a full-bleed
+     band, set up a low-frequency beat against the pixel grid — and on the
+     ink bands, which are the header, the hero and the footer, i.e. most of
+     what is on screen at any moment, it read as a moiré shimmer rather than
+     as texture. The review word was "eye-ache", and that is the correct
+     diagnosis, not a taste disagreement. Do not reintroduce a line hatch.
 
-     Behind content (`z-index: -1`) inside the band's own stacking
-     context, and `pointer-events: none` so it never eats a tap. */
-  .weave::before {
+     Replaced with the same fractal noise the body already uses. Noise has no
+     repeating axis for the eye to lock onto, so it takes the flatness off a
+     large flat fill without ever resolving into a pattern. Being invisible
+     is the whole point: if you can see it, it is too strong.
+
+     Blend mode, not opacity, does the work — multiply darkens the light
+     bands, screen lightens the ink ones. Painting grey noise at low alpha
+     over both instead would wash out the colour it exists to sit in. */
+  .band-grain::before {
     content: "";
     position: absolute;
     inset: 0;
     z-index: -1;
     pointer-events: none;
-    opacity: 0.55;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Cpath d='M0 24L24 0M-6 6L6 -6M18 30L30 18' stroke='%23000' stroke-opacity='0.055' stroke-width='1' fill='none'/%3E%3C/svg%3E");
+    opacity: 0.4;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23g)' opacity='0.14'/%3E%3C/svg%3E");
   }
 
-  .on-ink.weave::before,
-  .on-ink .weave::before {
-    opacity: 1;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Cpath d='M0 24L24 0M-6 6L6 -6M18 30L30 18' stroke='%23fff' stroke-opacity='0.045' stroke-width='1' fill='none'/%3E%3C/svg%3E");
+  .on-ink.band-grain::before,
+  .on-ink .band-grain::before {
+    opacity: 0.26;
+    mix-blend-mode: screen;
   }
 
   /* ---------------- sticker seal ----------------

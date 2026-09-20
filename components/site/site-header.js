@@ -77,13 +77,19 @@ export default function SiteHeader() {
                     className="flex min-w-0 items-center gap-3"
                     aria-label={`${site.name} — হোম`}
                 >
+                    {/* `rounded-full` is load-bearing here. The brand mark moved
+                        from a transparent PNG to logo.jpg, and a JPEG has no alpha —
+                        on this ink header the file's white ground rendered as a white
+                        SQUARE around a circular logo. Clipping to a circle discards
+                        that ground and the mark reads as a coin. Remove this only if
+                        the logo goes back to a transparent PNG. */}
                     <Image
                         src={site.logo}
                         alt=""
                         width={96}
                         height={96}
                         priority
-                        className="h-9 w-9 shrink-0 object-contain lg:h-10 lg:w-10"
+                        className="h-9 w-9 shrink-0 rounded-full object-cover lg:h-10 lg:w-10"
                     />
                     <span className="min-w-0 leading-tight">
                         <span className="block truncate font-display text-[15px] text-linen lg:text-base">

@@ -118,8 +118,10 @@ export function SectionHead({
  * `pb-10` does not beat this component's `lg:py-28`.
  *
  * @param {"linen"|"paper"|"sand"|"sky"|"ink"} [props.tone="linen"]
- * @param {boolean} [props.weave=false] woven SVG texture behind the content.
- *   Worth it on a large flat field; noise on a short one.
+ * @param {boolean} [props.grain=false] fine noise behind the content. Worth
+ *   it on a large flat field, pointless on a short one. It was a diagonal
+ *   hatch until a review called it an eye-ache; see the note in globals.css
+ *   before putting lines back.
  * @param {boolean} [props.flush=false] drop the inner vertical padding —
  *   for a band that manages its own, such as the ticker.
  */
@@ -127,7 +129,7 @@ export function Band({
     id,
     as = "section",
     tone = "linen",
-    weave = false,
+    grain = false,
     flush = false,
     className,
     innerClassName,
@@ -141,7 +143,7 @@ export function Band({
             className={cn(
                 "band",
                 BAND_TONES[tone] ?? BAND_TONES.linen,
-                weave && "weave",
+                grain && "band-grain",
                 className,
             )}
         >

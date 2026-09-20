@@ -44,7 +44,7 @@ export default function Hero({ pair = [], total = 0 }) {
         <Band
             as="div"
             tone="ink"
-            weave
+            grain
             innerClassName="pt-10 pb-14 md:pt-16 md:pb-20 lg:pt-20 lg:pb-24"
         >
             <div className="grid gap-y-16 lg:grid-cols-12 lg:gap-x-10">

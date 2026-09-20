@@ -26,7 +26,7 @@ import { Reveal, WordReveal } from "@/components/site/motion";
  */
 export default function VisitCta() {
     return (
-        <Band tone="ink" weave innerClassName="py-20 pb-28 md:py-24 md:pb-28 lg:pt-32 lg:pb-24">
+        <Band tone="ink" grain innerClassName="py-20 pb-28 md:py-24 md:pb-28 lg:pt-32 lg:pb-24">
             <div className="grid gap-12 lg:grid-cols-12 lg:items-end lg:gap-10">
                 <div className="lg:col-span-7">
                     <span className="marker">ফার্ম ভিজিট</span>

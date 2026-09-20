@@ -67,7 +67,7 @@ const PROMISES = [
 
 export default function WhyUs() {
     return (
-        <Band tone="sand" weave>
+        <Band tone="sand" grain>
             <SectionHead
                 index={2}
                 label="কেন এখান থেকে"
