@@ -8,6 +8,7 @@ import { serializeAnimal } from "@/lib/serialize";
 import { JsonLd, animalLd, breadcrumbLd } from "@/lib/jsonld";
 import { formatAge, formatPriceRange, truncate } from "@/lib/utils";
 import { site, telLink, whatsappLink } from "@/lib/site";
+import { pageMetadata } from "@/lib/seo";
 import SiteShell from "@/components/site/site-shell";
 import { Band, Button, Measure, Rule } from "@/components/site/ui";
 import { Reveal, Stagger } from "@/components/site/motion";
@@ -48,37 +49,50 @@ async function findAnimal(slug) {
     return doc ? serializeAnimal(doc) : null;
 }
 
+/**
+ * Derived from the animal, then merged with the site-wide SEO defaults.
+ *
+ * There is no per-animal row in the SEO panel and there should not be: a title
+ * and description generated from the record are always current, and an
+ * override typed once for one bird would still be there after it is sold. What
+ * the animal page takes from the panel is the site-level inheritance only —
+ * keywords, and a share card for the few listings with no photograph.
+ *
+ * The animal's own cover beats the site card; see the precedence note in
+ * lib/seo.js.
+ */
 export async function generateMetadata({ params }) {
     const { slug } = await params;
     const animal = await findAnimal(slug);
-    if (!animal) return { title: "পাওয়া যায়নি" };
+
+    // A missing slug renders the 404 route with these tags. `noindex` matters:
+    // without it a mistyped or deleted listing is a soft 404 that Google will
+    // happily index under whatever title the not-found page carries.
+    if (!animal) {
+        return { title: "পাওয়া যায়নি", robots: { index: false, follow: false } };
+    }
 
     const description = truncate(
         animal.description || `${animal.breed} — ${site.name}-এর কালেকশন থেকে।`,
         160,
     );
 
-    return {
+    return pageMetadata(`/showcase/${animal.slug}`, {
         title: animal.title,
         description,
-        alternates: { canonical: `/showcase/${animal.slug}` },
-        openGraph: {
-            type: "article",
-            title: animal.title,
-            description,
-            url: `/showcase/${animal.slug}`,
-            images: animal.cover?.path
-                ? [
-                      {
-                          url: animal.cover.path,
-                          width: animal.cover.width || 1200,
-                          height: animal.cover.height || 1500,
-                          alt: animal.cover.alt || animal.title,
-                      },
-                  ]
-                : undefined,
-        },
-    };
+        canonical: `/showcase/${animal.slug}`,
+        ogType: "article",
+        images: animal.cover?.path
+            ? [
+                  {
+                      url: animal.cover.path,
+                      width: animal.cover.width || 1200,
+                      height: animal.cover.height || 1500,
+                      alt: animal.cover.alt || animal.title,
+                  },
+              ]
+            : undefined,
+    });
 }
 
 export default async function AnimalPage({ params }) {

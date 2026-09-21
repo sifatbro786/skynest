@@ -9,6 +9,7 @@ import { JsonLd, breadcrumbLd } from "@/lib/jsonld";
 import { listQuerySchema } from "@/lib/validators";
 import { buildPublicAnimalFilter, publicSortFor } from "@/lib/animal-query";
 import { site } from "@/lib/site";
+import { pageMetadata } from "@/lib/seo";
 import SiteShell from "@/components/site/site-shell";
 import { Band, Button, Measure } from "@/components/site/ui";
 import { Reveal, WordReveal } from "@/components/site/motion";
@@ -32,17 +33,27 @@ async function findCategory(slug) {
     return doc ? serializeCategory(doc) : null;
 }
 
+/**
+ * Derived from the category, then merged with the site-wide SEO defaults —
+ * same reasoning as the animal page above.
+ */
 export async function generateMetadata({ params }) {
     const { categorySlug } = await params;
     const category = await findCategory(categorySlug);
-    if (!category) return { title: "পাওয়া যায়নি" };
 
-    return {
+    if (!category) {
+        return { title: "পাওয়া যায়নি", robots: { index: false, follow: false } };
+    }
+
+    return pageMetadata(`/category/${category.slug}`, {
         title: `${category.name} — ${category.nameEn}`,
         description:
             category.blurb || `${category.name} কালেকশন — ${site.name}, ${site.address.line}।`,
-        alternates: { canonical: `/category/${category.slug}` },
-    };
+        canonical: `/category/${category.slug}`,
+        images: category.image
+            ? [{ url: category.image, width: 1200, height: 1200, alt: category.name }]
+            : undefined,
+    });
 }
 
 export default async function CategoryPage({ params, searchParams }) {

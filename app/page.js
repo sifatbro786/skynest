@@ -1,6 +1,8 @@
 import { dbConnect } from "@/lib/db";
 import { Animal, Category } from "@/models/index.js";
 import { serializeAnimal, serializeCategory } from "@/lib/serialize";
+import { site } from "@/lib/site";
+import { pageMetadata } from "@/lib/seo";
 import { JsonLd, organizationLd } from "@/lib/jsonld";
 import SiteShell from "@/components/site/site-shell";
 import Hero from "@/components/site/home/hero";
@@ -12,9 +14,16 @@ import VisitCta from "@/components/site/home/visit-cta";
 
 export const dynamic = "force-dynamic";
 
-export const metadata = {
-    alternates: { canonical: "/" },
-};
+/**
+ * Merged with the `/` row in the SEO panel. The literals below are the
+ * fallback: whatever the owner has not filled in comes from here, so the
+ * homepage is never left with an empty title or description.
+ */
+export async function generateMetadata() {
+    return pageMetadata("/", {
+        description: site.description,
+    });
+}
 
 /**
  * Everything the homepage shows, in one trip to the database.

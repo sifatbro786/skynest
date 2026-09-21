@@ -1,6 +1,7 @@
 import { Handshake, HeartPulse, MapPin, ScrollText, Store } from "lucide-react";
 
 import { site } from "@/lib/site";
+import { pageMetadata } from "@/lib/seo";
 import SiteShell from "@/components/site/site-shell";
 import { Band, Button, Frame, Measure, SectionHead } from "@/components/site/ui";
 import {
@@ -12,11 +13,12 @@ import {
 } from "@/components/site/motion";
 import VisitCta from "@/components/site/home/visit-cta";
 
-export const metadata = {
-    title: "আমাদের সম্পর্কে",
-    description: `${site.name} — ${site.address.lineEn}. প্রিমিয়াম ও এক্সোটিক পেট ব্রিডিং, সরাসরি ফার্ম থেকে।`,
-    alternates: { canonical: "/about" },
-};
+export async function generateMetadata() {
+    return pageMetadata("/about", {
+        title: "আমাদের সম্পর্কে",
+        description: `${site.name} — ${site.address.lineEn}. প্রিমিয়াম ও এক্সোটিক পেট ব্রিডিং, সরাসরি ফার্ম থেকে।`,
+    });
+}
 
 /**
  * NOTE FOR HANDOVER — the prose on this page is still a working draft.

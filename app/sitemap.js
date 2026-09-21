@@ -1,6 +1,7 @@
 import { dbConnect } from "@/lib/db";
 import { Animal, Category } from "@/models/index.js";
 import { site } from "@/lib/site";
+import { noindexedPaths } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
@@ -22,17 +23,23 @@ const BASE = site.url.replace(/\/$/, "");
  * `lastModified` comes from the document, not from `new Date()`. A sitemap
  * that claims every page changed at build time teaches crawlers to ignore the
  * field.
+ *
+ * Static pages an admin has marked `noindex` in the SEO panel are filtered
+ * out. A URL that is listed here *and* serves `robots: noindex` is a
+ * contradiction Search Console reports as an error, and it is the single most
+ * common way a working noindex looks broken to the person who set it.
  */
 export default async function sitemap() {
     await dbConnect();
 
-    const [animals, categories] = await Promise.all([
+    const [animals, categories, hidden] = await Promise.all([
         Animal.find({ isPublished: true })
             .select("slug updatedAt")
             .sort({ updatedAt: -1 })
             .limit(5000)
             .lean(),
         Category.find({ isActive: true }).select("slug updatedAt").lean(),
+        noindexedPaths(),
     ]);
 
     const newestAnimal = animals[0]?.updatedAt ?? new Date();
@@ -52,7 +59,7 @@ export default async function sitemap() {
     ];
 
     return [
-        ...staticPages,
+        ...staticPages.filter((page) => !hidden.has(page.url.slice(BASE.length) || "/")),
 
         ...categories.map((c) => ({
             url: `${BASE}/category/${c.slug}`,

@@ -1,17 +1,19 @@
 import { Clock, MapPin, MessageCircle, Phone } from "lucide-react";
 
 import { site, telLink, whatsappLink } from "@/lib/site";
+import { pageMetadata } from "@/lib/seo";
 import SiteShell from "@/components/site/site-shell";
 import { Band, Button, Measure, Rule, SectionHead } from "@/components/site/ui";
 import { Reveal, Stagger, StaggerItem, WordReveal } from "@/components/site/motion";
 import InquiryForm from "./inquiry-form";
 
-export const metadata = {
-    title: "যোগাযোগ ও ফার্ম ভিজিট",
-    description:
-        "সরাসরি ফোন, WhatsApp বা ফর্মে বার্তা পাঠান। আগে থেকে সময় ঠিক করে ফার্মে এসে প্রাণী দেখে নিতে পারবেন।",
-    alternates: { canonical: "/contact" },
-};
+export async function generateMetadata() {
+    return pageMetadata("/contact", {
+        title: "যোগাযোগ ও ফার্ম ভিজিট",
+        description:
+            "সরাসরি ফোন, WhatsApp বা ফর্মে বার্তা পাঠান। আগে থেকে সময় ঠিক করে ফার্মে এসে প্রাণী দেখে নিতে পারবেন।",
+    });
+}
 
 const HOURS = [
     ["শনি – বৃহস্পতি", "সকাল ৯টা – সন্ধ্যা ৭টা"],

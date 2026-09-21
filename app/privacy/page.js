@@ -1,13 +1,14 @@
 import { site } from "@/lib/site";
+import { pageMetadata } from "@/lib/seo";
 import SiteShell from "@/components/site/site-shell";
 import { Measure, Rule, Section, SectionHead } from "@/components/site/ui";
 
-export const metadata = {
-    title: "গোপনীয়তা নীতি",
-    description: `${site.name} ওয়েবসাইটে কী তথ্য নেওয়া হয়, কেন নেওয়া হয় এবং কতদিন রাখা হয়।`,
-    alternates: { canonical: "/privacy" },
-    robots: { index: true, follow: true },
-};
+export async function generateMetadata() {
+    return pageMetadata("/privacy", {
+        title: "গোপনীয়তা নীতি",
+        description: `${site.name} ওয়েবসাইটে কী তথ্য নেওয়া হয়, কেন নেওয়া হয় এবং কতদিন রাখা হয়।`,
+    });
+}
 
 const UPDATED = "১৯ সেপ্টেম্বর ২০২৬";
 

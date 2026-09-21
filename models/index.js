@@ -9,6 +9,7 @@ export { default as Category } from "./Category.js";
 export { default as Animal } from "./Animal.js";
 export { default as Inquiry } from "./Inquiry.js";
 export { default as AdminUser } from "./AdminUser.js";
+export { default as SeoMeta } from "./SeoMeta.js";
 
 export { ANIMAL_STATUS, ANIMAL_GENDER, VACCINATION_STATUS } from "./Animal.js";
 export { INQUIRY_KINDS, INQUIRY_STATUS, VISIT_SLOTS } from "./Inquiry.js";

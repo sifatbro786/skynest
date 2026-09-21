@@ -14,6 +14,7 @@ import mongoose from "mongoose";
 
 import Animal from "../models/Animal.js";
 import Category from "../models/Category.js";
+import SeoMeta from "../models/SeoMeta.js";
 
 const DELETE = process.argv.includes("--delete");
 const MIN_AGE_HOURS = Number(
@@ -64,6 +65,15 @@ async function main() {
 
     const categories = await Category.find({ image: { $ne: "" } }, { image: 1 }).lean();
     for (const c of categories) if (c.image) referenced.add(c.image);
+
+    // Share cards, added in the SEO panel. Every model that can hold an upload
+    // path has to be listed here — a file this loop does not see is an orphan
+    // by definition, and the script deletes orphans. Forgetting this one meant
+    // the first run after the SEO feature shipped would have unlinked every
+    // og:image on the site, with the only symptom being blank WhatsApp
+    // previews some weeks later.
+    const seo = await SeoMeta.find({ ogImage: { $ne: "" } }, { ogImage: 1 }).lean();
+    for (const row of seo) if (row.ogImage) referenced.add(row.ogImage);
 
     const onDisk = await walk(UPLOAD_DIR);
     const cutoff = Date.now() - MIN_AGE_HOURS * 3600_000;

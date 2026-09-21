@@ -13,6 +13,7 @@ import {
     Menu,
     PawPrint,
     Plus,
+    Search,
     X,
 } from "lucide-react";
 import { cn, formatCount } from "@/lib/utils";
@@ -24,6 +25,7 @@ const LINKS = [
     { href: "/admin/animals", label: "প্রাণী", icon: PawPrint },
     { href: "/admin/categories", label: "ক্যাটাগরি", icon: FolderTree },
     { href: "/admin/inquiries", label: "ইনকোয়ারি", icon: Inbox, badge: true },
+    { href: "/admin/seo", label: "SEO ও মেটা", icon: Search },
 ];
 
 /**

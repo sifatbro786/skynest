@@ -1,13 +1,14 @@
 import { site } from "@/lib/site";
+import { pageMetadata } from "@/lib/seo";
 import SiteShell from "@/components/site/site-shell";
 import { Measure, Rule, Section, SectionHead } from "@/components/site/ui";
 
-export const metadata = {
-    title: "শর্তাবলি",
-    description: `${site.name} ওয়েবসাইট ব্যবহারের শর্ত — দাম, প্রাপ্যতা, স্বাস্থ্য তথ্য ও ফার্ম ভিজিট সংক্রান্ত।`,
-    alternates: { canonical: "/terms" },
-    robots: { index: true, follow: true },
-};
+export async function generateMetadata() {
+    return pageMetadata("/terms", {
+        title: "শর্তাবলি",
+        description: `${site.name} ওয়েবসাইট ব্যবহারের শর্ত — দাম, প্রাপ্যতা, স্বাস্থ্য তথ্য ও ফার্ম ভিজিট সংক্রান্ত।`,
+    });
+}
 
 const UPDATED = "১৯ সেপ্টেম্বর ২০২৬";
 

@@ -4,6 +4,7 @@ import { serializeAnimal, serializeCategory } from "@/lib/serialize";
 import { listQuerySchema } from "@/lib/validators";
 import { buildPublicAnimalFilter, publicSortFor } from "@/lib/animal-query";
 import { site } from "@/lib/site";
+import { pageMetadata } from "@/lib/seo";
 import SiteShell from "@/components/site/site-shell";
 import { Band, Button, Measure } from "@/components/site/ui";
 import { Reveal, WordReveal } from "@/components/site/motion";
@@ -13,12 +14,13 @@ import ShowcaseFilters from "./showcase-filters";
 
 export const dynamic = "force-dynamic";
 
-export const metadata = {
-    title: "কালেকশন",
-    description:
-        "পেডিগ্রি কুকুর ও বিড়াল, এক্সোটিক পাখি ও কবুতর, ফ্যান্সি হাঁস-মুরগি — সরাসরি ফার্ম থেকে।",
-    alternates: { canonical: "/showcase" },
-};
+export async function generateMetadata() {
+    return pageMetadata("/showcase", {
+        title: "কালেকশন",
+        description:
+            "পেডিগ্রি কুকুর ও বিড়াল, এক্সোটিক পাখি ও কবুতর, ফ্যান্সি হাঁস-মুরগি — সরাসরি ফার্ম থেকে।",
+    });
+}
 
 /**
  * Builds a `/showcase` URL from the current filters.
